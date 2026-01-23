@@ -133,10 +133,10 @@
       <!-- Mobile Menu Overlay (Glassmorphism) -->
       <div
         id="mobile-menu"
-        class="hidden fixed inset-0 z-40 bg-zinc-900/10 backdrop-blur-3xl"
+        class="hidden fixed inset-0 z-40 bg-white/95 backdrop-blur-xl"
         style="display: none;"
       >
-        <div class="h-full flex flex-col justify-center items-center gap-6 p-8">
+        <div class="h-full flex flex-col pt-32 pb-10 items-center gap-8 overflow-y-auto">
             <a href="{% url 'home' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">Home</a>
             <a href="{% url 'about' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">About</a>
             <a href="{% url 'sermons' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">Sermons</a>

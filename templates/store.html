@@ -39,11 +39,27 @@
             <a href="{% url 'offering' %}" class="bg-secondary text-primary px-6 py-2.5 rounded-full font-extrabold hover:bg-primary hover:text-white transition-all shadow-lg transform hover:-translate-y-0.5 inline-block text-center">Give Now</a>
           </div>
 
-          <div class="md:hidden flex items-center">
-            <button id="mobile-menu-button" class="text-primary">
-              <i data-lucide="menu" class="w-8 h-8"></i>
-            </button>
-          </div>
+      <!-- Mobile Menu Overlay -->
+      <div
+        id="mobile-menu"
+        class="hidden fixed inset-0 z-40 bg-white/95 backdrop-blur-xl"
+        style="display: none;"
+      >
+        <div class="h-full flex flex-col pt-32 pb-10 items-center gap-8 overflow-y-auto">
+            <a href="{% url 'home' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">Home</a>
+            <a href="{% url 'about' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">About</a>
+            <a href="{% url 'sermons' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">Sermons</a>
+            <a href="{% url 'events' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">Events</a>
+            <a href="{% url 'store' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">Store</a>
+            <a href="{% url 'contact' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">Contact</a>
+            
+            <div class="w-20 h-1 bg-primary/20 rounded-full my-4"></div>
+            
+            <a href="{% url 'offering' %}" class="px-8 py-4 rounded-2xl text-xl font-bold bg-secondary text-white shadow-xl">
+                Give Online
+            </a>
+        </div>
+      </div>
         </div>
       </div>
     </nav>

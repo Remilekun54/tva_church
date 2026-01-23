@@ -105,52 +105,30 @@
         </div>
       </div>
 
+      <!-- Mobile Menu Overlay -->
       <div
         id="mobile-menu"
-        class="hidden md:hidden bg-white w-full border-t border-brandLight p-6 space-y-4 shadow-2xl"
+        class="hidden fixed inset-0 z-40 bg-white/95 backdrop-blur-xl"
+        style="display: none;"
       >
-        <a href="{% url 'home' %}" class="block text-lg font-bold text-primary"
-          >Home</a
-        >
-        <a href="{% url 'about' %}" class="block text-lg font-bold text-primary"
-          >About</a
-        >
-        <a
-          href="{% url 'sermons' %}"
-          class="block text-lg font-bold text-primary"
-          >Sermons</a
-        >
-
-        <a
-          href="{% url 'events' %}"
-          class="block text-lg font-bold text-primary"
-          >Events</a
-        >
-
-        <a
-          href="{% url 'offering' %}"
-          class="block text-lg font-bold text-secondary"
-          >Give Online</a
-        >
-        <a
-          href="{% url 'contact' %}"
-          class="block text-lg font-bold text-primary"
-          >Contact</a
-        >
+        <div class="h-full flex flex-col pt-32 pb-10 items-center gap-8 overflow-y-auto">
+            <a href="{% url 'home' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">Home</a>
+            <a href="{% url 'about' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">About</a>
+            <a href="{% url 'sermons' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">Sermons</a>
+            <a href="{% url 'events' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">Events</a>
+            <a href="{% url 'store' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">Store</a>
+            <a href="{% url 'contact' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">Contact</a>
+            
+            <div class="w-20 h-1 bg-primary/20 rounded-full my-4"></div>
+            
+            <a href="{% url 'offering' %}" class="px-8 py-4 rounded-2xl text-xl font-bold bg-secondary text-white shadow-xl">
+                Give Online
+            </a>
+        </div>
       </div>
     </nav>
 
-    <div
-      id="mobile-menu"
-      class="hidden fixed top-20 left-0 w-full bg-white z-40 p-6 space-y-4 shadow-2xl"
-    >
-      <a href="index.html" class="block text-lg font-bold">Home</a>
-      <a href="about.html" class="block text-lg font-bold text-primary"
-        >About</a
-      >
-      <a href="sermons.html" class="block text-lg font-bold">Sermons</a>
-      <a href="contact.html" class="block text-lg font-bold">Contact</a>
-    </div>
+
 
     <header
       class="relative h-[40vh] flex items-center justify-center overflow-hidden"
