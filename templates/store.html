@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GOGAP | Garden of Grace and Prayer</title>
+    <title>TVA | The Vineyard Assembly</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -13,7 +13,7 @@
 
     <link rel="stylesheet" href="{% static 'style.css' %}" />
     <script src="{% static 'index.js' %}" defer></script>
-    <link rel="icon" type="image/jpeg" href="{% static 'images/gogap logo.jpeg' %}" />
+    <link rel="icon" type="image/jpeg" href="{% static 'images/tva-logo.jpg' %}" />
   </head>
   <body class="overflow-x-hidden text-slate-900">
     <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300" id="navbar">
@@ -21,11 +21,11 @@
         <div class="flex justify-between items-center h-20">
           <a href="{% url 'home' %}" class="flex items-center gap-3 cursor-pointer">
             <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-secondary shadow-md bg-white">
-              <img src="{% static 'images/gogap logo.jpeg' %}" alt="GOGAP Logo" class="w-full h-full object-cover" />
+              <img src="{% static 'images/tva-logo.jpg' %}" alt="TVA Logo" class="w-full h-full object-cover" />
             </div>
             <div class="flex flex-col">
-              <span class="text-2xl font-black tracking-tighter text-primary leading-none uppercase">GOGAP</span>
-              <span class="text-[10px] uppercase tracking-[0.1em] text-accent font-bold">Gospel of Grace & Power</span>
+              <span class="text-2xl font-black tracking-tighter text-primary leading-none uppercase">TVA</span>
+              <span class="text-[10px] uppercase tracking-[0.1em] text-accent font-bold">The Vineyard Assembly</span>
             </div>
           </a>
 
@@ -52,7 +52,7 @@
       <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=2000" alt="Spiritual Resources Store" class="absolute inset-0 w-full h-full object-cover" />
       <div class="absolute inset-0 hero-gradient"></div>
       <div class="relative z-10 text-center px-4">
-        <h1 class="text-5xl md:text-7xl font-black text-white serif mb-4">GOGAP Resources</h1>
+        <h1 class="text-5xl md:text-7xl font-black text-white serif mb-4">TVA Resources</h1>
         <p class="text-white/80 text-lg max-w-xl mx-auto italic">
           Equip your spirit with life-transforming books, sermons, and spiritual tools.
         </p>
@@ -63,7 +63,7 @@
       <section id="store-page" class="py-24">
         <div class="max-w-7xl mx-auto px-4">
           <div class="text-center mb-12">
-            <h2 class="text-5xl font-black text-primary serif mb-4 italic">GOGAP Store</h2>
+            <h2 class="text-5xl font-black text-primary serif mb-4 italic">TVA Store</h2>
             <p class="text-slate-500">Equipping the saints with spiritual resources.</p>
           </div>
 
@@ -95,7 +95,7 @@
               </div>
 
               <div class="px-2">
-                <span class="text-[10px] font-bold text-accent uppercase tracking-widest">{% if item.author_or_preacher %}{{ item.author_or_preacher}}{% else %}GOGAP Resource{% endif %}</span>
+                <span class="text-[10px] font-bold text-accent uppercase tracking-widest">{% if item.author_or_preacher %}{{ item.author_or_preacher}}{% else %}TVA Resource{% endif %}</span>
                 <h4 class="text-lg font-black text-primary leading-tight mt-1">{{ item.title }}</h4>
                 <p class="text-secondary font-black text-xl mt-2">₦{{ item.price }}</p>
               </div>
@@ -113,13 +113,13 @@
     <footer class="bg-primary pt-24 pb-12 text-white/70">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <div class="flex flex-col items-center mb-10">
-                <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center text-secondary font-black text-2xl mb-4">G</div>
-                <h3 class="text-2xl font-black text-white italic tracking-tighter">GOGAP</h3>
+                <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center text-secondary font-black text-2xl mb-4">V</div>
+                <h3 class="text-2xl font-black text-white italic tracking-tighter">TVA</h3>
                 <p class="mt-4 max-w-sm text-emerald-100/40 text-sm">"A garden where souls are nurtured by grace."</p>
             </div>
             <div class="pt-8 border-t border-white/5">
                 <p class="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">
-                    &copy; 2026 Garden of Grace and Prayer Sanctuary.
+                    &copy; 2026 The Vineyard Assembly.
                 </p>
             </div>
         </div>
@@ -149,7 +149,7 @@
 
       function sendWhatsAppProof() {
           const churchPhone = "+2347036701682"; // Update with church number
-          const message = `Hello GOGAP, I just made a transfer for "${currentItem}". Here is my proof of payment.`;
+          const message = `Hello TVA, I just made a transfer for "${currentItem}". Here is my proof of payment.`;
           window.open(`https://wa.me/${churchPhone}?text=${encodeURIComponent(message)}`, '_blank');
       }
 

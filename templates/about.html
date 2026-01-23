@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GOGAP | Garden of Grace and Prayer</title>
+    <title>TVA | The Vineyard Assembly</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -20,7 +20,7 @@
     <link
       rel="icon"
       type="image/jpeg"
-      href="{% static 'images/gogap logo.jpeg' %}"
+      href="{% static 'images/tva-logo.jpg' %}"
     />
   </head>
 
@@ -39,19 +39,19 @@
               class="w-14 h-14 rounded-full overflow-hidden border-2 border-secondary shadow-md bg-white"
             >
               <img
-                src="{% static 'images/gogap logo.jpeg' %}"
-                alt="GOGAP Logo"
+                src="{% static 'images/tva-logo.jpg' %}"
+                alt="TVA Logo"
                 class="w-full h-full object-cover"
               />
             </div>
             <div class="flex flex-col">
               <span
                 class="text-2xl font-black tracking-tighter text-primary leading-none uppercase"
-                >GOGAP</span
+                >TVA</span
               >
               <span
                 class="text-[10px] uppercase tracking-[0.1em] text-accent font-bold"
-                >Gospel of Grace & Power</span
+                >The Vineyard Assembly</span
               >
             </div>
           </a>
@@ -197,11 +197,13 @@
                 class="aspect-square bg-secondary rounded-[3rem] absolute -top-6 -left-6 -z-10 w-full"
               ></div>
 
+              <div class="glass-card p-4 -rotate-2 hover:rotate-0 transition-transform duration-700 reveal-card">
               <img
                 src="{{ about.main_image.url }}"
-                class="rounded-[3rem] shadow-2xl object-cover aspect-square"
-                alt="About GOGAP"
+                class="rounded-[2rem] shadow-2xl object-cover aspect-square w-full"
+                alt="About TVA"
               />
+              </div>
 
               <div
                 class="absolute -bottom-10 -right-10 bg-white p-10 rounded-[2rem] shadow-2xl border-l-8 border-accent hidden md:block"
@@ -249,7 +251,7 @@
       <div class="max-w-7xl mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div
-            class="relative group p-12 rounded-[3rem] bg-slate-50 border border-slate-200 overflow-hidden shadow-xl"
+            class="relative group p-12 glass-card overflow-hidden hover:bg-white/60 transition-colors reveal-card"
           >
             <div
               class="absolute -right-10 -top-10 w-40 h-40 bg-accent/5 rounded-full blur-3xl group-hover:bg-accent/10 transition-all"
@@ -276,7 +278,8 @@
           </div>
 
           <div
-            class="relative group p-12 rounded-[3rem] bg-primary text-white overflow-hidden shadow-2xl"
+            class="relative group p-12 glass-dark overflow-hidden reveal-card"
+            style="transition-delay: 0.1s"
           >
             <div
               class="absolute -right-10 -top-10 w-40 h-40 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-all"
@@ -306,7 +309,7 @@
     </section>
 
     <!-- Branches Section -->
-    <section class="py-24 bg-slate-50">
+    <section class="py-24">
       <div class="max-w-7xl mx-auto px-4">
         <div class="text-center max-w-3xl mx-auto mb-16">
           <span
@@ -325,7 +328,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {% for branch in branches %}
           <div
-            class="bg-white rounded-[2.5rem] p-10 shadow-lg hover:shadow-2xl transition-all border border-transparent hover:border-secondary group flex flex-col h-full"
+            class="glass-card p-10 hover:-translate-y-2 transition-all group flex flex-col h-full reveal-card"
           >
             <div class="flex justify-between items-start mb-8">
               <div
@@ -392,7 +395,7 @@
     </section>
 
     <!-- Core Values Section -->
-    <section class="py-20 bg-slate-50">
+    <section class="py-20">
       <div class="max-w-7xl mx-auto px-4 text-center mb-16">
         <span class="text-accent font-black uppercase tracking-widest text-sm"
           >What Drives Us</span
@@ -405,7 +408,7 @@
       <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
         {% for value in core_values %}
         <div
-          class="bg-white p-10 rounded-[2rem] shadow-xl border-b-4 {% if value.color_scheme == 'secondary' %}border-secondary {% elif value.color_scheme == 'accent' %}border-accent {% else %}border-primary{% endif %} hover:-translate-y-2 transition-transform"
+          class="glass-card p-10 border-b-4 {% if value.color_scheme == 'secondary' %}border-secondary {% elif value.color_scheme == 'accent' %}border-accent {% else %}border-primary{% endif %} hover:-translate-y-2 transition-transform reveal-card"
         >
           <div
             class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 {% if value.color_scheme == 'secondary' %}bg-secondary/20 text-primary {% elif value.color_scheme == 'accent' %}bg-accent/20 text-accent {% else %}bg-primary/10 text-primary{% endif %}"
@@ -613,11 +616,11 @@
               <div
                 class="w-14 h-14 logo-ring rounded-full flex items-center justify-center text-secondary font-black text-2xl shadow-2xl"
               >
-                G
+                V
               </div>
               <span
                 class="text-4xl font-black text-white tracking-tighter serif italic"
-                >GOGAP</span
+                >TVA</span
               >
             </div>
             <p
@@ -702,7 +705,7 @@
           <p
             class="text-[10px] font-black uppercase tracking-[0.4em] text-white/20"
           >
-            &copy; 2024 Garden of Grace and Prayer Sanctuary. All rights
+            &copy; 2024 The Vineyard Assembly. All rights
             reserved.
           </p>
         </div>

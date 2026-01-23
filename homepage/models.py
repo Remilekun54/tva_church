@@ -92,7 +92,7 @@ class FooterSettings(models.Model):
     facebook_url = models.URLField(blank=True, null=True)
     instagram_url = models.URLField(blank=True, null=True)
     youtube_url = models.URLField(blank=True, null=True)
-    copyright_text = models.CharField(max_length=255, default="Garden of Grace and Prayer Sanctuary. All rights reserved.")
+    copyright_text = models.CharField(max_length=255, default="The Vineyard Assembly. All rights reserved.")
 
     class Meta:
         verbose_name = "Footer Setting"

@@ -1,101 +1,178 @@
-// 1. Tailwind & Lucide Init (Immediate)
+// 1. Tailwind Configuration (Extended for Glassmorphism support)
 tailwind.config = {
   theme: {
     extend: {
       colors: {
-        primary: "#20359A",
-        secondary: "#7BC62D",
-        accent: "#4C9F28",
-        brandLight: "#E3F2FD",
+        primary: "#20359A", // TVA Blue
+        secondary: "#7BC62D", // TVA Green
+        accent: "#4C9F28", // TVA Dark Green
+        brandLight: "#F0F9FF",
+        glassBase: "rgba(255, 255, 255, 0.65)",
       },
-      animation: {
-        "bounce-slow": "bounce 3s infinite",
-        "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+      fontFamily: {
+        sans: ['"Plus Jakarta Sans"', "sans-serif"],
+        serif: ['"Fraunces"', "serif"],
+      },
+      backdropBlur: {
+        xs: '2px',
+      },
+      boxShadow: {
+        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+        'glass-hover': '0 8px 32px 0 rgba(31, 38, 135, 0.25)',
       },
     },
   },
 };
+
+// 2. Initialize Icons & GSAP
 lucide.createIcons();
 gsap.registerPlugin(ScrollTrigger);
 
-// 2. Global Function for the "X" Button (Must be outside any blocks)
-window.closeMessage = function (button) {
-  const message =
-    button.closest(".django-message") || button.closest(".animate-bounce-slow");
-  if (message) {
-    gsap.to(message, {
-      opacity: 0,
-      y: -20,
-      duration: 0.3,
-      onComplete: () => message.remove(),
-    });
-  }
-};
-
-// 3. Navigation & Mobile Menu
+// 3. Global Animations & Interactions
 document.addEventListener("DOMContentLoaded", () => {
+    
+  // A. Mobile Menu Animation (Full Screen Glass)
   const menuBtn = document.getElementById("mobile-menu-button");
   const mobileMenu = document.getElementById("mobile-menu");
+  
   if (menuBtn && mobileMenu) {
-    menuBtn.onclick = () => mobileMenu.classList.toggle("hidden");
+    // Initial State: Hidden 
+    gsap.set(mobileMenu, { y: "-100%", opacity: 0, display: "none" });
+
+    let isMenuOpen = false;
+
+    menuBtn.onclick = () => {
+      isMenuOpen = !isMenuOpen;
+      if (isMenuOpen) {
+        gsap.set(mobileMenu, { display: "block" });
+        gsap.to(mobileMenu, { 
+            y: "0%", 
+            opacity: 1, 
+            duration: 0.6, 
+            ease: "power3.out" 
+        });
+        // Stagger in links
+        gsap.fromTo(mobileMenu.querySelectorAll('a'), 
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.4, stagger: 0.1, delay: 0.2 }
+        );
+      } else {
+        gsap.to(mobileMenu, { 
+            y: "-100%", 
+            opacity: 0, 
+            duration: 0.5, 
+            ease: "power3.in",
+            onComplete: () => gsap.set(mobileMenu, { display: "none" })
+        });
+      }
+    };
   }
 
-  // Auto-hide messages after 6 seconds
-  setTimeout(() => {
-    const alerts = document.querySelectorAll(
-      ".django-message, .animate-bounce-slow"
-    );
-    alerts.forEach((alert) => {
-      gsap.to(alert, {
-        opacity: 0,
-        y: -20,
-        duration: 0.5,
-        onComplete: () => alert.remove(),
-      });
+  // B. Scroll Reveal Animations (Global)
+  
+  // 1. Text Reveals (Slide Up)
+  gsap.utils.toArray('.reveal-text').forEach(element => {
+    gsap.to(element, {
+      scrollTrigger: {
+        trigger: element,
+        start: "top 85%",
+        toggleActions: "play none none reverse",
+      },
+      y: 0,
+      opacity: 1,
+      duration: 1,
+      ease: "power2.out"
     });
-  }, 6000);
+  });
+
+  // 2. Card Reveals (Scale In)
+  gsap.utils.toArray('.glass-card, .reveal-card').forEach((element, i) => {
+    gsap.to(element, {
+      scrollTrigger: {
+        trigger: element,
+        start: "top 90%",
+      },
+      scale: 1,
+      opacity: 1,
+      duration: 0.8,
+      delay: i * 0.1, // staggering handled by delay logic if grouped, simplistic here
+      ease: "back.out(1.7)"
+    });
+  });
+
+  // 3. Image Reveals (Unblur & Scale)
+  gsap.utils.toArray('.reveal-image').forEach(element => {
+    gsap.to(element, {
+      scrollTrigger: {
+        trigger: element,
+        start: "top 80%",
+      },
+      filter: "blur(0px)",
+      scale: 1,
+      opacity: 1,
+      duration: 1.5,
+      ease: "power2.out"
+    });
+  });
+
+
+  // C. Interactive Buttons (Magnetic Effect - Optional polish)
+  const buttons = document.querySelectorAll('button, .btn-glass');
+  buttons.forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+          const rect = btn.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+          gsap.to(btn, { x: x * 0.1, y: y * 0.1, duration: 0.2 });
+      });
+      btn.addEventListener('mouseleave', () => {
+          gsap.to(btn, { x: 0, y: 0, duration: 0.2 });
+      });
+  });
 });
 
-// 4. Navbar Scroll Effect
-window.addEventListener("scroll", () => {
-  const nav = document.getElementById("navbar");
-  if (!nav) return;
-  window.scrollY > 100
-    ? nav.classList.add("h-16", "shadow-2xl")
-    : nav.classList.remove("h-16", "shadow-2xl");
-});
-
-// 5. Hero Carousel Logic
+// 4. Hero Carousel Logic (Enhanced)
 window.addEventListener("load", function () {
   const slides = document.querySelectorAll(".hero-slide");
   const dots = document.querySelectorAll(".dot-progress");
   let currentIndex = 0;
-  if (slides.length === 0) return;
+  
+  if (slides.length > 0) {
+      function playSlide(index) {
+        slides.forEach((slide, i) => {
+          const content = slide.querySelector(".slide-content");
+          const img = slide.querySelector("img");
 
-  function playSlide(index) {
-    slides.forEach((slide, i) => {
-      if (i === index) {
-        gsap.to(slide, { opacity: 1, zIndex: 10, duration: 1 });
-        const content = slide.querySelector(".slide-content");
-        if (content)
-          gsap.fromTo(
-            content.children,
-            { y: 50, opacity: 0 },
-            { y: 0, opacity: 1, duration: 1, stagger: 0.2, delay: 0.5 }
-          );
-      } else {
-        gsap.to(slide, { opacity: 0, zIndex: 0, duration: 1 });
+          if (i === index) {
+            // Active Slide
+            gsap.to(slide, { opacity: 1, zIndex: 10, duration: 1.2 });
+            gsap.fromTo(img, { scale: 1.1 }, { scale: 1, duration: 6, ease: "none" }); // Ken burns
+            if (content) {
+                gsap.fromTo(content.children, 
+                    { y: 50, opacity: 0, filter: "blur(10px)" }, 
+                    { y: 0, opacity: 1, filter: "blur(0px)", duration: 1, stagger: 0.15, delay: 0.5, ease: "power2.out" }
+                );
+            }
+          } else {
+            // Inactive Slide
+            gsap.to(slide, { opacity: 0, zIndex: 0, duration: 1 });
+          }
+        });
+        
+        // Dots
+        dots.forEach((dot, i) => {
+          gsap.killTweensOf(dot);
+          gsap.set(dot, { width: i === index ? "0%" : "0%" });
+          if (i === index) {
+              gsap.to(dot, { width: "100%", duration: 6, ease: "none" });
+          }
+        });
       }
-    });
-    dots.forEach((dot, i) => {
-      gsap.set(dot, { width: 0 });
-      if (i === index)
-        gsap.to(dot, { width: "100%", duration: 6, ease: "none" });
-    });
+
+      playSlide(0);
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % slides.length;
+        playSlide(currentIndex);
+      }, 6000);
   }
-  playSlide(0);
-  setInterval(() => {
-    currentIndex = (currentIndex + 1) % slides.length;
-    playSlide(currentIndex);
-  }, 6000);
 });

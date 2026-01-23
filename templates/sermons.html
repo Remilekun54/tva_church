@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GOGAP | Garden of Grace and Prayer</title>
+    <title>TVA | The Vineyard Assembly</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -20,10 +20,10 @@
     <link
       rel="icon"
       type="image/jpeg"
-      href="{% static 'images/gogap logo.jpeg' %}"
+      href="{% static 'images/tva-logo.jpg' %}"
     />
   </head>
-  <body class="overflow-x-hidden text-slate-900 bg-brandLight">
+  <body class="overflow-x-hidden text-slate-900 leading-relaxed antialiased">
     <nav
       class="fixed top-0 w-full z-50 glass-nav transition-all duration-300"
       id="navbar"
@@ -38,19 +38,19 @@
               class="w-14 h-14 rounded-full overflow-hidden border-2 border-secondary shadow-md bg-white"
             >
               <img
-                src="{% static 'images/gogap logo.jpeg' %}"
-                alt="GOGAP Logo"
+                src="{% static 'images/tva-logo.jpg' %}"
+                alt="TVA Logo"
                 class="w-full h-full object-cover"
               />
             </div>
             <div class="flex flex-col">
               <span
                 class="text-2xl font-black tracking-tighter text-primary leading-none uppercase"
-                >GOGAP</span
+                >TVA</span
               >
               <span
                 class="text-[10px] uppercase tracking-[0.1em] text-accent font-bold"
-                >Gospel of Grace & Power</span
+                >The Vineyard Assembly</span
               >
             </div>
           </a>
@@ -187,11 +187,11 @@
       </div>
       
       <div class="flex flex-wrap gap-4">
-        <a href="{% url 'sermons' %}" class="px-6 py-2 rounded-full font-bold {% if not current_sort %}bg-primary text-white{% else %}bg-white text-primary border{% endif %}">Latest</a>
-        <a href="?sort=trending" class="px-6 py-2 rounded-full font-bold {% if current_sort == 'trending' %}bg-primary text-white{% else %}bg-white text-primary border{% endif %}">Trending</a>
+        <a href="{% url 'sermons' %}" class="px-6 py-2 rounded-full font-bold text-sm {% if not current_sort %}bg-primary text-white shadow-lg{% else %}glass-card text-primary hover:bg-white/50{% endif %} transition-all">Latest</a>
+        <a href="?sort=trending" class="px-6 py-2 rounded-full font-bold text-sm {% if current_sort == 'trending' %}bg-primary text-white shadow-lg{% else %}glass-card text-primary hover:bg-white/50{% endif %} transition-all">Trending</a>
         
         <form method="GET" class="inline">
-            <select name="branch" onchange="this.form.submit()" class="px-6 py-2 rounded-full border border-emerald-100 font-bold text-primary focus:outline-none">
+            <select name="branch" onchange="this.form.submit()" class="px-6 py-2 rounded-full glass-card font-bold text-primary focus:outline-none cursor-pointer">
                 <option value="">All Branches</option>
                 {% for branch in branches %}
                 <option value="{{ branch.id }}" {% if current_branch == branch.id|stringformat:"i" %}selected{% endif %}>{{ branch.branch_name }}</option>
@@ -203,7 +203,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
       {% for sermon in sermons %}
-      <div class="bg-white rounded-[2.5rem] overflow-hidden shadow-xl border border-emerald-50 group hover:-translate-y-2 transition-all duration-500 relative">
+      <div class="glass-card overflow-hidden group hover:-translate-y-2 transition-all duration-500 relative reveal-card">
         
         <div class="absolute top-4 right-4 z-20 flex flex-col items-end gap-2">
             <span class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest {% if sermon.status == 'free' %}bg-secondary text-primary{% else %}bg-accent text-white shadow-lg{% endif %}">
@@ -245,7 +245,7 @@
               {% if sermon.preacher.image %}
                 <img src="{{ sermon.preacher.image.url }}" class="w-8 h-8 rounded-full object-cover border border-secondary">
               {% else %}
-                <div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-[10px] font-bold">GS</div>
+                <div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-[10px] font-bold">VA</div>
               {% endif %}
               <div class="flex flex-col">
                 <span class="text-[10px] font-bold text-slate-700">{{ sermon.preacher.name }}</span>
@@ -278,11 +278,11 @@
               <div
                 class="w-14 h-14 logo-ring rounded-full flex items-center justify-center text-secondary font-black text-2xl shadow-2xl"
               >
-                G
+                V
               </div>
               <span
                 class="text-4xl font-black text-white tracking-tighter serif italic"
-                >GOGAP</span
+                >TVA</span
               >
             </div>
             <p
@@ -367,7 +367,7 @@
           <p
             class="text-[10px] font-black uppercase tracking-[0.4em] text-white/20"
           >
-            &copy; 2024 Garden of Grace and Prayer Sanctuary. All rights
+            &copy; 2024 The Vineyard Assembly. All rights
             reserved.
           </p>
         </div>
