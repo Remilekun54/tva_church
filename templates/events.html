@@ -185,21 +185,21 @@
             name="q"
             value="{{ request.GET.q }}"
             placeholder="Search events..."
-            class="w-full pl-12 pr-4 py-3 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#8B1A3E]/20 transition-all"
+            class="w-full pl-12 pr-4 py-3 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#20359A]/20 transition-all"
           />
         </form>
 
         <div class="flex flex-wrap gap-2">
           <a
             href="{% url 'events' %}"
-            class="px-6 py-2 rounded-full font-bold text-sm {% if not selected_category %}bg-[#8B1A3E] text-white{% else %}bg-white border text-slate-600{% endif %}"
+            class="px-6 py-2 rounded-full font-bold text-sm {% if not selected_category %}bg-[#20359A] text-white{% else %}bg-white border text-slate-600{% endif %}"
           >
             All
           </a>
           {% for cat in categories %}
           <a
             href="?category={{ cat.id }}"
-            class="px-6 py-2 rounded-full font-bold text-sm {% if selected_category == cat.id|stringformat:'i' %}bg-[#8B1A3E] text-white{% else %}bg-white border text-slate-600 hover:bg-slate-50{% endif %}"
+            class="px-6 py-2 rounded-full font-bold text-sm {% if selected_category == cat.id|stringformat:'i' %}bg-[#20359A] text-white{% else %}bg-white border text-slate-600 hover:bg-slate-50{% endif %}"
           >
             {{ cat.name }}
           </a>
@@ -223,7 +223,7 @@
                 class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl text-center min-w-[70px]"
               >
                 <span
-                  class="block text-2xl font-black text-[#8B1A3E] leading-none"
+                  class="block text-2xl font-black text-[#20359A] leading-none"
                   >{{ event.date|date:"d" }}</span
                 >
                 <span
@@ -240,7 +240,7 @@
             <div class="lg:w-3/5 p-8 flex flex-col justify-between">
               <div>
                 <span
-                  class="text-[#F5A623] font-bold text-xs uppercase tracking-widest mb-2 block"
+                  class="text-[#7BC62D] font-bold text-xs uppercase tracking-widest mb-2 block"
                   >{{ event.tagline }}</span
                 >
                 <h2 class="text-2xl font-black text-slate-900 mb-2 serif">
@@ -253,12 +253,12 @@
 
                 <div class="space-y-3 mb-6">
                   <div class="flex items-center gap-3 text-slate-500 text-sm">
-                    <i data-lucide="clock" class="w-4 h-4 text-[#8B1A3E]"></i>
+                    <i data-lucide="clock" class="w-4 h-4 text-[#20359A]"></i>
                     {{ event.time_start|time:"g:i A" }} -
                     {{event.time_end|time:"g:i A" }}
                   </div>
                   <div class="flex items-center gap-3 text-slate-500 text-sm">
-                    <i data-lucide="map-pin" class="w-4 h-4 text-[#8B1A3E]"></i>
+                    <i data-lucide="map-pin" class="w-4 h-4 text-[#20359A]"></i>
                     {{ event.location }}
                   </div>
                 </div>
@@ -278,7 +278,7 @@
           <p class="text-slate-400 italic mb-4">No events found.</p>
           <a
             href="{% url 'events' %}"
-            class="text-[#8B1A3E] font-bold underline"
+            class="text-[#20359A] font-bold underline"
             >View all events</a
           >
         </div>

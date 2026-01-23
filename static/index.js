@@ -3,10 +3,10 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        primary: "#8B1A3E",
-        secondary: "#FFD700",
-        accent: "#F5A623",
-        brandLight: "#FFF8E1",
+        primary: "#20359A",
+        secondary: "#7BC62D",
+        accent: "#4C9F28",
+        brandLight: "#E3F2FD",
       },
       animation: {
         "bounce-slow": "bounce 3s infinite",

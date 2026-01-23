@@ -2,9 +2,9 @@
 
 :root {
     /* Brand Colors from Logo */
-    --brand-burgundy: 139, 26, 62;   /* #8B1A3E */
-    --brand-gold: 255, 215, 0;      /* #FFD700 */
-    --brand-amber: 245, 166, 35;    /* #F5A623 */
+    --brand-burgundy: 32, 53, 154;   /* #20359A - Primary Blue */
+    --brand-gold: 123, 198, 45;      /* #7BC62D - Vibrant Green */
+    --brand-amber: 76, 159, 40;    /* #4C9F28 - Darker Green */
 }
 
 body {
