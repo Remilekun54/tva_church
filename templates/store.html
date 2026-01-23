@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GOGAP | Garden of Grace and Prayer</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <script src="{% static 'index.js' %}" defer></script>
+    <link rel="icon" type="image/jpeg" href="{% static 'images/gogap logo.jpeg' %}" />
+  </head>
+  <body class="overflow-x-hidden text-slate-900">
+    <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300" id="navbar">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+          <a href="{% url 'home' %}" class="flex items-center gap-3 cursor-pointer">
+            <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-secondary shadow-md bg-white">
+              <img src="{% static 'images/gogap logo.jpeg' %}" alt="GOGAP Logo" class="w-full h-full object-cover" />
+            </div>
+            <div class="flex flex-col">
+              <span class="text-2xl font-black tracking-tighter text-primary leading-none uppercase">GOGAP</span>
+              <span class="text-[10px] uppercase tracking-[0.1em] text-accent font-bold">Gospel of Grace & Power</span>
+            </div>
+          </a>
+
+          <div class="hidden md:flex space-x-8 items-center">
+            <a href="{% url 'home' %}" class="text-slate-600 hover:text-primary font-bold transition-colors">Home</a>
+            <a href="{% url 'about' %}" class="text-slate-600 hover:text-primary font-bold transition-colors">About</a>
+            <a href="{% url 'sermons' %}" class="text-slate-600 hover:text-primary font-bold transition-colors">Sermons</a>
+            <a href="{% url 'events' %}" class="text-slate-600 hover:text-primary font-bold transition-colors">Events</a>
+            <a href="{% url 'store' %}" class="text-primary font-black transition-colors">Store</a>
+            <a href="{% url 'contact' %}" class="text-slate-600 hover:text-primary font-bold transition-colors">Contact</a>
+            <a href="{% url 'offering' %}" class="bg-secondary text-primary px-6 py-2.5 rounded-full font-extrabold hover:bg-primary hover:text-white transition-all shadow-lg transform hover:-translate-y-0.5 inline-block text-center">Give Now</a>
+          </div>
+
+          <div class="md:hidden flex items-center">
+            <button id="mobile-menu-button" class="text-primary">
+              <i data-lucide="menu" class="w-8 h-8"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <header class="relative h-[40vh] flex items-center justify-center overflow-hidden">
+      <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=2000" alt="Spiritual Resources Store" class="absolute inset-0 w-full h-full object-cover" />
+      <div class="absolute inset-0 hero-gradient"></div>
+      <div class="relative z-10 text-center px-4">
+        <h1 class="text-5xl md:text-7xl font-black text-white serif mb-4">GOGAP Resources</h1>
+        <p class="text-white/80 text-lg max-w-xl mx-auto italic">
+          Equip your spirit with life-transforming books, sermons, and spiritual tools.
+        </p>
+      </div>
+    </header>
+
+    <main class="mt-20">
+      <section id="store-page" class="py-24">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="text-center mb-12">
+            <h2 class="text-5xl font-black text-primary serif mb-4 italic">GOGAP Store</h2>
+            <p class="text-slate-500">Equipping the saints with spiritual resources.</p>
+          </div>
+
+          <div class="flex flex-wrap justify-center gap-3 mb-16">
+            <a href="{% url 'store' %}" class="px-6 py-2 rounded-full font-bold {% if not current_category %}bg-primary text-white{% else %}bg-slate-100 text-primary{% endif %}">All</a>
+            {% for cat in categories %}
+            <a href="?category={{ cat.slug }}" class="px-6 py-2 rounded-full font-bold {% if current_category == cat.slug %}bg-primary text-white{% else %}bg-slate-100 text-primary{% endif %}">{{ cat.name }}</a>
+            {% endfor %}
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {% for item in products %}
+            <div class="group">
+              <div class="aspect-[4/5] bg-slate-50 rounded-[2.5rem] mb-6 overflow-hidden relative shadow-sm border border-slate-100">
+                {% if item.thumbnail %}
+                <img src="{{ item.thumbnail.url }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="{{ item.title }}" />
+                {% endif %}
+
+                <div class="absolute top-4 left-4 z-10">
+                  <span class="px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md text-[10px] font-black uppercase tracking-tighter text-primary shadow-sm">{{ item.category.name }}</span>
+                </div>
+
+                <button 
+                  onclick="togglePaymentModal(true, '{{ item.title|escapejs }}', '{{ item.price }}')"
+                  class="absolute bottom-4 inset-x-4 bg-primary text-white py-4 rounded-2xl font-bold translate-y-12 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all shadow-2xl z-10"
+                >
+                  Buy Now
+                </button>
+              </div>
+
+              <div class="px-2">
+                <span class="text-[10px] font-bold text-accent uppercase tracking-widest">{% if item.author_or_preacher %}{{ item.author_or_preacher}}{% else %}GOGAP Resource{% endif %}</span>
+                <h4 class="text-lg font-black text-primary leading-tight mt-1">{{ item.title }}</h4>
+                <p class="text-secondary font-black text-xl mt-2">₦{{ item.price }}</p>
+              </div>
+            </div>
+            {% empty %}
+            <div class="col-span-full text-center py-20 bg-slate-50 rounded-[3rem] border-2 border-dashed border-slate-200">
+              <p class="text-slate-400 font-medium">Items are currently being restocked. Check back soon!</p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-primary pt-24 pb-12 text-white/70">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex flex-col items-center mb-10">
+                <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center text-secondary font-black text-2xl mb-4">G</div>
+                <h3 class="text-2xl font-black text-white italic tracking-tighter">GOGAP</h3>
+                <p class="mt-4 max-w-sm text-emerald-100/40 text-sm">"A garden where souls are nurtured by grace."</p>
+            </div>
+            <div class="pt-8 border-t border-white/5">
+                <p class="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">
+                    &copy; 2026 Garden of Grace and Prayer Sanctuary.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+   
+    {% include 'partials/payment_modal.html' %}
+
+    <script>
+      let currentItem = "";
+
+      function togglePaymentModal(show, title = 'Purchase', price = '') {
+          const modal = document.getElementById('payment-modal');
+          if (show) {
+              currentItem = title;
+              document.getElementById('modal-item-title').innerText = title;
+              document.getElementById('modal-item-price').innerText = "₦" + price;
+              modal.classList.remove('hidden');
+              modal.classList.add('flex');
+              document.body.style.overflow = 'hidden';
+          } else {
+              modal.classList.add('hidden');
+              modal.classList.remove('flex');
+              document.body.style.overflow = 'auto';
+          }
+      }
+
+      function sendWhatsAppProof() {
+          const churchPhone = "+2347036701682"; // Update with church number
+          const message = `Hello GOGAP, I just made a transfer for "${currentItem}". Here is my proof of payment.`;
+          window.open(`https://wa.me/${churchPhone}?text=${encodeURIComponent(message)}`, '_blank');
+      }
+
+      function copyAccount() {
+          const accNum = document.getElementById('acc-num').innerText;
+          navigator.clipboard.writeText(accNum).then(() => alert("Copied!"));
+      }
+
+      lucide.createIcons();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,963 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GOGAP | Garden of Grace and Prayer</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+
+    <script src="{% static 'index.js' %}" defer></script>
+
+    <link
+      rel="icon"
+      type="image/jpeg"
+      href="{% static 'images/gogap logo.jpeg' %}"
+    />
+  </head>
+
+  <body class="overflow-x-hidden text-slate-900">
+    {% if messages %}
+    <div
+      class="fixed top-24 left-1/2 -translate-x-1/2 z-[100] w-full max-w-md px-4 pointer-events-none"
+    >
+      {% for message in messages %}
+      <div
+        class="p-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce-slow pointer-events-auto {% if message.tags == 'success' %} bg-emerald-500 text-white {% else %} bg-red-500 text-white {% endif %}"
+      >
+        <i
+          data-lucide="{% if message.tags == 'success' %}check-circle{% else %}alert-circle{% endif %}"
+        ></i>
+        <p class="font-bold">{{ message }}</p>
+        <button onclick="this.parentElement.remove()" class="ml-auto">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Navigation -->
+    {% load static %}
+    <nav
+      class="fixed top-0 w-full z-50 glass-nav transition-all duration-300"
+      id="navbar"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+          <a
+            href="{% url 'home' %}"
+            class="flex items-center gap-3 cursor-pointer"
+          >
+            <div
+              class="w-14 h-14 rounded-full overflow-hidden border-2 border-secondary shadow-md bg-white"
+            >
+              <img
+                src="{% static 'images/gogap logo.jpeg' %}"
+                alt="GOGAP Logo"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="flex flex-col">
+              <span
+                class="text-2xl font-black tracking-tighter text-primary leading-none uppercase"
+                >GOGAP</span
+              >
+              <span
+                class="text-[10px] uppercase tracking-[0.1em] text-accent font-bold"
+                >Gospel of Grace & Power</span
+              >
+            </div>
+          </a>
+
+          <div class="hidden md:flex space-x-8 items-center">
+            <a
+              href="{% url 'home' %}"
+              class="text-slate-600 hover:text-primary font-bold transition-colors"
+              >Home</a
+            >
+            <a
+              href="{% url 'about' %}"
+              class="text-slate-600 hover:text-primary font-bold transition-colors"
+              >About</a
+            >
+            <a
+              href="{% url 'sermons' %}"
+              class="text-slate-600 hover:text-primary font-bold transition-colors"
+              >Sermons</a
+            >
+
+            <a
+              href="{% url 'events' %}"
+              class="text-slate-600 hover:text-primary font-bold transition-colors"
+              >Events</a
+            >
+
+            <a
+              href="{% url 'store' %}"
+              class="text-slate-600 hover:text-primary font-bold transition-colors"
+              >Store</a
+            >
+            <a
+              href="{% url 'contact' %}"
+              class="text-slate-600 hover:text-primary font-bold transition-colors"
+              >Contact</a
+            >
+
+            <a
+              href="{% url 'offering' %}"
+              class="bg-secondary text-primary px-6 py-2.5 rounded-full font-extrabold hover:bg-primary hover:text-white transition-all shadow-lg transform hover:-translate-y-0.5 inline-block text-center"
+            >
+              Give Now
+            </a>
+          </div>
+
+          <div class="md:hidden flex items-center">
+            <button id="mobile-menu-button" class="text-primary">
+              <i data-lucide="menu" class="w-8 h-8"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden bg-white w-full border-t border-brandLight p-6 space-y-4 shadow-2xl"
+      >
+        <a href="{% url 'home' %}" class="block text-lg font-bold text-primary"
+          >Home</a
+        >
+        <a href="{% url 'about' %}" class="block text-lg font-bold text-primary"
+          >About</a
+        >
+        <a
+          href="{% url 'sermons' %}"
+          class="block text-lg font-bold text-primary"
+          >Sermons</a
+        >
+
+        <a
+          href="{% url 'events' %}"
+          class="block text-lg font-bold text-primary"
+          >Events</a
+        >
+
+        <a
+          href="{% url 'offering' %}"
+          class="block text-lg font-bold text-secondary"
+          >Give Online</a
+        >
+        <a
+          href="{% url 'contact' %}"
+          class="block text-lg font-bold text-primary"
+          >Contact</a
+        >
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="mt-20">
+      <!-- HOME PAGE -->
+      <section id="home-page" class="page-transition active-page">
+        <!-- Hero -->
+        <div
+          id="hero-carousel"
+          class="relative h-[90vh] w-full overflow-hidden bg-primary"
+        >
+          <div id="slides-wrapper" class="relative h-full w-full">
+            {% for slide in slides %}
+            <div
+              class="hero-slide absolute inset-0 w-full h-full opacity-0 z-0"
+            >
+              <div class="absolute inset-0 scale-110 ken-burns">
+                <img
+                  src="{{ slide.image.url }}"
+                  class="w-full h-full object-cover"
+                  alt="{{ slide.title }}"
+                />
+              </div>
+              <div class="absolute inset-0 hero-gradient"></div>
+              <div
+                class="relative z-10 h-full flex items-center justify-center text-center px-4"
+              >
+                <div
+                  class="max-w-4xl slide-content bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-12 rounded-[2.5rem] shadow-2xl"
+                >
+                  <span
+                    class="inline-block px-4 py-1.5 rounded-full bg-secondary/20 text-secondary border border-secondary/30 mb-6 font-bold text-xs uppercase tracking-[0.2em]"
+                  >
+                    {{ slide.sub_heading }}
+                  </span>
+                  <h1
+                    class="text-4xl md:text-7xl font-black text-white mb-6 leading-[1.1] serif"
+                  >
+                    {{ slide.title|safe }}
+                  </h1>
+                  <p
+                    class="text-base md:text-lg text-white/90 max-w-2xl mx-auto"
+                  >
+                    {{ slide.description }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            {% empty %}
+            <div class="h-full flex items-center justify-center text-white">
+              <p>Please add hero slides in the admin panel.</p>
+            </div>
+            {% endfor %}
+          </div>
+
+          <div
+            class="absolute bottom-20 left-0 w-full z-30 flex flex-col sm:flex-row gap-4 justify-center px-4"
+          >
+            <a
+              href="{% url 'contact' %}"
+              class="bg-secondary text-primary px-8 py-4 rounded-2xl text-lg font-black hover:bg-white transition-all shadow-2xl flex items-center justify-center gap-2"
+            >
+              Join Us This Sunday
+              <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+            <a
+              href="{% url 'sermons' %}"
+              class="bg-white/10 backdrop-blur-lg border border-white/30 text-white px-8 py-4 rounded-2xl text-lg font-black hover:bg-white/20 transition-all text-center"
+            >
+              Watch Sermons
+            </a>
+          </div>
+
+          <div
+            class="absolute bottom-10 left-0 w-full z-30 flex justify-center gap-3"
+          >
+            {% for slide in slides %}
+            <div
+              class="carousel-dot w-10 h-1 bg-white/20 rounded-full overflow-hidden relative"
+            >
+              <div
+                class="dot-progress absolute left-0 top-0 h-full bg-secondary w-0"
+              ></div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <!-- about us -->
+        <section id="about-preview" class="py-24 bg-white overflow-hidden">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+              <div class="lg:w-1/2 relative about-image-container">
+                <div
+                  class="absolute -top-6 -left-6 w-32 h-32 bg-secondary/20 rounded-full blur-2xl animate-pulse"
+                ></div>
+
+                <div
+                  class="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&q=80&w=1200"
+                    alt="Community Worship"
+                    class="w-full h-[600px] object-cover transform hover:scale-105 transition-transform duration-700"
+                  />
+                </div>
+
+                <div
+                  class="absolute top-4 right-2 bg-primary p-5 rounded-2xl shadow-2xl hidden md:block z-30 about-card border-4 border-white/20 backdrop-blur-sm"
+                >
+                  <p
+                    class="text-secondary text-3xl font-black leading-none mb-1"
+                  >
+                    15+
+                  </p>
+                  <p
+                    class="text-white/80 text-[10px] font-bold uppercase tracking-widest leading-tight"
+                  >
+                    Years of <br />
+                    Grace
+                  </p>
+                </div>
+              </div>
+
+              <div class="lg:w-1/2 about-text">
+                <div
+                  class="inline-block px-4 py-1.5 rounded-full bg-brandLight text-primary font-black text-xs uppercase tracking-widest mb-6"
+                >
+                  About Us
+                </div>
+                <h2
+                  class="text-4xl md:text-6xl font-black text-primary serif leading-tight mb-8"
+                >
+                  More Than a Church, <br />
+                  <span class="text-accent italic text-3xl md:text-5xl"
+                    >We Are a Family.</span
+                  >
+                </h2>
+                <p class="text-slate-600 text-lg leading-relaxed mb-6">
+                  Founded on the principles of radical grace and unwavering
+                  prayer, GOGAP began as a small gathering of believers hungry
+                  for a deeper encounter with God. Today, we are a thriving
+                  sanctuary where every soul is treated as a precious seed in
+                  God's garden.
+                </p>
+                <p class="text-slate-600 text-lg leading-relaxed mb-10">
+                  We believe that through the finished work of Christ, every
+                  person has access to a life of victory, peace, and divine
+                  purpose. Whether you are searching for answers or looking for
+                  a place to call home, our gates are always open.
+                </p>
+
+                <a
+                  href="{% url 'about' %}"
+                  class="inline-flex items-center gap-3 bg-primary text-white px-8 py-4 rounded-2xl font-black hover:bg-secondary hover:text-primary transition-all group shadow-xl"
+                >
+                  Discover Our Mission
+                  <i
+                    data-lucide="arrow-up-right"
+                    class="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+                  ></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Sermon -->
+        <section id="sermons-preview" class="py-24 bg-slate-50 overflow-hidden">
+          <div class="max-w-7xl mx-auto px-4">
+            <div
+              class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4"
+            >
+              <div class="sermon-header">
+                <span
+                  class="text-accent font-black uppercase tracking-widest text-sm"
+                  >Library of Grace</span
+                >
+                <h2
+                  class="text-4xl md:text-5xl font-black text-primary serif mt-2 italic"
+                >
+                  Latest Teachings
+                </h2>
+              </div>
+              <a
+                href="{% url 'sermons' %}"
+                class="flex items-center gap-2 text-primary font-bold hover:text-secondary transition-colors group"
+              >
+                View All Sermons
+                <i
+                  data-lucide="chevron-right"
+                  class="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                ></i>
+              </a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {% for sermon in sermons %}
+              <div
+                class="sermon-card group bg-white rounded-[2rem] overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500"
+              >
+                <div class="relative h-52">
+                  <img
+                    src="{{ sermon.image.url }}"
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    alt="{{ sermon.title }}"
+                  />
+                  <div
+                    class="absolute inset-0 bg-primary/20 group-hover:bg-primary/40 transition-colors"
+                  ></div>
+                  <div
+                    class="absolute inset-0 flex items-center justify-center"
+                  >
+                    <a
+                      href="{{ sermon.video_url|default:'#' }}"
+                      class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-primary shadow-xl opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300"
+                    >
+                      <i data-lucide="play" class="fill-current w-5 h-5"></i>
+                    </a>
+                  </div>
+                </div>
+                <div class="p-6">
+                  <p
+                    class="text-accent font-bold text-[10px] uppercase tracking-tighter mb-2"
+                  >
+                    {{ sermon.category }}
+                  </p>
+                  <h3
+                    class="text-lg font-black text-primary leading-tight mb-4"
+                  >
+                    {{ sermon.title }}
+                  </h3>
+                  <div
+                    class="flex items-center justify-between text-[11px] text-slate-400 font-bold border-t pt-4"
+                  >
+                    <span class="flex items-center gap-1">
+                      <i data-lucide="calendar" class="w-3 h-3"></i>
+                      {{ sermon.date|date:"M d" }}
+                    </span>
+
+                    <span class="flex items-center gap-1">
+                      <i data-lucide="clock" class="w-3 h-3"></i>
+                      {{ sermon.duration }} MIN
+                    </span>
+                  </div>
+                </div>
+              </div>
+              {% empty %}
+              <p class="text-center col-span-full text-slate-500">
+                No sermons uploaded yet.
+              </p>
+              {% endfor %}
+            </div>
+          </div>
+        </section>
+
+        <!-- Core Values -->
+        <div class="py-32 max-w-7xl mx-auto px-4">
+          <div class="text-center mb-20">
+            <span
+              class="text-accent font-black uppercase tracking-widest text-sm"
+              >Rooted & Grounded</span
+            >
+            <h2
+              class="text-4xl md:text-6xl font-black text-primary serif mt-2 italic"
+            >
+              The GOGAP Experience
+            </h2>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="group">
+              <div
+                class="w-20 h-20 bg-brandLight rounded-[2rem] flex items-center justify-center mb-8 group-hover:bg-primary transition-all duration-500"
+              >
+                <i
+                  data-lucide="flame"
+                  class="w-10 h-10 text-primary group-hover:text-secondary"
+                ></i>
+              </div>
+              <h3 class="text-2xl font-black text-primary mb-4">
+                Prayer Altars
+              </h3>
+              <p class="text-slate-600 leading-relaxed">
+                Consistently building spiritual capacity through focused and
+                effective intercession.
+              </p>
+            </div>
+            <div class="group">
+              <div
+                class="w-20 h-20 bg-brandLight rounded-[2rem] flex items-center justify-center mb-8 group-hover:bg-primary transition-all duration-500"
+              >
+                <i
+                  data-lucide="book-open"
+                  class="w-10 h-10 text-primary group-hover:text-secondary"
+                ></i>
+              </div>
+              <h3 class="text-2xl font-black text-primary mb-4">
+                Word Immersion
+              </h3>
+              <p class="text-slate-600 leading-relaxed">
+                Deep diving into the scriptures to discover the multifaceted
+                grace of our Lord.
+              </p>
+            </div>
+            <div class="group">
+              <div
+                class="w-20 h-20 bg-brandLight rounded-[2rem] flex items-center justify-center mb-8 group-hover:bg-primary transition-all duration-500"
+              >
+                <i
+                  data-lucide="users"
+                  class="w-10 h-10 text-primary group-hover:text-secondary"
+                ></i>
+              </div>
+              <h3 class="text-2xl font-black text-primary mb-4">
+                Garden Fellowship
+              </h3>
+              <p class="text-slate-600 leading-relaxed">
+                A loving environment where every member is nurtured and
+                supported in their journey.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- store -->
+        <section id="store-preview" class="py-24 bg-white">
+          <div
+            class="max-w-7xl mx-auto px-4 flex flex-col lg:flex-row items-center gap-16"
+          >
+            <div class="lg:w-1/2 store-image">
+              <img
+                src="https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&q=80&w=2000"
+                class="rounded-[3rem] shadow-2xl"
+              />
+            </div>
+            <div class="lg:w-1/2 store-text">
+              <h2
+                class="text-4xl md:text-5xl font-black text-primary serif mb-6"
+              >
+                Spiritual Resources <br /><span class="text-secondary italic"
+                  >for Growth</span
+                >
+              </h2>
+              <p class="text-slate-600 text-lg mb-8">
+                Access our curated collection of books, music, and study
+                materials designed to deepen your walk with Christ.
+              </p>
+              <div class="grid grid-cols-2 gap-4 mb-10">
+                <div
+                  class="p-4 bg-slate-50 rounded-2xl border-l-4 border-secondary"
+                >
+                  <h4 class="font-black text-primary">Books</h4>
+                  <p class="text-xs text-slate-500">In-depth study guides</p>
+                </div>
+                <div
+                  class="p-4 bg-slate-50 rounded-2xl border-l-4 border-secondary"
+                >
+                  <h4 class="font-black text-primary">Courses/Apparel</h4>
+                  <p class="text-xs text-slate-500">GOGAP Merchandise</p>
+                </div>
+              </div>
+              <a
+                href="{% url 'store' %}"
+                class="bg-primary text-white px-10 py-4 rounded-2xl font-black hover:bg-secondary hover:text-primary transition-all inline-block shadow-lg"
+                >Visit the Store</a
+              >
+            </div>
+          </div>
+        </section>
+
+        <script>
+          gsap.from(".store-image", {
+            scrollTrigger: "#store-preview",
+            x: -100,
+            opacity: 0,
+            duration: 1.5,
+          });
+          gsap.from(".store-text", {
+            scrollTrigger: "#store-preview",
+            x: 100,
+            opacity: 0,
+            duration: 1.5,
+          });
+        </script>
+
+        <!-- meet the pastor -->
+        <section
+          id="pastor-section"
+          class="py-24 bg-primary text-white overflow-hidden"
+        >
+          <div
+            class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-16 items-center"
+          >
+            <div class="order-2 md:order-1 pastor-info">
+              <span class="text-secondary font-bold tracking-[0.3em] uppercase"
+                >Our Shepherd</span
+              >
+              <h2 class="text-5xl font-black serif mt-4 mb-6">
+                Pastor Sam Bankole
+              </h2>
+              <p class="text-emerald-50/70 text-lg leading-relaxed mb-8 italic">
+                "My heartbeat is to see a generation that doesn't just know
+                about God, but experiences His tangible presence every single
+                day."
+              </p>
+              <p class="text-emerald-50/70 mb-10">
+                With over 20 years of ministry, Pastor John leads GOGAP with a
+                vision for revival and a passion for the broken-hearted.
+              </p>
+              <a
+                href="{% url 'about' %}"
+                class="border-2 border-secondary text-secondary px-8 py-3 rounded-full font-black hover:bg-secondary hover:text-primary transition-all"
+                >Read Full Bio</a
+              >
+            </div>
+            <div class="order-1 md:order-2 pastor-image relative">
+              <div
+                class="absolute inset-0 bg-secondary rounded-full blur-[120px] opacity-20"
+              ></div>
+              {% load static %}
+              <img
+                src="{% static './images/sam.jpeg' %}"
+                class="relative z-10 rounded-3xl grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl w-full h-[450px] object-cover object-top"
+                alt="Sam"
+              />
+            </div>
+          </div>
+        </section>
+
+        <!-- Event and news -->
+        <section id="events" class="py-24 bg-white">
+          <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+              <h2 class="text-4xl font-black text-primary serif">
+                Upcoming Events & News
+              </h2>
+              <div
+                class="w-24 h-1 bg-secondary mx-auto mt-4 rounded-full"
+              ></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {% for event in events %}
+              <div
+                class="event-card group bg-slate-50 p-6 rounded-3xl border border-transparent hover:border-secondary transition-all hover:shadow-xl"
+              >
+                <div class="text-secondary font-black text-3xl mb-4">
+                  {{ event.date|date:"d" }}
+                  <span class="text-sm uppercase text-slate-400"
+                    >{{ event.date|date:"M" }}</span
+                  >
+                </div>
+
+                <h3 class="text-xl font-black text-primary mb-2 leading-tight">
+                  {{ event.title }}
+                </h3>
+
+                <p class="text-slate-500 mb-6 text-sm">
+                  {{ event.description }}
+                </p>
+
+                <a
+                  href="{% url 'events' %}"
+                  class="text-primary font-bold flex items-center gap-2 group-hover:gap-4 transition-all"
+                >
+                  Details
+                  <i
+                    data-lucide="arrow-right"
+                    class="w-4 h-4 text-secondary"
+                  ></i>
+                </a>
+              </div>
+              {% empty %}
+              <p class="text-center col-span-full text-slate-400">
+                No upcoming events scheduled at the moment.
+              </p>
+              {% endfor %}
+            </div>
+          </div>
+        </section>
+
+        <!-- Family Portfolio -->
+
+        <section class="py-24 bg-slate-50 overflow-hidden">
+          <div
+            class="max-w-7xl mx-auto px-4 mb-12 flex justify-between items-center"
+          >
+            <h2 class="text-3xl font-black text-primary serif">
+              Our Family Gallery
+            </h2>
+            <div class="flex gap-2">
+              <button
+                type="button"
+                id="forcePrev"
+                class="w-12 h-12 rounded-full border-2 border-primary flex items-center justify-center cursor-pointer hover:bg-primary hover:text-white transition-all z-50"
+              >
+                <i data-lucide="chevron-left"></i>
+              </button>
+              <button
+                type="button"
+                id="forceNext"
+                class="w-12 h-12 rounded-full border-2 border-primary flex items-center justify-center cursor-pointer hover:bg-primary hover:text-white transition-all z-50"
+              >
+                <i data-lucide="chevron-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="relative overflow-hidden w-full">
+            <div class="max-w-7xl mx-auto px-4">
+              <div
+                id="gallery-track"
+                class="flex gap-6 transition-transform duration-500 ease-in-out min-w-max"
+                style="transform: translateX(0px)"
+              >
+                {% for item in gallery_images %}
+                <img
+                  src="{{ item.image_url }}"
+                  alt="{{ item.caption }}"
+                  class="w-80 h-96 object-cover rounded-3xl flex-shrink-0"
+                />
+                {% empty %}
+                <p class="text-slate-400">No images in the gallery yet.</p>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Featured Quote -->
+        <div class="bg-primary py-24 relative overflow-hidden">
+          <div
+            class="absolute top-0 right-0 w-96 h-96 bg-accent opacity-10 rounded-full blur-[100px] -mr-48 -mt-48"
+          ></div>
+          <div class="max-w-4xl mx-auto px-4 text-center">
+            <i
+              data-lucide="quote"
+              class="w-16 h-16 text-secondary/30 mx-auto mb-8"
+            ></i>
+            <h2
+              class="text-3xl md:text-5xl font-black text-white mb-10 serif leading-tight"
+            >
+              "In this Garden, we don't just pray for rain; we plant seeds of
+              faith that command the heavens to open."
+            </h2>
+            <div class="w-20 h-1 bg-secondary mx-auto mb-6"></div>
+            <p
+              class="text-secondary font-bold uppercase tracking-widest text-sm"
+            >
+              GOGAP Mandate
+            </p>
+          </div>
+        </div>
+
+        <!-- Offering and giving -->
+        <section class="py-24 bg-white">
+          <div
+            class="max-w-4xl mx-auto px-4 bg-slate-50 rounded-[3rem] p-12 text-center shadow-inner relative overflow-hidden"
+          >
+            <div
+              class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#F5A623] via-[#8B1A3E] to-[#F5A623]"
+            ></div>
+
+            <i
+              data-lucide="heart"
+              class="w-12 h-12 text-[#8B1A3E] mx-auto mb-6"
+            ></i>
+
+            <h2 class="text-4xl font-black text-[#8B1A3E] mb-6 serif">
+              Partner with the Vision
+            </h2>
+
+            <p class="text-slate-600 text-lg mb-10">
+              Your generosity enables us to reach the world with the message of
+              Grace. Every seed sown makes an eternal difference.
+            </p>
+
+            <a
+              href="{% url 'offering' %}"
+              class="inline-block bg-[#8B1A3E] text-white px-12 py-5 rounded-2xl font-black text-xl hover:scale-105 transition-transform shadow-2xl"
+            >
+              Give Online
+            </a>
+          </div>
+        </section>
+
+        <!-- Cntact us -->
+        <section
+          id="contact-preview"
+          class="py-24 bg-white border-t border-slate-100"
+        >
+          <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16">
+            <div>
+              <h2 class="text-5xl font-black text-primary serif mb-8">
+                Get in Touch
+              </h2>
+              <div class="space-y-8">
+                <div class="flex gap-6 items-start">
+                  <div
+                    class="w-12 h-12 bg-secondary/10 text-secondary rounded-xl flex items-center justify-center flex-shrink-0"
+                  >
+                    <i data-lucide="map-pin"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-black text-primary">Our Location</h4>
+                    <p class="text-slate-500">
+                      123 Garden Lane, Sanctuary City, SC 45678
+                    </p>
+                  </div>
+                </div>
+                <div class="flex gap-6 items-start">
+                  <div
+                    class="w-12 h-12 bg-secondary/10 text-secondary rounded-xl flex items-center justify-center flex-shrink-0"
+                  >
+                    <i data-lucide="mail"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-black text-primary">Email Us</h4>
+                    <p class="text-slate-500">hello@gogap.church</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <form
+              method="POST"
+              class="bg-slate-50 p-10 rounded-[2rem] space-y-4"
+            >
+              {% csrf_token %}
+              <input
+                type="text"
+                name="name"
+                required
+                placeholder="Your Name"
+                class="w-full p-4 rounded-xl border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-secondary outline-none"
+              />
+
+              <input
+                type="email"
+                name="email"
+                required
+                placeholder="Your Email"
+                class="w-full p-4 rounded-xl border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-secondary outline-none"
+              />
+
+              <textarea
+                name="message"
+                required
+                placeholder="How can we pray for you?"
+                rows="4"
+                class="w-full p-4 rounded-xl border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-secondary outline-none"
+              ></textarea>
+
+              <button
+                type="submit"
+                class="w-full bg-primary text-white py-4 rounded-xl font-black hover:bg-secondary transition-colors"
+              >
+                Send Message
+              </button>
+            </form>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-primary pt-16 pb-12 text-white/70">
+      <div class="max-w-7xl mx-auto px-4">
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-10"
+        >
+          <div class="lg:col-span-2">
+            <div class="flex items-center gap-3 mb-6">
+              <div
+                class="w-12 h-12 logo-ring rounded-full flex items-center justify-center text-secondary font-black text-xl shadow-2xl"
+              >
+                G
+              </div>
+              <span
+                class="text-3xl font-black text-white tracking-tighter serif italic"
+                >GOGAP</span
+              >
+            </div>
+            <p
+              class="max-w-md text-emerald-100/50 leading-relaxed italic text-sm"
+            >
+              "A garden where souls are nurtured by grace and strengthened
+              through prayer."
+            </p>
+          </div>
+
+          <div>
+            <h4
+              class="text-white font-black uppercase tracking-widest mb-6 text-xs border-l-4 border-secondary pl-4"
+            >
+              Discover
+            </h4>
+            <ul class="space-y-3 font-bold text-sm">
+              <li>
+                <a href="#" class="hover:text-secondary transition-colors"
+                  >Our Beliefs</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-secondary transition-colors"
+                  >Leadership</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-secondary transition-colors"
+                  >Find a Life Group</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-secondary transition-colors"
+                  >Testimonies</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4
+              class="text-white font-black uppercase tracking-widest mb-6 text-xs border-l-4 border-secondary pl-4"
+            >
+              Connect
+            </h4>
+            <div class="flex gap-3">
+              {% if footer.facebook_url %}<a
+                href="{{ footer.facebook_url }}"
+                class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-secondary hover:text-primary transition-all"
+                ><i data-lucide="facebook" class="w-5 h-5"></i></a
+              >{% endif %} {% if footer.instagram_url %}<a
+                href="{{ footer.instagram_url }}"
+                class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-secondary hover:text-primary transition-all"
+                ><i data-lucide="instagram" class="w-5 h-5"></i></a
+              >{% endif %} {% if footer.youtube_url %}<a
+                href="{{ footer.youtube_url }}"
+                class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-secondary hover:text-primary transition-all"
+                ><i data-lucide="youtube" class="w-5 h-5"></i></a
+              >{% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-6 mb-12">
+          <h4
+            class="text-white font-black uppercase tracking-widest mb-8 text-xs border-l-4 border-secondary pl-4"
+          >
+            Our Gatherings & Branches
+          </h4>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for branch in branches %}
+            <div
+              class="bg-white/5 p-6 rounded-2xl border border-white/5 hover:border-secondary/20 transition-all group"
+            >
+              <p
+                class="text-white font-black text-lg mb-4 group-hover:text-secondary transition-colors italic serif"
+              >
+                {{ branch.branch_name }}
+              </p>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <span
+                    class="text-secondary block font-black uppercase text-[9px] tracking-widest mb-1"
+                    >Sundays</span
+                  >
+                  <p class="text-white/90 text-xs font-bold">
+                    {{ branch.sunday_service_1 }}
+                  </p>
+                  <p class="text-white/90 text-xs font-bold">
+                    {{ branch.sunday_service_2 }}
+                  </p>
+                </div>
+                <div>
+                  <span
+                    class="text-secondary block font-black uppercase text-[9px] tracking-widest mb-1"
+                    >Midweek</span
+                  >
+                  <p class="text-white/90 text-xs font-bold">
+                    {{ branch.midweek_service }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="pt-6 border-t border-white/5 text-center">
+          <p
+            class="text-[9px] font-black uppercase tracking-[0.4em] text-white/20"
+          >
+            copyright: Garden of Grace and Prayer Sanctuary. All rights
+            reserved. Gogap (2026)
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

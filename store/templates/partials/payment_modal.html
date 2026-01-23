@@ -1,0 +1,121 @@
+<div
+  id="payment-modal"
+  class="fixed inset-0 z-[100] hidden flex items-end justify-center"
+>
+  <div
+    class="absolute inset-0 bg-primary/40 backdrop-blur-md transition-opacity duration-500"
+    onclick="closePaymentModal()"
+  ></div>
+
+  <div
+    id="modal-content"
+    class="relative w-full max-w-2xl bg-white rounded-t-[3.5rem] p-8 md:p-12 shadow-[0_-20px_50px_rgba(0,0,0,0.15)] transform translate-y-full transition-transform duration-500 ease-in-out"
+  >
+    <div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-10"></div>
+
+    <div class="flex justify-between items-start mb-8">
+      <div>
+        <h3 class="text-3xl font-black text-primary mb-1">Secure Order</h3>
+        <p class="text-slate-500">
+          Item:
+          <span id="display-item-name" class="text-accent font-bold"></span>
+        </p>
+      </div>
+      <button
+        onclick="closePaymentModal()"
+        class="p-2 bg-slate-100 rounded-full hover:bg-slate-200 transition-colors"
+      >
+        <i data-lucide="x" class="w-6 h-6 text-primary"></i>
+      </button>
+    </div>
+
+    <div
+      class="bg-gradient-to-br from-primary to-slate-800 rounded-[2.5rem] p-8 text-white mb-8 shadow-xl relative overflow-hidden"
+    >
+      <div class="relative z-10">
+        <p
+          class="text-white/60 text-xs uppercase tracking-[0.2em] font-bold mb-6"
+        >
+          Direct Bank Transfer
+        </p>
+        <div class="space-y-6">
+          <div>
+            <span class="text-white/40 text-[10px] uppercase block mb-1"
+              >Account Number</span
+            >
+            <p
+              class="text-3xl font-mono font-bold tracking-widest text-secondary italic"
+            >
+              0123456789
+            </p>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <span class="text-white/40 text-[10px] uppercase block mb-1"
+                >Bank Name</span
+              >
+              <p class="font-bold">GTBank / Zenith</p>
+            </div>
+            <div>
+              <span class="text-white/40 text-[10px] uppercase block mb-1"
+                >Account Name</span
+              >
+              <p class="font-bold">GOGAP Ministry Int'l</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="bg-amber-50 border border-amber-100 rounded-3xl p-6 mb-10 text-sm"
+    >
+      <p class="text-amber-900 leading-relaxed">
+        Make your transfer, then click the button below to send your
+        <strong>payment receipt</strong> to our Admin on WhatsApp to confirm
+        your order.
+      </p>
+    </div>
+
+    <a
+      id="whatsapp-link"
+      href="#"
+      target="_blank"
+      class="w-full py-5 bg-[#25D366] text-white rounded-2xl font-black flex items-center justify-center gap-3 hover:shadow-lg transition-all"
+    >
+      <i data-lucide="message-circle" class="w-6 h-6"></i>
+      Send Receipt to Admin
+    </a>
+  </div>
+</div>
+
+<script>
+  function openPaymentModal(name, price) {
+    const modal = document.getElementById("payment-modal");
+    const content = document.getElementById("modal-content");
+    const whatsappLink = document.getElementById("whatsapp-link");
+
+    document.getElementById("display-item-name").innerText =
+      name + " (₦" + price + ")";
+
+    const adminNumber = "2348000000000"; // REPLACE WITH YOUR NUMBER
+    const message = encodeURIComponent(
+      `Hello Admin, I want to order "${name}" for ₦${price}. I have made the transfer, here is my receipt:`
+    );
+    whatsappLink.href = `https://wa.me/${adminNumber}?text=${message}`;
+
+    modal.classList.remove("hidden");
+    setTimeout(() => {
+      content.classList.remove("translate-y-full");
+    }, 10);
+  }
+
+  function closePaymentModal() {
+    const modal = document.getElementById("payment-modal");
+    const content = document.getElementById("modal-content");
+    content.classList.add("translate-y-full");
+    setTimeout(() => {
+      modal.classList.add("hidden");
+    }, 500);
+  }
+</script>

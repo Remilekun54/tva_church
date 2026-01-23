@@ -1,0 +1,82 @@
+ @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Fraunces:opsz,wght@9..144,700&display=swap');
+
+:root {
+    /* Brand Colors from Logo */
+    --brand-burgundy: 139, 26, 62;   /* #8B1A3E */
+    --brand-gold: 255, 215, 0;      /* #FFD700 */
+    --brand-amber: 245, 166, 35;    /* #F5A623 */
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #ffffff;
+    color: #1a1a1a;
+}
+
+.serif {
+    font-family: 'Fraunces', serif;
+}
+
+/* Glass Navigation - Semi-transparent white */
+.glass-nav {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(139, 26, 62, 0.1);
+}
+
+/* Hero Gradient - Transparent Burgundy to Amber 
+   The 0.4 and 0.6 values allow the image to show through clearly.
+*/
+.hero-gradient {
+    background: linear-gradient(
+        135deg, 
+        rgba(var(--brand-burgundy), 0.5) 0%, 
+        rgba(var(--brand-amber), 0.3) 100%
+    );
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+/* Logo Ring - Matching the circular oil drop style */
+.logo-ring {
+    border: 2px solid rgb(var(--brand-gold));
+    background: rgb(var(--brand-burgundy));
+    box-shadow: 0 4px 15px rgba(var(--brand-burgundy), 0.3);
+}
+
+/* Utility for active pages */
+.page-transition {
+    display: none;
+}
+.active-page {
+    display: block;
+}
+
+/* Progress bar for the carousel dots */
+.dot-progress {
+    background-color: rgb(var(--brand-gold)) !important;
+}
+/* Ensure the slides are layered correctly */
+#slides-wrapper {
+    perspective: 1000px;
+}
+
+.hero-slide {
+    pointer-events: none; /* Prevents hidden slides from blocking buttons */
+}
+
+.hero-slide[style*="opacity: 1"] {
+    pointer-events: auto; /* Re-enables buttons for the visible slide */
+}
+
+.ken-burns {
+    transition: transform 0s; /* Prevents CSS conflicts with GSAP */
+}
+
+/* Fallback: If JS fails, show at least the first slide */
+.hero-slide:first-child {
+    opacity: 1;
+    z-index: 1;
+}

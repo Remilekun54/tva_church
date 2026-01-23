@@ -1,0 +1,716 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GOGAP | Garden of Grace and Prayer</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+
+    <script src="{% static 'index.js' %}" defer></script>
+
+    <link
+      rel="icon"
+      type="image/jpeg"
+      href="{% static 'images/gogap logo.jpeg' %}"
+    />
+  </head>
+
+  <body class="overflow-x-hidden text-slate-900">
+    <nav
+      class="fixed top-0 w-full z-50 glass-nav transition-all duration-300"
+      id="navbar"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+          <a
+            href="{% url 'home' %}"
+            class="flex items-center gap-3 cursor-pointer"
+          >
+            <div
+              class="w-14 h-14 rounded-full overflow-hidden border-2 border-secondary shadow-md bg-white"
+            >
+              <img
+                src="{% static 'images/gogap logo.jpeg' %}"
+                alt="GOGAP Logo"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="flex flex-col">
+              <span
+                class="text-2xl font-black tracking-tighter text-primary leading-none uppercase"
+                >GOGAP</span
+              >
+              <span
+                class="text-[10px] uppercase tracking-[0.1em] text-accent font-bold"
+                >Gospel of Grace & Power</span
+              >
+            </div>
+          </a>
+
+          <div class="hidden md:flex space-x-8 items-center">
+            <a
+              href="{% url 'home' %}"
+              class="text-slate-600 hover:text-primary font-bold transition-colors"
+              >Home</a
+            >
+            <a
+              href="{% url 'about' %}"
+              class="text-slate-600 hover:text-primary font-bold transition-colors"
+              >About</a
+            >
+            <a
+              href="{% url 'sermons' %}"
+              class="text-slate-600 hover:text-primary font-bold transition-colors"
+              >Sermons</a
+            >
+
+            <a
+              href="{% url 'events' %}"
+              class="text-slate-600 hover:text-primary font-bold transition-colors"
+              >Events</a
+            >
+
+            <a
+              href="{% url 'store' %}"
+              class="text-slate-600 hover:text-primary font-bold transition-colors"
+              >Store</a
+            >
+            <a
+              href="{% url 'contact' %}"
+              class="text-slate-600 hover:text-primary font-bold transition-colors"
+              >Contact</a
+            >
+
+            <a
+              href="{% url 'offering' %}"
+              class="bg-secondary text-primary px-6 py-2.5 rounded-full font-extrabold hover:bg-primary hover:text-white transition-all shadow-lg transform hover:-translate-y-0.5 inline-block text-center"
+            >
+              Give Now
+            </a>
+          </div>
+
+          <div class="md:hidden flex items-center">
+            <button id="mobile-menu-button" class="text-primary">
+              <i data-lucide="menu" class="w-8 h-8"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden bg-white w-full border-t border-brandLight p-6 space-y-4 shadow-2xl"
+      >
+        <a href="{% url 'home' %}" class="block text-lg font-bold text-primary"
+          >Home</a
+        >
+        <a href="{% url 'about' %}" class="block text-lg font-bold text-primary"
+          >About</a
+        >
+        <a
+          href="{% url 'sermons' %}"
+          class="block text-lg font-bold text-primary"
+          >Sermons</a
+        >
+
+        <a
+          href="{% url 'events' %}"
+          class="block text-lg font-bold text-primary"
+          >Events</a
+        >
+
+        <a
+          href="{% url 'offering' %}"
+          class="block text-lg font-bold text-secondary"
+          >Give Online</a
+        >
+        <a
+          href="{% url 'contact' %}"
+          class="block text-lg font-bold text-primary"
+          >Contact</a
+        >
+      </div>
+    </nav>
+
+    <div
+      id="mobile-menu"
+      class="hidden fixed top-20 left-0 w-full bg-white z-40 p-6 space-y-4 shadow-2xl"
+    >
+      <a href="index.html" class="block text-lg font-bold">Home</a>
+      <a href="about.html" class="block text-lg font-bold text-primary"
+        >About</a
+      >
+      <a href="sermons.html" class="block text-lg font-bold">Sermons</a>
+      <a href="contact.html" class="block text-lg font-bold">Contact</a>
+    </div>
+
+    <!-- Header Section -->
+    <header
+      class="relative h-[45vh] flex items-center justify-center overflow-hidden"
+    >
+      <img
+        src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80&w=2000"
+        alt="Serene Garden Path"
+        class="absolute inset-0 w-full h-full object-cover"
+      />
+
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-primary/60 via-primary/40 to-primary/80"
+      ></div>
+
+      <div class="relative z-10 text-center px-4 mt-20">
+        <span
+          class="text-secondary font-black uppercase tracking-[0.4em] text-xs mb-4 block animate-fade-in"
+        >
+          Our Identity & Calling
+        </span>
+        <h1
+          class="text-5xl md:text-7xl font-black text-white serif mb-6 tracking-tight"
+        >
+          Who We Are
+        </h1>
+        <p
+          class="text-white/90 text-lg md:text-xl max-w-2xl mx-auto font-medium leading-relaxed italic"
+        >
+          Rooted in grace, growing in power, and dedicated to the cultivation of
+          souls through prayer.
+        </p>
+      </div>
+    </header>
+
+    <!-- About Section -->
+    <main class="mt-32">
+      <section id="about-page" class="py-24">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div class="relative">
+              <div
+                class="aspect-square bg-secondary rounded-[3rem] absolute -top-6 -left-6 -z-10 w-full"
+              ></div>
+
+              <img
+                src="{{ about.main_image.url }}"
+                class="rounded-[3rem] shadow-2xl object-cover aspect-square"
+                alt="About GOGAP"
+              />
+
+              <div
+                class="absolute -bottom-10 -right-10 bg-white p-10 rounded-[2rem] shadow-2xl border-l-8 border-accent hidden md:block"
+              >
+                <p class="text-primary font-black text-2xl serif italic">
+                  {{ about.established_year }}
+                </p>
+                <p
+                  class="text-slate-400 font-bold text-xs uppercase tracking-tighter"
+                >
+                  {{ about.established_text }}
+                </p>
+              </div>
+            </div>
+
+            <div class="space-y-8">
+              <div>
+                <span
+                  class="text-accent font-black uppercase tracking-[0.3em] text-sm mb-2 block"
+                  >{{ about.subtitle }}</span
+                >
+                <h2 class="text-5xl font-black text-primary serif">
+                  {{ about.title }}
+                </h2>
+              </div>
+
+              <p class="text-slate-600 text-lg leading-relaxed">
+                {{ about.description }}
+              </p>
+
+              <a
+                href="{% url 'contact' %}"
+                class="inline-block bg-primary text-white px-8 py-4 rounded-2xl font-bold hover:bg-accent transition-all shadow-xl"
+              >
+                Contact Our Team
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Mission & Vision Section -->
+    <section class="py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div
+            class="relative group p-12 rounded-[3rem] bg-slate-50 border border-slate-200 overflow-hidden shadow-xl"
+          >
+            <div
+              class="absolute -right-10 -top-10 w-40 h-40 bg-accent/5 rounded-full blur-3xl group-hover:bg-accent/10 transition-all"
+            ></div>
+
+            <div class="relative z-10">
+              <div
+                class="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-8"
+              >
+                <i data-lucide="eye" class="w-8 h-8 text-accent"></i>
+              </div>
+              <span
+                class="text-accent font-black uppercase tracking-[0.2em] text-xs mb-3 block"
+              >
+                {{ about.vision_subtitle }}
+              </span>
+              <h2 class="text-4xl font-black text-primary serif mb-6">
+                {{ about.vision_title }}
+              </h2>
+              <p class="text-slate-600 text-lg leading-relaxed">
+                "{{ about.vision_description }}"
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="relative group p-12 rounded-[3rem] bg-primary text-white overflow-hidden shadow-2xl"
+          >
+            <div
+              class="absolute -right-10 -top-10 w-40 h-40 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-all"
+            ></div>
+
+            <div class="relative z-10">
+              <div
+                class="w-16 h-16 bg-secondary/20 rounded-2xl flex items-center justify-center mb-8"
+              >
+                <i data-lucide="target" class="w-8 h-8 text-secondary"></i>
+              </div>
+              <span
+                class="text-secondary font-black uppercase tracking-[0.2em] text-xs mb-3 block"
+              >
+                {{ about.mission_subtitle }}
+              </span>
+              <h2 class="text-4xl font-black serif mb-6">
+                {{ about.mission_title }}
+              </h2>
+              <p class="text-emerald-50/70 text-lg leading-relaxed italic">
+                "{{ about.mission_description }}"
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Branches Section -->
+    <section class="py-24 bg-slate-50">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <span
+            class="text-accent font-black uppercase tracking-[0.3em] text-sm mb-4 block"
+            >Find Us Nearby</span
+          >
+          <h2 class="text-5xl font-black text-primary serif mb-6">
+            Our Branches
+          </h2>
+          <p class="text-slate-500 text-lg">
+            The Garden is growing. Visit any of our locations to experience the
+            power of grace and prayer in person.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {% for branch in branches %}
+          <div
+            class="bg-white rounded-[2.5rem] p-10 shadow-lg hover:shadow-2xl transition-all border border-transparent hover:border-secondary group flex flex-col h-full"
+          >
+            <div class="flex justify-between items-start mb-8">
+              <div
+                class="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform"
+              >
+                <i data-lucide="map-pin"></i>
+              </div>
+              <span
+                class="bg-secondary/20 text-primary text-[10px] font-black uppercase px-4 py-1.5 rounded-full"
+                >Active Location</span
+              >
+            </div>
+
+            <h3 class="text-2xl font-black text-primary mb-2 italic serif">
+              {{ branch.branch_name }}
+            </h3>
+            <p class="text-slate-400 text-sm mb-8 font-medium">
+              {{ branch.location_label }}
+            </p>
+
+            <div class="space-y-6 flex-grow">
+              {% for activity in branch.activities.all %}
+              <div class="flex gap-4">
+                <div
+                  class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-accent shrink-0"
+                >
+                  {% if "Sunday" in activity.title %}
+                  <i data-lucide="calendar-days" class="w-5 h-5"></i>
+                  {% else %}
+                  <i data-lucide="clock" class="w-5 h-5"></i>
+                  {% endif %}
+                </div>
+                <div>
+                  <p
+                    class="text-[10px] uppercase font-black text-slate-400 tracking-widest mb-1"
+                  >
+                    {{ activity.title }}
+                  </p>
+                  {% for time in activity.get_time_list %}
+                  <p class="text-primary font-bold text-sm">{{ time }}</p>
+                  {% endfor %}
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+
+            <div class="mt-10 pt-8 border-t border-slate-100">
+              <a
+                href="{{ branch.address_url|default:'#' }}"
+                target="_blank"
+                class="flex items-center justify-center gap-2 text-primary font-black uppercase text-xs tracking-widest hover:text-accent transition-colors"
+              >
+                Get Directions <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </a>
+            </div>
+          </div>
+          {% empty %}
+          <div class="col-span-full text-center py-10 text-slate-400 italic">
+            Branch information is being updated. Please check back soon.
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- Core Values Section -->
+    <section class="py-20 bg-slate-50">
+      <div class="max-w-7xl mx-auto px-4 text-center mb-16">
+        <span class="text-accent font-black uppercase tracking-widest text-sm"
+          >What Drives Us</span
+        >
+        <h2 class="text-4xl font-black text-primary serif mt-2">
+          Our Core Values
+        </h2>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+        {% for value in core_values %}
+        <div
+          class="bg-white p-10 rounded-[2rem] shadow-xl border-b-4 {% if value.color_scheme == 'secondary' %}border-secondary {% elif value.color_scheme == 'accent' %}border-accent {% else %}border-primary{% endif %} hover:-translate-y-2 transition-transform"
+        >
+          <div
+            class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 {% if value.color_scheme == 'secondary' %}bg-secondary/20 text-primary {% elif value.color_scheme == 'accent' %}bg-accent/20 text-accent {% else %}bg-primary/10 text-primary{% endif %}"
+          >
+            <i data-lucide="{{ value.icon_name }}"></i>
+          </div>
+
+          <h3 class="text-xl font-black text-primary mb-4">
+            {{ value.title }}
+          </h3>
+          <p class="text-slate-500 text-sm leading-relaxed">
+            {{ value.description }}
+          </p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- Leadership Section -->
+
+    <section class="py-24">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="flex flex-col items-center text-center mb-16 gap-6">
+          <div class="max-w-2xl mx-auto">
+            <span
+              class="text-accent font-black uppercase tracking-widest text-sm block"
+            >
+              Shepherds of the House
+            </span>
+            <h2 class="text-5xl font-black text-primary serif mt-2">
+              Meet Our Leadership
+            </h2>
+            <div class="w-24 h-1 bg-secondary mx-auto mt-6 rounded-full"></div>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {% for leader in leaders %}
+          <div class="group">
+            <div
+              class="relative overflow-hidden rounded-[2rem] aspect-[4/5] mb-6"
+            >
+              {% if leader.image %}
+              <img
+                src="{{ leader.image.url }}"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                alt="{{ leader.name }}"
+              />
+              {% else %}
+              <div
+                class="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400 italic"
+              >
+                No Image
+              </div>
+              {% endif %}
+
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8"
+              >
+                <div class="flex gap-4 text-white">
+                  {% if leader.facebook_url %}<a
+                    href="{{ leader.facebook_url }}"
+                    ><i data-lucide="facebook" class="w-5 h-5"></i></a
+                  >{% endif %} {% if leader.instagram_url %}<a
+                    href="{{ leader.instagram_url }}"
+                    ><i data-lucide="instagram" class="w-5 h-5"></i></a
+                  >{% endif %}
+                </div>
+              </div>
+            </div>
+
+            <h4 class="text-xl font-black text-primary">{{ leader.name }}</h4>
+            <p class="text-accent font-bold text-xs uppercase">
+              {{ leader.position }}
+            </p>
+
+            {% if leader.branch %}
+            <p class="text-slate-400 text-[10px] font-bold uppercase mt-1">
+              <i data-lucide="map-pin" class="inline w-3 h-3 mr-1"></i>
+              {{leader.branch.branch_name }}
+            </p>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- Statement of Faith Section -->
+    <section class="py-24 bg-primary text-white overflow-hidden relative">
+      <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+          <div>
+            <span
+              class="text-secondary font-black uppercase tracking-widest text-sm"
+            >
+              {{ sof.sof_subtitle }}
+            </span>
+            <h2 class="text-5xl font-black serif mt-4 mb-8">
+              {{ sof.sof_title }}
+            </h2>
+            <p class="text-white/60 text-lg mb-10">{{ sof.sof_description }}</p>
+
+            {% if sof.doctrine_pdf %}
+            <a
+              href="{{ sof.doctrine_pdf.url }}"
+              download
+              class="bg-secondary text-primary px-8 py-4 rounded-2xl font-black inline-flex items-center gap-2 hover:bg-white transition-all shadow-xl"
+            >
+              <i data-lucide="download-cloud" class="w-5 h-5"></i>
+              Download the Doctrine
+            </a>
+            {% endif %}
+          </div>
+
+          <div class="space-y-6">
+            {% for belief in beliefs %}
+            <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
+              <h4 class="text-secondary font-black text-lg mb-2">
+                {{ belief.title }}
+              </h4>
+              <p class="text-white/70 text-sm">{{ belief.description }}</p>
+            </div>
+            {% empty %}
+            <p class="text-white/30 italic">No belief points added yet.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- History Timeline Section -->
+    <section class="py-24">
+      <div class="max-w-4xl mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-black text-primary serif">
+            Our Journey Through Time
+          </h2>
+        </div>
+
+        <div class="space-y-12">
+          {% for milestone in history %}
+          <div class="flex gap-8 items-start">
+            <div class="text-3xl font-black text-secondary serif">
+              {{ milestone.year }}
+            </div>
+
+            <div class="pt-2 border-l-4 border-slate-100 pl-8 pb-8">
+              <h4 class="text-xl font-black text-primary mb-2">
+                {{ milestone.title }}
+              </h4>
+              <p class="text-slate-500">{{ milestone.description }}</p>
+            </div>
+          </div>
+          {% empty %}
+          <p class="text-center text-slate-400 italic">
+            History milestones are currently being updated.
+          </p>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="py-24 bg-accent">
+      <div class="max-w-7xl mx-auto px-4 text-center">
+        <h2 class="text-4xl font-black text-white serif mb-8">
+          You Have a Place Here
+        </h2>
+        <p class="text-white/80 max-w-2xl mx-auto mb-12 text-lg">
+          Whether you are a seeker, a new believer, or looking for a home, there
+          is a "garden" spot waiting for you.
+        </p>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+          {% for stat in stats %}
+          <div>
+            <p class="text-white font-black text-4xl mb-2">{{ stat.number }}</p>
+            <p
+              class="text-white/60 text-xs uppercase font-bold tracking-widest"
+            >
+              {{ stat.label }}
+            </p>
+          </div>
+          {% empty %}
+          <p class="text-white/40 col-span-full italic">
+            Statistics coming soon...
+          </p>
+          {% endfor %}
+        </div>
+
+        <a
+          href="{% url 'contact' %}"
+          class="bg-white text-accent px-10 py-4 rounded-2xl font-black hover:bg-primary hover:text-white transition-all"
+          >Join a Ministry</a
+        >
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary pt-24 pb-12 text-white/70">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-16 mb-20">
+          <div class="lg:col-span-2">
+            <div class="flex items-center gap-3 mb-8">
+              <div
+                class="w-14 h-14 logo-ring rounded-full flex items-center justify-center text-secondary font-black text-2xl shadow-2xl"
+              >
+                G
+              </div>
+              <span
+                class="text-4xl font-black text-white tracking-tighter serif italic"
+                >GOGAP</span
+              >
+            </div>
+            <p
+              class="max-w-md text-emerald-100/50 leading-relaxed mb-10 italic"
+            >
+              "A garden where souls are nurtured by grace and strengthened
+              through prayer."
+            </p>
+            <div class="flex gap-6">
+              <a
+                href="#"
+                class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-secondary hover:text-primary transition-all"
+                ><i data-lucide="facebook"></i
+              ></a>
+              <a
+                href="#"
+                class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-secondary hover:text-primary transition-all"
+                ><i data-lucide="instagram"></i
+              ></a>
+              <a
+                href="#"
+                class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-secondary hover:text-primary transition-all"
+                ><i data-lucide="youtube"></i
+              ></a>
+            </div>
+          </div>
+          <div>
+            <h4
+              class="text-white font-black uppercase tracking-widest mb-10 text-xs border-l-4 border-secondary pl-4"
+            >
+              Discover
+            </h4>
+            <ul class="space-y-4 font-bold text-sm">
+              <li>
+                <a href="#" class="hover:text-secondary transition-colors"
+                  >Our Beliefs</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-secondary transition-colors"
+                  >Leadership</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-secondary transition-colors"
+                  >Find a Life Group</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-secondary transition-colors"
+                  >Testimonies</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4
+              class="text-white font-black uppercase tracking-widest mb-10 text-xs border-l-4 border-secondary pl-4"
+            >
+              Gatherings
+            </h4>
+            <ul class="space-y-6 text-sm">
+              <li>
+                <strong
+                  class="text-secondary block font-black uppercase text-xs"
+                  >Sundays</strong
+                >
+                <p class="text-white">Empowerment: 8:00 AM</p>
+                <p class="text-white">Celebration: 10:30 AM</p>
+              </li>
+              <li>
+                <strong
+                  class="text-secondary block font-black uppercase text-xs"
+                  >Midweek</strong
+                >
+                <p class="text-white">Wednesday Word: 6:00 PM</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="pt-8 border-t border-white/5 text-center">
+          <p
+            class="text-[10px] font-black uppercase tracking-[0.4em] text-white/20"
+          >
+            &copy; 2024 Garden of Grace and Prayer Sanctuary. All rights
+            reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+    <script>
+      // Initialize Lucide icons
+      lucide.createIcons();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1 @@
+web: gunicorn gogap_web.wsgi
