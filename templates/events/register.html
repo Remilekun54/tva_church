@@ -1,73 +1,10 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register - {{ event.title }}</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <link rel="stylesheet" href="{% static 'style.css' %}" />
-    <script src="{% static 'index.js' %}" defer></script>
-    <link rel="icon" type="image/jpeg" href="{% static 'images/gogap logo.jpeg' %}" />
 
-    <style>
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-    </style>
-</head>
+{% block title %}Register - {{ event.title }}{% endblock %}
 
-<body class="bg-slate-50 min-h-screen overflow-y-auto font-sans text-slate-900">
-
-    {% if messages %}
-    <div id="success-popup" class="fixed top-24 left-1/2 -translate-x-1/2 z-[100] w-full max-w-sm px-4">
-        <div class="bg-emerald-500 text-white p-6 rounded-[2.5rem] shadow-2xl flex items-center gap-4 border-2 border-white/20 transform transition-all duration-500">
-            <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center shrink-0">
-                <i data-lucide="check-circle" class="w-7 h-7"></i>
-            </div>
-            <div>
-                <p class="font-black text-lg leading-tight">Confirmed!</p>
-                {% for message in messages %}
-                <p class="text-white/90 text-sm font-bold">{{ message }}</p>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <a href="{% url 'home' %}" class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-secondary bg-white">
-                        <img src="{% static 'images/gogap logo.jpeg' %}" alt="Logo" class="w-full h-full object-cover" />
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="text-xl font-black tracking-tighter text-primary leading-none uppercase">GOGAP</span>
-                        <span class="text-[8px] uppercase tracking-widest text-accent font-bold">Grace & Power</span>
-                    </div>
-                </a>
-
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="{% url 'home' %}" class="text-slate-600 hover:text-primary font-bold transition-colors">Home</a>
-                    <a href="{% url 'events' %}" class="text-slate-600 hover:text-primary font-bold transition-colors">Events</a>
-                    <a href="{% url 'store' %}" class="text-slate-600 hover:text-primary font-bold transition-colors">Store</a>
-                    <a href="{% url 'offering' %}" class="bg-secondary text-primary px-6 py-2 rounded-full font-extrabold hover:bg-primary hover:text-white transition-all shadow-md">Give Now</a>
-                </div>
-
-                <div class="md:hidden flex items-center">
-                    <button class="text-primary"><i data-lucide="menu" class="w-8 h-8"></i></button>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <main class="pt-32 pb-20 px-4 flex flex-col items-center">
+{% block content %}
+    <main class="pt-32 pb-20 px-4 flex flex-col items-center min-h-screen">
         
         <div class="max-w-xl w-full">
             <a href="{% url 'events' %}" class="inline-flex items-center gap-2 text-primary font-bold mb-8 hover:translate-x-[-4px] transition-transform">
@@ -125,37 +62,19 @@
         </div>
         
     </main>
+{% endblock %}
 
+{% block extra_scripts %}
     <script>
-        // Initialize Lucide Icons
-        lucide.createIcons();
-
-        // Handle the Success Popup Fade-out
-        document.addEventListener('DOMContentLoaded', () => {
-            const popup = document.getElementById('success-popup');
-            if (popup) {
-                // Wait 2.5 seconds (2500ms) then start fade out
-                setTimeout(() => {
-                    popup.style.opacity = '0';
-                    popup.style.transform = 'translate(-50%, -20px)';
-                    
-                    // Completely remove from HTML after animation finishes
-                    setTimeout(() => {
-                        popup.remove();
-                    }, 500);
-                }, 2500);
-            }
-        });
-
         // Optional: Simple Button Loading State
         const form = document.getElementById('registration-form');
         const btn = document.getElementById('submit-btn');
-        form.addEventListener('submit', () => {
-            btn.innerHTML = 'Processing...';
-            btn.style.opacity = '0.7';
-            btn.style.pointerEvents = 'none';
-        });
+        if(form && btn){
+            form.addEventListener('submit', () => {
+                btn.innerHTML = 'Processing...';
+                btn.style.opacity = '0.7';
+                btn.style.pointerEvents = 'none';
+            });
+        }
     </script>
-
-</body>
-</html>
+{% endblock %}

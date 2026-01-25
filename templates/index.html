@@ -55,5 +55,485 @@
                 </div>
             </div>
         </section>
+
+        <!-- Sermon -->
+        <section id="sermons-preview" class="py-24 bg-green-50 overflow-hidden">
+          <div class="max-w-7xl mx-auto px-4">
+            <div
+              class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4"
+            >
+              <div class="sermon-header">
+                <span
+                  class="text-accent font-black uppercase tracking-widest text-sm"
+                  >Library of Grace</span
+                >
+                <h2
+                  class="text-4xl md:text-5xl font-black text-primary serif mt-2 italic"
+                >
+                  Latest Teachings
+                </h2>
+              </div>
+              <a
+                href="{% url 'sermons' %}"
+                class="flex items-center gap-2 text-primary font-bold hover:text-secondary transition-colors group"
+              >
+                View All Sermons
+                <i
+                  data-lucide="chevron-right"
+                  class="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                ></i>
+              </a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {% for sermon in sermons %}
+              <div
+                class="sermon-card group bg-white rounded-[2rem] overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500"
+              >
+                <div class="relative h-52">
+                  <img
+                    src="{{ sermon.image.url }}"
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    alt="{{ sermon.title }}"
+                  />
+                  <div
+                    class="absolute inset-0 bg-primary/20 group-hover:bg-primary/40 transition-colors"
+                  ></div>
+                  <div
+                    class="absolute inset-0 flex items-center justify-center"
+                  >
+                    <a
+                      href="{{ sermon.video_url|default:'#' }}"
+                      class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-primary shadow-xl opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300"
+                    >
+                      <i data-lucide="play" class="fill-current w-5 h-5"></i>
+                    </a>
+                  </div>
+                </div>
+                <div class="p-6">
+                  <p
+                    class="text-accent font-bold text-[10px] uppercase tracking-tighter mb-2"
+                  >
+                    {{ sermon.category }}
+                  </p>
+                  <h3
+                    class="text-lg font-black text-primary leading-tight mb-4"
+                  >
+                    {{ sermon.title }}
+                  </h3>
+                  <div
+                    class="flex items-center justify-between text-[11px] text-slate-400 font-bold border-t pt-4"
+                  >
+                    <span class="flex items-center gap-1">
+                      <i data-lucide="calendar" class="w-3 h-3"></i>
+                      {{ sermon.date|date:"M d" }}
+                    </span>
+
+                    <span class="flex items-center gap-1">
+                      <i data-lucide="clock" class="w-3 h-3"></i>
+                      {{ sermon.duration }} MIN
+                    </span>
+                  </div>
+                </div>
+              </div>
+              {% empty %}
+              <p class="text-center col-span-full text-slate-500">
+                No sermons uploaded yet.
+              </p>
+              {% endfor %}
+            </div>
+          </div>
+        </section>
+
+        <!-- Core Values -->
+        <div class="py-32 max-w-7xl mx-auto px-4">
+          <div class="text-center mb-20">
+            <span
+              class="text-accent font-black uppercase tracking-widest text-sm"
+              >Rooted & Grounded</span
+            >
+            <h2
+              class="text-4xl md:text-6xl font-black text-primary serif mt-2 italic"
+            >
+              The TVA Experience
+            </h2>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="group">
+              <div
+                class="w-20 h-20 bg-brandLight rounded-[2rem] flex items-center justify-center mb-8 group-hover:bg-primary transition-all duration-500"
+              >
+                <i
+                  data-lucide="flame"
+                  class="w-10 h-10 text-primary group-hover:text-secondary"
+                ></i>
+              </div>
+              <h3 class="text-2xl font-black text-primary mb-4">
+                Prayer Altars
+              </h3>
+              <p class="text-slate-600 leading-relaxed">
+                Consistently building spiritual capacity through focused and
+                effective intercession.
+              </p>
+            </div>
+            <div class="group">
+              <div
+                class="w-20 h-20 bg-brandLight rounded-[2rem] flex items-center justify-center mb-8 group-hover:bg-primary transition-all duration-500"
+              >
+                <i
+                  data-lucide="book-open"
+                  class="w-10 h-10 text-primary group-hover:text-secondary"
+                ></i>
+              </div>
+              <h3 class="text-2xl font-black text-primary mb-4">
+                Word Immersion
+              </h3>
+              <p class="text-slate-600 leading-relaxed">
+                Deep diving into the scriptures to discover the multifaceted
+                grace of our Lord.
+              </p>
+            </div>
+            <div class="group">
+              <div
+                class="w-20 h-20 bg-brandLight rounded-[2rem] flex items-center justify-center mb-8 group-hover:bg-primary transition-all duration-500"
+              >
+                <i
+                  data-lucide="users"
+                  class="w-10 h-10 text-primary group-hover:text-secondary"
+                ></i>
+              </div>
+              <h3 class="text-2xl font-black text-primary mb-4">
+                Garden Fellowship
+              </h3>
+              <p class="text-slate-600 leading-relaxed">
+                A loving environment where every member is nurtured and
+                supported in their journey.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- store -->
+        <section id="store-preview" class="py-24 bg-white">
+          <div
+            class="max-w-7xl mx-auto px-4 flex flex-col lg:flex-row items-center gap-16"
+          >
+            <div class="lg:w-1/2 store-image">
+              <img
+                src="https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&q=80&w=2000"
+                class="rounded-[3rem] shadow-2xl"
+              />
+            </div>
+            <div class="lg:w-1/2 store-text">
+              <h2
+                class="text-4xl md:text-5xl font-black text-primary serif mb-6"
+              >
+                Spiritual Resources <br /><span class="text-secondary italic"
+                  >for Growth</span
+                >
+              </h2>
+              <p class="text-slate-600 text-lg mb-8">
+                Access our curated collection of books, music, and study
+                materials designed to deepen your walk with Christ.
+              </p>
+              <div class="grid grid-cols-2 gap-4 mb-10">
+                <div
+                  class="p-4 bg-slate-50 rounded-2xl border-l-4 border-secondary"
+                >
+                  <h4 class="font-black text-primary">Books</h4>
+                  <p class="text-xs text-slate-500">In-depth study guides</p>
+                </div>
+                <div
+                  class="p-4 bg-slate-50 rounded-2xl border-l-4 border-secondary"
+                >
+                  <h4 class="font-black text-primary">Courses/Apparel</h4>
+                  <p class="text-xs text-slate-500">TVA Merchandise</p>
+                </div>
+              </div>
+              <a
+                href="{% url 'store' %}"
+                class="bg-primary text-white px-10 py-4 rounded-2xl font-black hover:bg-secondary hover:text-primary transition-all inline-block shadow-lg"
+                >Visit the Store</a
+              >
+            </div>
+          </div>
+        </section>
+        <!-- meet the pastor -->
+        <section
+          id="pastor-section"
+          class="py-24 bg-primary text-white overflow-hidden"
+        >
+          <div
+            class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-16 items-center"
+          >
+            <div class="order-2 md:order-1 pastor-info">
+              <span class="text-secondary font-bold tracking-[0.3em] uppercase"
+                >Our Shepherd</span
+              >
+              <h2 class="text-5xl font-black serif mt-4 mb-6">
+                Pastor Adeyinka
+              </h2>
+              <p class="text-emerald-50/70 text-lg leading-relaxed mb-8 italic">
+                "My heartbeat is to see a generation that doesn't just know
+                about God, but experiences His tangible presence every single
+                day."
+              </p>
+              <p class="text-emerald-50/70 mb-10">
+                With over 20 years of ministry, Pastor John leads TVA with a
+                vision for revival and a passion for the broken-hearted.
+              </p>
+              <a
+                href="{% url 'about' %}"
+                class="border-2 border-secondary text-secondary px-8 py-3 rounded-full font-black hover:bg-secondary hover:text-primary transition-all"
+                >Read Full Bio</a
+              >
+            </div>
+            <div class="order-1 md:order-2 pastor-image relative">
+              <div
+                class="absolute inset-0 bg-secondary rounded-full blur-[120px] opacity-20"
+              ></div>
+              {% load static %}
+              <img
+                src="{% static './images/sam.jpeg' %}"
+                class="relative z-10 rounded-3xl grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl w-full h-[450px] object-cover object-top"
+                alt="Pastor Adeyinka"
+              />
+            </div>
+          </div>
+        </section>
+
+        <!-- Event and news -->
+        <section id="events" class="py-24 bg-white">
+          <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+              <h2 class="text-4xl font-black text-primary serif">
+                Upcoming Events & News
+              </h2>
+              <div
+                class="w-24 h-1 bg-secondary mx-auto mt-4 rounded-full"
+              ></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {% for event in events %}
+              <div
+                class="event-card group bg-slate-50 p-6 rounded-3xl border border-transparent hover:border-secondary transition-all hover:shadow-xl"
+              >
+                <div class="text-secondary font-black text-3xl mb-4">
+                  {{ event.date|date:"d" }}
+                  <span class="text-sm uppercase text-slate-400"
+                    >{{ event.date|date:"M" }}</span
+                  >
+                </div>
+
+                <h3 class="text-xl font-black text-primary mb-2 leading-tight">
+                  {{ event.title }}
+                </h3>
+
+                <p class="text-slate-500 mb-6 text-sm">
+                  {{ event.description }}
+                </p>
+
+                <a
+                  href="{% url 'events' %}"
+                  class="text-primary font-bold flex items-center gap-2 group-hover:gap-4 transition-all"
+                >
+                  Details
+                  <i
+                    data-lucide="arrow-right"
+                    class="w-4 h-4 text-secondary"
+                  ></i>
+                </a>
+              </div>
+              {% empty %}
+              <p class="text-center col-span-full text-slate-400">
+                No upcoming events scheduled at the moment.
+              </p>
+              {% endfor %}
+            </div>
+          </div>
+        </section>
+
+        <!-- Family Portfolio -->
+
+        <section class="py-24 bg-slate-50 overflow-hidden">
+          <div
+            class="max-w-7xl mx-auto px-4 mb-12 flex justify-between items-center"
+          >
+            <h2 class="text-3xl font-black text-primary serif">
+              Our Family Gallery
+            </h2>
+            <div class="flex gap-2">
+              <button
+                type="button"
+                id="forcePrev"
+                class="w-12 h-12 rounded-full border-2 border-primary flex items-center justify-center cursor-pointer hover:bg-primary hover:text-white transition-all z-50"
+              >
+                <i data-lucide="chevron-left"></i>
+              </button>
+              <button
+                type="button"
+                id="forceNext"
+                class="w-12 h-12 rounded-full border-2 border-primary flex items-center justify-center cursor-pointer hover:bg-primary hover:text-white transition-all z-50"
+              >
+                <i data-lucide="chevron-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="relative overflow-hidden w-full">
+            <div class="max-w-7xl mx-auto px-4">
+              <div
+                id="gallery-track"
+                class="flex gap-6 transition-transform duration-500 ease-in-out min-w-max"
+                style="transform: translateX(0px)"
+              >
+                {% for item in gallery_images %}
+                <img
+                  src="{{ item.image_url }}"
+                  alt="{{ item.caption }}"
+                  class="w-80 h-96 object-cover rounded-3xl flex-shrink-0"
+                />
+                {% empty %}
+                <p class="text-slate-400">No images in the gallery yet.</p>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Featured Quote -->
+        <div class="bg-primary py-24 relative overflow-hidden">
+          <div
+            class="absolute top-0 right-0 w-96 h-96 bg-accent opacity-10 rounded-full blur-[100px] -mr-48 -mt-48"
+          ></div>
+          <div class="max-w-4xl mx-auto px-4 text-center">
+            <i
+              data-lucide="quote"
+              class="w-16 h-16 text-secondary/30 mx-auto mb-8"
+            ></i>
+            <h2
+              class="text-3xl md:text-5xl font-black text-white mb-10 serif leading-tight"
+            >
+              "In this Garden, we don't just pray for rain; we plant seeds of
+              faith that command the heavens to open."
+            </h2>
+            <div class="w-20 h-1 bg-secondary mx-auto mb-6"></div>
+            <p
+              class="text-secondary font-bold uppercase tracking-widest text-sm"
+            >
+              TVA Mandate
+            </p>
+          </div>
+        </div>
+
+        <!-- Offering and giving -->
+        <section class="py-24 bg-white">
+          <div
+            class="max-w-4xl mx-auto px-4 bg-slate-50 rounded-[3rem] p-12 text-center shadow-inner relative overflow-hidden"
+          >
+            <div
+              class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#F5A623] via-[#8B1A3E] to-[#F5A623]"
+            ></div>
+
+            <i
+              data-lucide="heart"
+              class="w-12 h-12 text-[#8B1A3E] mx-auto mb-6"
+            ></i>
+
+            <h2 class="text-4xl font-black text-[#8B1A3E] mb-6 serif">
+              Partner with the Vision
+            </h2>
+
+            <p class="text-slate-600 text-lg mb-10">
+              Your generosity enables us to reach the world with the message of
+              Grace. Every seed sown makes an eternal difference.
+            </p>
+
+            <a
+              href="{% url 'offering' %}"
+              class="inline-block bg-[#8B1A3E] text-white px-12 py-5 rounded-2xl font-black text-xl hover:scale-105 transition-transform shadow-2xl"
+            >
+              Give Online
+            </a>
+          </div>
+        </section>
+
+        <!-- Cntact us -->
+        <section
+          id="contact-preview"
+          class="py-24 bg-white border-t border-slate-100"
+        >
+          <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16">
+            <div>
+              <h2 class="text-5xl font-black text-primary serif mb-8">
+                Get in Touch
+              </h2>
+              <div class="space-y-8">
+                <div class="flex gap-6 items-start">
+                  <div
+                    class="w-12 h-12 bg-secondary/10 text-secondary rounded-xl flex items-center justify-center flex-shrink-0"
+                  >
+                    <i data-lucide="map-pin"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-black text-primary">Our Location</h4>
+                    <p class="text-slate-500">
+                      123 Garden Lane, Sanctuary City, SC 45678
+                    </p>
+                  </div>
+                </div>
+                <div class="flex gap-6 items-start">
+                  <div
+                    class="w-12 h-12 bg-secondary/10 text-secondary rounded-xl flex items-center justify-center flex-shrink-0"
+                  >
+                    <i data-lucide="mail"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-black text-primary">Email Us</h4>
+                    <p class="text-slate-500">hello@TVA.church</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <form
+              method="POST"
+              class="bg-slate-50 p-10 rounded-[2rem] space-y-4"
+            >
+              {% csrf_token %}
+              <input
+                type="text"
+                name="name"
+                required
+                placeholder="Your Name"
+                class="w-full p-4 rounded-xl border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-secondary outline-none"
+              />
+
+              <input
+                type="email"
+                name="email"
+                required
+                placeholder="Your Email"
+                class="w-full p-4 rounded-xl border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-secondary outline-none"
+              />
+
+              <textarea
+                name="message"
+                required
+                placeholder="How can we pray for you?"
+                rows="4"
+                class="w-full p-4 rounded-xl border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-secondary outline-none"
+              ></textarea>
+
+              <button
+                type="submit"
+                class="w-full bg-primary text-white py-4 rounded-xl font-black hover:bg-secondary transition-colors"
+              >
+                Send Message
+              </button>
+            </form>
+          </div>
+        </section>
     </main>
 {% endblock %}

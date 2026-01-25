@@ -124,25 +124,116 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- Reveal Animations on Scroll ---
+    // --- 5. Gallery Slider Logic ---
+    const track = document.getElementById("gallery-track");
+    const btnPrev = document.getElementById("forcePrev");
+    const btnNext = document.getElementById("forceNext");
+    
+    if (track && btnPrev && btnNext) {
+        let scrollAmount = 0;
+        const scrollStep = 340; // width of card + gap approx
+        
+        btnNext.addEventListener("click", () => {
+            const maxScroll = track.scrollWidth - track.clientWidth;
+            scrollAmount += scrollStep;
+            if (scrollAmount > maxScroll) scrollAmount = 0; // Loop back
+            track.style.transform = `translateX(-${scrollAmount}px)`;
+        });
+
+        btnPrev.addEventListener("click", () => {
+            scrollAmount -= scrollStep;
+            if (scrollAmount < 0) {
+                 // Go to end
+                 const maxScroll = track.scrollWidth - track.clientWidth;
+                 scrollAmount = maxScroll > 0 ? maxScroll : 0; 
+            }
+            track.style.transform = `translateX(-${scrollAmount}px)`;
+        });
+    }
+
+    // --- 6. Advanced Scroll Animations (GSAP) ---
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);
 
-        const cards = document.querySelectorAll('.glass-card');
-        cards.forEach(card => {
-            gsap.fromTo(card,
-                { y: 50, opacity: 0 },
-                {
-                    y: 0, 
-                    opacity: 1, 
-                    duration: 0.8,
-                    scrollTrigger: {
-                        trigger: card,
-                        start: "top 85%",
-                    }
+        // Utility function for consistent triggers
+        const setupTrigger = (trigger, animationData) => {
+            return {
+                ...animationData,
+                scrollTrigger: {
+                    trigger: trigger,
+                    start: "top 85%", // Start animation when top of element hits 85% of viewport
+                    toggleActions: "play none none reverse" 
                 }
-            )
-        });
+            };
+        };
+
+        // 1. Hero Text Stagger (already handled by CSS/HTML structure usually, but let's reinforce)
+        // (Skipping Hero to avoid conflict with existing carousel logic which handles opacity)
+
+        // 2. About Section
+        gsap.from(".glass-card img", setupTrigger(".glass-card", {
+            x: -50, opacity: 0, duration: 1, ease: "power2.out"
+        }));
+        gsap.from(".lg\\:w-1\\/2 h2", setupTrigger(".lg\\:w-1\\/2 h2", {
+            x: 50, opacity: 0, duration: 1, delay: 0.2
+        }));
+
+        // 3. Sermons Preview
+        gsap.from("#sermons-preview .sermon-header", setupTrigger("#sermons-preview", {
+            y: 30, opacity: 0, duration: 0.8
+        }));
+        gsap.from(".sermon-card", setupTrigger("#sermons-preview .grid", {
+            y: 50, opacity: 0, duration: 0.8, stagger: 0.1
+        }));
+
+        // 4. Core Values (GOGAP / TVA Experience)
+        gsap.from(".grid .group", setupTrigger(".py-32 .grid", {
+            scale: 0.9, opacity: 0, duration: 0.6, stagger: 0.2, ease: "back.out(1.7)"
+        }));
+
+        // 5. Store Section
+        gsap.from(".store-image", setupTrigger("#store-preview", {
+            x: -50, opacity: 0, duration: 1
+        }));
+        gsap.from(".store-text", setupTrigger("#store-preview", {
+            x: 50, opacity: 0, duration: 1
+        }));
+
+        // 6. Pastor Section
+        gsap.from(".pastor-info", setupTrigger("#pastor-section", {
+            x: -50, opacity: 0, duration: 1
+        }));
+        gsap.from(".pastor-image", setupTrigger("#pastor-section", {
+            scale: 0.8, opacity: 0, duration: 1, ease: "power2.out"
+        }));
+
+        // 7. Events Section
+        gsap.from(".event-card", setupTrigger("#events", {
+            y: 30, opacity: 0, duration: 0.8, stagger: 0.1
+        }));
+
+        // 8. Gallery Section
+        gsap.from("#gallery-track img", setupTrigger("#gallery-track", {
+            x: 100, opacity: 0, duration: 0.8, stagger: 0.1
+        }));
+
+        // 9. Featured Quote
+        gsap.from(".bg-primary i, .bg-primary h2", setupTrigger(".bg-primary.py-24", {
+            scale: 0.9, opacity: 0, duration: 1, stagger: 0.2
+        }));
+
+        // 10. Offering Section
+        gsap.from(".shadow-inner", setupTrigger(".py-24.bg-white .shadow-inner", {
+            y: 50, opacity: 0, duration: 1, ease: "elastic.out(1, 0.7)"
+        }));
+
+        // 11. Contact Section
+        gsap.from("#contact-preview h2, #contact-preview .space-y-8", setupTrigger("#contact-preview", {
+            x: -30, opacity: 0, duration: 1, stagger: 0.2
+        }));
+        gsap.from("#contact-preview form", setupTrigger("#contact-preview", {
+            x: 30, opacity: 0, duration: 1
+        }));
     }
 
     // Re-run icon initialization for any dynamic elements
