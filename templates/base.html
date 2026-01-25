@@ -151,7 +151,7 @@
                 <!-- CTA & Mobile Toggle -->
                 <div class="flex items-center gap-4">
                     <div class="hidden md:block">
-                        <a href="{% url 'offering' %}" class="btn-glass px-6 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 text-white bg-white/20 border-white/20 hover:bg-white hover:text-primary">
+                        <a href="{% url 'offering' %}" class="px-6 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 text-white bg-secondary border border-secondary hover:bg-white hover:text-secondary transition-colors shadow-lg shadow-secondary/20">
                             Give Now <i data-lucide="heart" class="w-4 h-4 fill-current"></i>
                         </a>
                     </div>
@@ -164,53 +164,75 @@
         </div>
 
         <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu" class="hidden fixed inset-0 z-[100] bg-white/98 backdrop-blur-xl flex flex-col">
-            <div class="flex justify-between items-center p-6 border-b border-primary/5">
-                <span class="text-xl font-black text-primary uppercase tracking-wider">Menu</span>
-                <button onclick="toggleMenu()" class="p-2 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200">
-                    <i data-lucide="x" class="w-6 h-6"></i>
+        <div id="mobile-menu" class="hidden fixed inset-y-0 left-0 w-1/2 z-[100] bg-white/10 backdrop-blur-xl flex flex-col border-r border-white/20 shadow-2xl">
+            <div class="flex justify-between items-center p-6 border-b border-white/10">
+                <span class="text-base font-black text-white uppercase tracking-wider">Menu</span>
+                <button onclick="toggleMenu()" class="p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-all">
+                    <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
 
             <div class="flex-grow overflow-y-auto p-6 pb-32">
                 <div class="flex flex-col space-y-2">
-                    <a href="{% url 'home' %}" class="text-2xl font-black text-primary/80 hover:text-primary py-3 block border-b border-slate-100">Home</a>
+                    <a href="{% url 'home' %}" class="text-base font-black text-white hover:text-secondary py-2 block border-b border-white/10">Home</a>
                     
                     <!-- Mobile Accordion: About -->
-                    <div class="border-b border-slate-100">
-                        <button onclick="toggleAccordion('mobile-about')" class="w-full flex justify-between items-center py-3 text-2xl font-black text-primary/80 hover:text-primary">
-                            About <i data-lucide="chevron-down" class="w-5 h-5 transition-transform" id="icon-mobile-about"></i>
+                    <div class="border-b border-white/10">
+                        <button onclick="toggleAccordion('mobile-about')" class="w-full flex justify-between items-center py-2 text-base font-black text-white hover:text-secondary">
+                            About <i data-lucide="chevron-down" class="w-4 h-4 transition-transform" id="icon-mobile-about"></i>
                         </button>
-                        <div id="mobile-about" class="hidden pl-4 space-y-2 pb-4 bg-slate-50/50 rounded-xl mb-2">
-                             <a href="{% url 'about' %}" class="block text-lg font-bold text-slate-600 py-2">About TVA</a>
-                             <a href="#" class="block text-lg font-bold text-slate-600 py-2">Founding Pastor</a>
-                             <a href="#" class="block text-lg font-bold text-slate-600 py-2">Presiding Pastor</a>
-                             <a href="#" class="block text-lg font-bold text-slate-600 py-2">Pastoral Team</a>
+                        <div id="mobile-about" class="hidden pl-4 space-y-1 pb-2 bg-white/5 rounded-xl mb-2 mt-2">
+                             <a href="{% url 'about' %}" class="block text-sm font-bold text-white/80 hover:text-white py-1.5">About TVA</a>
+                             <a href="#" class="block text-sm font-bold text-white/80 hover:text-white py-1.5">Founding Pastor</a>
+                             <a href="#" class="block text-sm font-bold text-white/80 hover:text-white py-1.5">Presiding Pastor</a>
+                             <a href="#" class="block text-sm font-bold text-white/80 hover:text-white py-1.5">Pastoral Team</a>
                         </div>
                     </div>
 
                     <!-- Mobile Accordion: Get Involved -->
-                    <div class="border-b border-slate-100">
-                        <button onclick="toggleAccordion('mobile-involved')" class="w-full flex justify-between items-center py-3 text-2xl font-black text-primary/80 hover:text-primary">
-                            Get Involved <i data-lucide="chevron-down" class="w-5 h-5 transition-transform" id="icon-mobile-involved"></i>
+                    <div class="border-b border-white/10">
+                        <button onclick="toggleAccordion('mobile-involved')" class="w-full flex justify-between items-center py-2 text-base font-black text-white hover:text-secondary">
+                            Get Involved <i data-lucide="chevron-down" class="w-4 h-4 transition-transform" id="icon-mobile-involved"></i>
                         </button>
-                        <div id="mobile-involved" class="hidden pl-4 space-y-2 pb-4 bg-slate-50/50 rounded-xl mb-2">
-                             <a href="#" class="block text-lg font-bold text-slate-600 py-2">Membership Pathway</a>
-                             <a href="#" class="block text-lg font-bold text-slate-600 py-2">G-12 Academy</a>
-                             <a href="#" class="block text-lg font-bold text-slate-600 py-2">Service Groups</a>
-                             <a href="#" class="block text-lg font-bold text-slate-600 py-2">City Altar</a>
-                             <a href="#" class="block text-lg font-bold text-slate-600 py-2">Fellowship</a>
+                        <div id="mobile-involved" class="hidden pl-4 space-y-1 pb-2 bg-white/5 rounded-xl mb-2 mt-2">
+                             <a href="#" class="block text-sm font-bold text-white/80 hover:text-white py-1.5">Membership Pathway</a>
+                             <a href="#" class="block text-sm font-bold text-white/80 hover:text-white py-1.5">G-12 Academy</a>
+                             
+                             <!-- Nested Service Group -->
+                             <div>
+                                <button onclick="toggleAccordion('mobile-service')" class="w-full flex justify-between items-center py-1.5 text-sm font-bold text-white/80 hover:text-white">
+                                    Service Groups <i data-lucide="chevron-down" class="w-3 h-3 transition-transform" id="icon-mobile-service"></i>
+                                </button>
+                                <div id="mobile-service" class="hidden pl-4 border-l border-white/10 ml-1 mt-1 space-y-1">
+                                    <a href="#" class="block text-xs font-bold text-white/60 hover:text-white py-1">Departments</a>
+                                    <a href="#" class="block text-xs font-bold text-white/60 hover:text-white py-1">Register</a>
+                                </div>
+                             </div>
+
+                             <a href="#" class="block text-sm font-bold text-white/80 hover:text-white py-1.5">City Altar</a>
+                             
+                             <!-- Nested Fellowship -->
+                             <div>
+                                <button onclick="toggleAccordion('mobile-fellowship')" class="w-full flex justify-between items-center py-1.5 text-sm font-bold text-white/80 hover:text-white">
+                                    Fellowship <i data-lucide="chevron-down" class="w-3 h-3 transition-transform" id="icon-mobile-fellowship"></i>
+                                </button>
+                                <div id="mobile-fellowship" class="hidden pl-4 border-l border-white/10 ml-1 mt-1 space-y-1">
+                                    <a href="#" class="block text-xs font-bold text-white/60 hover:text-white py-1">Box-18</a>
+                                    <a href="#" class="block text-xs font-bold text-white/60 hover:text-white py-1">V-Mums</a>
+                                    <a href="#" class="block text-xs font-bold text-white/60 hover:text-white py-1">Singles & Youths</a>
+                                </div>
+                             </div>
                         </div>
                     </div>
 
-                    <a href="{% url 'sermons' %}" class="text-2xl font-black text-primary/80 hover:text-primary py-3 block border-b border-slate-100">Sermons</a>
-                    <a href="{% url 'events' %}" class="text-2xl font-black text-primary/80 hover:text-primary py-3 block border-b border-slate-100">Events</a>
-                    <a href="{% url 'store' %}" class="text-2xl font-black text-primary/80 hover:text-primary py-3 block border-b border-slate-100">Store</a>
-                    <a href="#" class="text-2xl font-black text-primary/80 hover:text-primary py-3 block border-b border-slate-100">Blog</a>
-                    <a href="{% url 'contact' %}" class="text-2xl font-black text-primary/80 hover:text-primary py-3 block border-b border-slate-100">Contact</a>
+                    <a href="{% url 'sermons' %}" class="text-base font-black text-white hover:text-secondary py-2 block border-b border-white/10">Sermons</a>
+                    <a href="{% url 'events' %}" class="text-base font-black text-white hover:text-secondary py-2 block border-b border-white/10">Events</a>
+                    <a href="{% url 'store' %}" class="text-base font-black text-white hover:text-secondary py-2 block border-b border-white/10">Store</a>
+                    <a href="#" class="text-base font-black text-white hover:text-secondary py-2 block border-b border-white/10">Blog</a>
+                    <a href="{% url 'contact' %}" class="text-base font-black text-white hover:text-secondary py-2 block border-b border-white/10">Contact</a>
                 </div>
 
-                <a href="{% url 'offering' %}" class="mt-8 w-full btn-glass bg-primary text-white py-4 rounded-xl font-bold flex justify-center items-center gap-2 shadow-xl shadow-primary/20 hover:scale-[1.02] transition-transform">
+                <a href="{% url 'offering' %}" class="mt-6 w-full bg-secondary text-white py-3 rounded-xl font-bold flex justify-center items-center gap-2 shadow-xl shadow-secondary/20 hover:scale-[1.02] transition-transform text-sm">
                     Give Now <i data-lucide="heart" class="w-4 h-4 fill-current"></i>
                 </a>
             </div>
