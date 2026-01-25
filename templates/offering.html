@@ -1,42 +1,9 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TVA | Partner with Grace</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="{% static 'style.css' %}?v=2" />
-    <script src="{% static 'index.js' %}" defer></script>
-    <link rel="icon" type="image/jpeg" href="{% static 'images/tva-logo.jpg' %}" />
-</head>
-<body class="overflow-x-hidden text-slate-900 bg-primary">
-    <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <a href="{% url 'home' %}" class="flex items-center gap-3">
-                    <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-secondary shadow-md bg-white">
-                        <img src="{% static 'images/tva-logo.jpg' %}" alt="TVA Logo" class="w-full h-full object-cover" />
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="text-2xl font-black tracking-tighter text-primary leading-none uppercase">TVA</span>
-                        <span class="text-[10px] uppercase tracking-[0.1em] text-accent font-bold">The Vineyard Assembly</span>
-                    </div>
-                </a>
-                <div class="hidden md:flex space-x-8 items-center font-bold text-slate-600">
-                    <a href="{% url 'home' %}" class="hover:text-primary">Home</a>
-                    <a href="{% url 'about' %}" class="hover:text-primary">About</a>
-                    <a href="{% url 'sermons' %}" class="hover:text-primary">Sermons</a>
-                    <a href="{% url 'events' %}" class="hover:text-primary">Events</a>
-                    <a href="{% url 'store' %}" class="hover:text-primary">Store</a>
-                    <a href="{% url 'contact' %}" class="hover:text-primary">Contact</a>
-                    <a href="{% url 'offering' %}" class="bg-secondary text-primary px-6 py-2.5 rounded-full font-extrabold hover:bg-primary hover:text-white transition-all shadow-lg">Give Now</a>
-                </div>
-            </div>
-        </div>
-    </nav>
 
+{% block title %}Partner with Grace | TVA{% endblock %}
+
+{% block content %}
     <main class="mt-20">
         <section id="offering-page" class="py-24 relative overflow-hidden bg-primary">
             <div class="absolute inset-0 opacity-5">
@@ -78,19 +45,6 @@
                     <button onclick="openOfferingModal()" class="w-full bg-primary text-white py-6 rounded-2xl font-black text-xl hover:bg-secondary hover:text-primary transition-all shadow-xl uppercase tracking-widest">
                         Confirm Giving
                     </button>
-
-                    <div
-                        id="mobile-menu"
-                        class="hidden fixed inset-0 z-40 bg-white/95 backdrop-blur-xl"
-                        style="display: none;"
-                    >
-                        <div class="h-full flex flex-col pt-32 pb-10 items-center gap-8 overflow-y-auto">
-                            <div class="mt-8 flex items-center justify-center gap-4 opacity-40 grayscale">
-                                <i data-lucide="shield-check" class="w-6 h-6"></i>
-                                <span class="text-xs font-bold uppercase tracking-tighter">Encrypted & Secure</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -140,15 +94,9 @@
             </div>
         </div>
     </div>
+{% endblock %}
 
-    <footer class="bg-primary pt-24 pb-12 text-white/70">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">
-                &copy; 2026 The Vineyard Assembly. All rights reserved.
-            </p>
-        </div>
-    </footer>
-
+{% block extra_head %}
     <script>
         let currentAmount = "0.00";
 
@@ -187,8 +135,5 @@
             const accNum = document.getElementById('acc-num').innerText;
             navigator.clipboard.writeText(accNum).then(() => alert("Account Number Copied!"));
         }
-
-        lucide.createIcons();
     </script>
-</body>
-</html>
+{% endblock %}

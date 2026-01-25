@@ -1,166 +1,28 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TVA | The Vineyard Assembly</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+{% block title %}About Us | TVA{% endblock %}
 
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-    <link rel="stylesheet" href="{% static 'style.css' %}?v=2" />
-
-    <script src="{% static 'index.js' %}" defer></script>
-
-    <link
-      rel="icon"
-      type="image/jpeg"
-      href="{% static 'images/tva-logo.jpg' %}"
-    />
-  </head>
-
-  <body class="overflow-x-hidden text-slate-900">
-    <nav
-      class="fixed top-0 w-full z-50 glass-nav transition-all duration-300"
-      id="navbar"
-    >
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-20">
-          <a
-            href="{% url 'home' %}"
-            class="flex items-center gap-3 cursor-pointer"
-          >
-            <div
-              class="w-14 h-14 rounded-full overflow-hidden border-2 border-secondary shadow-md bg-white"
-            >
-              <img
-                src="{% static 'images/tva-logo.jpg' %}"
-                alt="TVA Logo"
-                class="w-full h-full object-cover"
-              />
-            </div>
-            <div class="flex flex-col">
-              <span
-                class="text-2xl font-black tracking-tighter text-primary leading-none uppercase"
-                >TVA</span
-              >
-              <span
-                class="text-[10px] uppercase tracking-[0.1em] text-accent font-bold"
-                >The Vineyard Assembly</span
-              >
-            </div>
-          </a>
-
-          <div class="hidden md:flex space-x-8 items-center">
-            <a
-              href="{% url 'home' %}"
-              class="text-slate-600 hover:text-primary font-bold transition-colors"
-              >Home</a
-            >
-            <a
-              href="{% url 'about' %}"
-              class="text-slate-600 hover:text-primary font-bold transition-colors"
-              >About</a
-            >
-            <a
-              href="{% url 'sermons' %}"
-              class="text-slate-600 hover:text-primary font-bold transition-colors"
-              >Sermons</a
-            >
-
-            <a
-              href="{% url 'events' %}"
-              class="text-slate-600 hover:text-primary font-bold transition-colors"
-              >Events</a
-            >
-
-            <a
-              href="{% url 'store' %}"
-              class="text-slate-600 hover:text-primary font-bold transition-colors"
-              >Store</a
-            >
-            <a
-              href="{% url 'contact' %}"
-              class="text-slate-600 hover:text-primary font-bold transition-colors"
-              >Contact</a
-            >
-
-            <a
-              href="{% url 'offering' %}"
-              class="bg-secondary text-primary px-6 py-2.5 rounded-full font-extrabold hover:bg-primary hover:text-white transition-all shadow-lg transform hover:-translate-y-0.5 inline-block text-center"
-            >
-              Give Now
-            </a>
-          </div>
-
-          <div class="md:hidden flex items-center">
-            <button id="mobile-menu-button" class="text-primary">
-              <i data-lucide="menu" class="w-8 h-8"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Mobile Menu Overlay -->
-      <div
-        id="mobile-menu"
-        class="hidden fixed inset-0 z-40 bg-white/95 backdrop-blur-xl"
-        style="display: none;"
-      >
-        <div class="h-full flex flex-col pt-32 pb-10 items-center gap-8 overflow-y-auto">
-            <a href="{% url 'home' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">Home</a>
-            <a href="{% url 'about' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">About</a>
-            <a href="{% url 'sermons' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">Sermons</a>
-            <a href="{% url 'events' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">Events</a>
-            <a href="{% url 'store' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">Store</a>
-            <a href="{% url 'contact' %}" class="text-3xl font-black text-primary hover:text-secondary transition-colors">Contact</a>
-            
-            <div class="w-20 h-1 bg-primary/20 rounded-full my-4"></div>
-            
-            <a href="{% url 'offering' %}" class="px-8 py-4 rounded-2xl text-xl font-bold bg-secondary text-white shadow-xl">
-                Give Online
-            </a>
-        </div>
-      </div>
-    </nav>
-
-
-
+{% block content %}
     <!-- Header Section -->
-    <header
-      class="relative h-[45vh] flex items-center justify-center overflow-hidden"
-    >
+    <header class="relative h-[45vh] flex items-center justify-center overflow-hidden">
       <img
         src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80&w=2000"
         alt="Serene Garden Path"
         class="absolute inset-0 w-full h-full object-cover"
       />
 
-      <div
-        class="absolute inset-0 bg-gradient-to-b from-primary/60 via-primary/40 to-primary/80"
-      ></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-primary/60 via-primary/40 to-primary/80"></div>
 
       <div class="relative z-10 text-center px-4 mt-20">
-        <span
-          class="text-secondary font-black uppercase tracking-[0.4em] text-xs mb-4 block animate-fade-in"
-        >
+        <span class="text-secondary font-black uppercase tracking-[0.4em] text-xs mb-4 block animate-fade-in">
           Our Identity & Calling
         </span>
-        <h1
-          class="text-5xl md:text-7xl font-black text-white serif mb-6 tracking-tight"
-        >
+        <h1 class="text-5xl md:text-7xl font-black text-white serif mb-6 tracking-tight">
           Who We Are
         </h1>
-        <p
-          class="text-white/90 text-lg md:text-xl max-w-2xl mx-auto font-medium leading-relaxed italic"
-        >
-          Rooted in grace, growing in power, and dedicated to the cultivation of
-          souls through prayer.
+        <p class="text-white/90 text-lg md:text-xl max-w-2xl mx-auto font-medium leading-relaxed italic">
+          Rooted in grace, growing in power, and dedicated to the cultivation of souls through prayer.
         </p>
       </div>
     </header>
@@ -171,9 +33,7 @@
         <div class="max-w-7xl mx-auto px-4">
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div class="relative">
-              <div
-                class="aspect-square bg-secondary rounded-[3rem] absolute -top-6 -left-6 -z-10 w-full"
-              ></div>
+              <div class="aspect-square bg-secondary rounded-[3rem] absolute -top-6 -left-6 -z-10 w-full"></div>
 
               <div class="glass-card p-4 -rotate-2 hover:rotate-0 transition-transform duration-700 reveal-card">
               <img
@@ -183,15 +43,11 @@
               />
               </div>
 
-              <div
-                class="absolute -bottom-10 -right-10 bg-white p-10 rounded-[2rem] shadow-2xl border-l-8 border-accent hidden md:block"
-              >
+              <div class="absolute -bottom-10 -right-10 bg-white p-10 rounded-[2rem] shadow-2xl border-l-8 border-accent hidden md:block">
                 <p class="text-primary font-black text-2xl serif italic">
                   {{ about.established_year }}
                 </p>
-                <p
-                  class="text-slate-400 font-bold text-xs uppercase tracking-tighter"
-                >
+                <p class="text-slate-400 font-bold text-xs uppercase tracking-tighter">
                   {{ about.established_text }}
                 </p>
               </div>
@@ -199,10 +55,7 @@
 
             <div class="space-y-8">
               <div>
-                <span
-                  class="text-accent font-black uppercase tracking-[0.3em] text-sm mb-2 block"
-                  >{{ about.subtitle }}</span
-                >
+                <span class="text-accent font-black uppercase tracking-[0.3em] text-sm mb-2 block">{{ about.subtitle }}</span>
                 <h2 class="text-5xl font-black text-primary serif">
                   {{ about.title }}
                 </h2>
@@ -212,10 +65,7 @@
                 {{ about.description }}
               </p>
 
-              <a
-                href="{% url 'contact' %}"
-                class="inline-block bg-primary text-white px-8 py-4 rounded-2xl font-bold hover:bg-accent transition-all shadow-xl"
-              >
+              <a href="{% url 'contact' %}" class="inline-block bg-primary text-white px-8 py-4 rounded-2xl font-bold hover:bg-accent transition-all shadow-xl">
                 Contact Our Team
               </a>
             </div>
@@ -228,22 +78,14 @@
     <section class="py-24 bg-white">
       <div class="max-w-7xl mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div
-            class="relative group p-12 glass-card overflow-hidden hover:bg-white/60 transition-colors reveal-card"
-          >
-            <div
-              class="absolute -right-10 -top-10 w-40 h-40 bg-accent/5 rounded-full blur-3xl group-hover:bg-accent/10 transition-all"
-            ></div>
+          <div class="relative group p-12 glass-card overflow-hidden hover:bg-white/60 transition-colors reveal-card">
+            <div class="absolute -right-10 -top-10 w-40 h-40 bg-accent/5 rounded-full blur-3xl group-hover:bg-accent/10 transition-all"></div>
 
             <div class="relative z-10">
-              <div
-                class="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-8"
-              >
+              <div class="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-8">
                 <i data-lucide="eye" class="w-8 h-8 text-accent"></i>
               </div>
-              <span
-                class="text-accent font-black uppercase tracking-[0.2em] text-xs mb-3 block"
-              >
+              <span class="text-accent font-black uppercase tracking-[0.2em] text-xs mb-3 block">
                 {{ about.vision_subtitle }}
               </span>
               <h2 class="text-4xl font-black text-primary serif mb-6">
@@ -255,23 +97,14 @@
             </div>
           </div>
 
-          <div
-            class="relative group p-12 glass-dark overflow-hidden reveal-card"
-            style="transition-delay: 0.1s"
-          >
-            <div
-              class="absolute -right-10 -top-10 w-40 h-40 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-all"
-            ></div>
+          <div class="relative group p-12 glass-dark overflow-hidden reveal-card" style="transition-delay: 0.1s">
+            <div class="absolute -right-10 -top-10 w-40 h-40 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-all"></div>
 
             <div class="relative z-10">
-              <div
-                class="w-16 h-16 bg-secondary/20 rounded-2xl flex items-center justify-center mb-8"
-              >
+              <div class="w-16 h-16 bg-secondary/20 rounded-2xl flex items-center justify-center mb-8">
                 <i data-lucide="target" class="w-8 h-8 text-secondary"></i>
               </div>
-              <span
-                class="text-secondary font-black uppercase tracking-[0.2em] text-xs mb-3 block"
-              >
+              <span class="text-secondary font-black uppercase tracking-[0.2em] text-xs mb-3 block">
                 {{ about.mission_subtitle }}
               </span>
               <h2 class="text-4xl font-black serif mb-6">
@@ -290,10 +123,7 @@
     <section class="py-24">
       <div class="max-w-7xl mx-auto px-4">
         <div class="text-center max-w-3xl mx-auto mb-16">
-          <span
-            class="text-accent font-black uppercase tracking-[0.3em] text-sm mb-4 block"
-            >Find Us Nearby</span
-          >
+          <span class="text-accent font-black uppercase tracking-[0.3em] text-sm mb-4 block">Find Us Nearby</span>
           <h2 class="text-5xl font-black text-primary serif mb-6">
             Our Branches
           </h2>
@@ -305,19 +135,12 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {% for branch in branches %}
-          <div
-            class="glass-card p-10 hover:-translate-y-2 transition-all group flex flex-col h-full reveal-card"
-          >
+          <div class="glass-card p-10 hover:-translate-y-2 transition-all group flex flex-col h-full reveal-card">
             <div class="flex justify-between items-start mb-8">
-              <div
-                class="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform"
-              >
+              <div class="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
                 <i data-lucide="map-pin"></i>
               </div>
-              <span
-                class="bg-secondary/20 text-primary text-[10px] font-black uppercase px-4 py-1.5 rounded-full"
-                >Active Location</span
-              >
+              <span class="bg-secondary/20 text-primary text-[10px] font-black uppercase px-4 py-1.5 rounded-full">Active Location</span>
             </div>
 
             <h3 class="text-2xl font-black text-primary mb-2 italic serif">
@@ -330,9 +153,7 @@
             <div class="space-y-6 flex-grow">
               {% for activity in branch.activities.all %}
               <div class="flex gap-4">
-                <div
-                  class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-accent shrink-0"
-                >
+                <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-accent shrink-0">
                   {% if "Sunday" in activity.title %}
                   <i data-lucide="calendar-days" class="w-5 h-5"></i>
                   {% else %}
@@ -340,9 +161,7 @@
                   {% endif %}
                 </div>
                 <div>
-                  <p
-                    class="text-[10px] uppercase font-black text-slate-400 tracking-widest mb-1"
-                  >
+                  <p class="text-[10px] uppercase font-black text-slate-400 tracking-widest mb-1">
                     {{ activity.title }}
                   </p>
                   {% for time in activity.get_time_list %}
@@ -354,11 +173,7 @@
             </div>
 
             <div class="mt-10 pt-8 border-t border-slate-100">
-              <a
-                href="{{ branch.address_url|default:'#' }}"
-                target="_blank"
-                class="flex items-center justify-center gap-2 text-primary font-black uppercase text-xs tracking-widest hover:text-accent transition-colors"
-              >
+              <a href="{{ branch.address_url|default:'#' }}" target="_blank" class="flex items-center justify-center gap-2 text-primary font-black uppercase text-xs tracking-widest hover:text-accent transition-colors">
                 Get Directions <i data-lucide="arrow-right" class="w-4 h-4"></i>
               </a>
             </div>
@@ -375,9 +190,7 @@
     <!-- Core Values Section -->
     <section class="py-20">
       <div class="max-w-7xl mx-auto px-4 text-center mb-16">
-        <span class="text-accent font-black uppercase tracking-widest text-sm"
-          >What Drives Us</span
-        >
+        <span class="text-accent font-black uppercase tracking-widest text-sm">What Drives Us</span>
         <h2 class="text-4xl font-black text-primary serif mt-2">
           Our Core Values
         </h2>
@@ -385,12 +198,8 @@
 
       <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
         {% for value in core_values %}
-        <div
-          class="glass-card p-10 border-b-4 {% if value.color_scheme == 'secondary' %}border-secondary {% elif value.color_scheme == 'accent' %}border-accent {% else %}border-primary{% endif %} hover:-translate-y-2 transition-transform reveal-card"
-        >
-          <div
-            class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 {% if value.color_scheme == 'secondary' %}bg-secondary/20 text-primary {% elif value.color_scheme == 'accent' %}bg-accent/20 text-accent {% else %}bg-primary/10 text-primary{% endif %}"
-          >
+        <div class="glass-card p-10 border-b-4 {% if value.color_scheme == 'secondary' %}border-secondary {% elif value.color_scheme == 'accent' %}border-accent {% else %}border-primary{% endif %} hover:-translate-y-2 transition-transform reveal-card">
+          <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 {% if value.color_scheme == 'secondary' %}bg-secondary/20 text-primary {% elif value.color_scheme == 'accent' %}bg-accent/20 text-accent {% else %}bg-primary/10 text-primary{% endif %}">
             <i data-lucide="{{ value.icon_name }}"></i>
           </div>
 
@@ -411,9 +220,7 @@
       <div class="max-w-7xl mx-auto px-4">
         <div class="flex flex-col items-center text-center mb-16 gap-6">
           <div class="max-w-2xl mx-auto">
-            <span
-              class="text-accent font-black uppercase tracking-widest text-sm block"
-            >
+            <span class="text-accent font-black uppercase tracking-widest text-sm block">
               Shepherds of the House
             </span>
             <h2 class="text-5xl font-black text-primary serif mt-2">
@@ -425,9 +232,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {% for leader in leaders %}
           <div class="group">
-            <div
-              class="relative overflow-hidden rounded-[2rem] aspect-[4/5] mb-6"
-            >
+            <div class="relative overflow-hidden rounded-[2rem] aspect-[4/5] mb-6">
               {% if leader.image %}
               <img
                 src="{{ leader.image.url }}"
@@ -435,24 +240,15 @@
                 alt="{{ leader.name }}"
               />
               {% else %}
-              <div
-                class="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400 italic"
-              >
+              <div class="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400 italic">
                 No Image
               </div>
               {% endif %}
 
-              <div
-                class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8"
-              >
+              <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8">
                 <div class="flex gap-4 text-white">
-                  {% if leader.facebook_url %}<a
-                    href="{{ leader.facebook_url }}"
-                    ><i data-lucide="facebook" class="w-5 h-5"></i></a
-                  >{% endif %} {% if leader.instagram_url %}<a
-                    href="{{ leader.instagram_url }}"
-                    ><i data-lucide="instagram" class="w-5 h-5"></i></a
-                  >{% endif %}
+                  {% if leader.facebook_url %}<a href="{{ leader.facebook_url }}"><i data-lucide="facebook" class="w-5 h-5"></i></a>{% endif %} 
+                  {% if leader.instagram_url %}<a href="{{ leader.instagram_url }}"><i data-lucide="instagram" class="w-5 h-5"></i></a>{% endif %}
                 </div>
               </div>
             </div>
@@ -479,9 +275,7 @@
       <div class="max-w-7xl mx-auto px-4 relative z-10">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
           <div>
-            <span
-              class="text-secondary font-black uppercase tracking-widest text-sm"
-            >
+            <span class="text-secondary font-black uppercase tracking-widest text-sm">
               {{ sof.sof_subtitle }}
             </span>
             <h2 class="text-5xl font-black serif mt-4 mb-8">
@@ -490,11 +284,7 @@
             <p class="text-white/60 text-lg mb-10">{{ sof.sof_description }}</p>
 
             {% if sof.doctrine_pdf %}
-            <a
-              href="{{ sof.doctrine_pdf.url }}"
-              download
-              class="bg-secondary text-primary px-8 py-4 rounded-2xl font-black inline-flex items-center gap-2 hover:bg-white transition-all shadow-xl"
-            >
+            <a href="{{ sof.doctrine_pdf.url }}" download class="bg-secondary text-primary px-8 py-4 rounded-2xl font-black inline-flex items-center gap-2 hover:bg-white transition-all shadow-xl">
               <i data-lucide="download-cloud" class="w-5 h-5"></i>
               Download the Doctrine
             </a>
@@ -564,9 +354,7 @@
           {% for stat in stats %}
           <div>
             <p class="text-white font-black text-4xl mb-2">{{ stat.number }}</p>
-            <p
-              class="text-white/60 text-xs uppercase font-bold tracking-widest"
-            >
+            <p class="text-white/60 text-xs uppercase font-bold tracking-widest">
               {{ stat.label }}
             </p>
           </div>
@@ -577,121 +365,7 @@
           {% endfor %}
         </div>
 
-        <a
-          href="{% url 'contact' %}"
-          class="bg-white text-accent px-10 py-4 rounded-2xl font-black hover:bg-primary hover:text-white transition-all"
-          >Join a Ministry</a
-        >
+        <a href="{% url 'contact' %}" class="bg-white text-accent px-10 py-4 rounded-2xl font-black hover:bg-primary hover:text-white transition-all">Join a Ministry</a>
       </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="bg-primary pt-24 pb-12 text-white/70">
-      <div class="max-w-7xl mx-auto px-4">
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-16 mb-20">
-          <div class="lg:col-span-2">
-            <div class="flex items-center gap-3 mb-8">
-              <div
-                class="w-14 h-14 logo-ring rounded-full flex items-center justify-center text-secondary font-black text-2xl shadow-2xl"
-              >
-                V
-              </div>
-              <span
-                class="text-4xl font-black text-white tracking-tighter serif italic"
-                >TVA</span
-              >
-            </div>
-            <p
-              class="max-w-md text-emerald-100/50 leading-relaxed mb-10 italic"
-            >
-              "A garden where souls are nurtured by grace and strengthened
-              through prayer."
-            </p>
-            <div class="flex gap-6">
-              <a
-                href="#"
-                class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-secondary hover:text-primary transition-all"
-                ><i data-lucide="facebook"></i
-              ></a>
-              <a
-                href="#"
-                class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-secondary hover:text-primary transition-all"
-                ><i data-lucide="instagram"></i
-              ></a>
-              <a
-                href="#"
-                class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-secondary hover:text-primary transition-all"
-                ><i data-lucide="youtube"></i
-              ></a>
-            </div>
-          </div>
-          <div>
-            <h4
-              class="text-white font-black uppercase tracking-widest mb-10 text-xs border-l-4 border-secondary pl-4"
-            >
-              Discover
-            </h4>
-            <ul class="space-y-4 font-bold text-sm">
-              <li>
-                <a href="#" class="hover:text-secondary transition-colors"
-                  >Our Beliefs</a
-                >
-              </li>
-              <li>
-                <a href="#" class="hover:text-secondary transition-colors"
-                  >Leadership</a
-                >
-              </li>
-              <li>
-                <a href="#" class="hover:text-secondary transition-colors"
-                  >Find a Life Group</a
-                >
-              </li>
-              <li>
-                <a href="#" class="hover:text-secondary transition-colors"
-                  >Testimonies</a
-                >
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4
-              class="text-white font-black uppercase tracking-widest mb-10 text-xs border-l-4 border-secondary pl-4"
-            >
-              Gatherings
-            </h4>
-            <ul class="space-y-6 text-sm">
-              <li>
-                <strong
-                  class="text-secondary block font-black uppercase text-xs"
-                  >Sundays</strong
-                >
-                <p class="text-white">Empowerment: 8:00 AM</p>
-                <p class="text-white">Celebration: 10:30 AM</p>
-              </li>
-              <li>
-                <strong
-                  class="text-secondary block font-black uppercase text-xs"
-                  >Midweek</strong
-                >
-                <p class="text-white">Wednesday Word: 6:00 PM</p>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="pt-8 border-t border-white/5 text-center">
-          <p
-            class="text-[10px] font-black uppercase tracking-[0.4em] text-white/20"
-          >
-            &copy; 2024 The Vineyard Assembly. All rights
-            reserved.
-          </p>
-        </div>
-      </div>
-    </footer>
-    <script>
-      // Initialize Lucide icons
-      lucide.createIcons();
-    </script>
-  </body>
-</html>
+{% endblock %}

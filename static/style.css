@@ -1,190 +1,78 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,300;400;700&display=swap');
 
 :root {
-    /* Brand Colors for TVA - The Vineyard Assembly */
-    /* Primary Blue */
-    --brand-primary: 32, 53, 154;   /* #20359A */
-    /* Vibrant Green */
-    --brand-secondary: 123, 198, 45;      /* #7BC62D */
-    /* Darker Green */
-    --brand-accent: 76, 159, 40;    /* #4C9F28 */
-    
-    --glass-border: rgba(255, 255, 255, 0.2);
-    --glass-surface: rgba(255, 255, 255, 0.05);
-    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    --brand-primary: #20359A;   /* TVA Blue */
+    --brand-secondary: #7BC62D; /* TVA Green */
+    --brand-accent: #4C9F28;     /* TVA Dark Green */
 }
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    background-color: #f0f4f8;
+    background-color: #c2f2ff; /* Light Brand Background */
     color: #1a1a1a;
     overflow-x: hidden;
-    position: relative;
 }
 
-/* Background Mesh Gradient - Fixed behind content */
-body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background: 
-        radial-gradient(circle at 15% 50%, rgba(var(--brand-secondary), 0.15), transparent 25%),
-        radial-gradient(circle at 85% 30%, rgba(var(--brand-primary), 0.10), transparent 25%);
-    filter: blur(40px);
-    animation: backgroundMove 20s ease-in-out infinite alternate;
+/* Glassmorphism Styles - TRANSPARENT WHITE GLASS */
+.glass-nav {
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
-@keyframes backgroundMove {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.1); }
+.glass-card {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
 }
 
+/* "Dark" glass is now a slightly more visible but still transparent white glass */
+.glass-dark {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    color: #20359A; 
+}
+
+/* Custom Buttons */
+.btn-glass {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #20359A; 
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.btn-glass:hover {
+    background: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(32, 53, 154, 0.15);
+    color: #7BC62D; /* Secondary Brand Color on Hov */
+}
+
+/* Hero Gradient Overlay - Updated to Brand Colors (Blue to Transparent) */
+.hero-gradient {
+    background: linear-gradient(to right, rgba(32, 53, 154, 0.85), rgba(32, 53, 154, 0.3));
+}
+
+/* Serif Font Class */
 .serif {
     font-family: 'Fraunces', serif;
 }
 
-/* --- Glassmorphism Utilities --- */
-
-/* Standard Light Glass Card */
-.glass-card {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 
-        0 4px 6px -1px rgba(0, 0, 0, 0.05), 
-        0 2px 4px -1px rgba(0, 0, 0, 0.03),
-        inset 0 0 20px rgba(255, 255, 255, 0.5); /* Inner glow */
-    border-radius: 1.5rem;
-}
-
-/* Darker Glass (for primary backgrounds) */
-.glass-dark {
-    background: rgba(var(--brand-primary), 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-    color: white;
-}
-
-/* Mobile Navigation Glass */
-.glass-nav {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-}
-
-/* Glass Buttons */
-.btn-glass {
-    background: rgba(var(--brand-primary), 1);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(4px);
-    box-shadow: 0 4px 15px rgba(var(--brand-primary), 0.3);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-glass::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: 0.5s;
-}
-
-.btn-glass:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(var(--brand-primary), 0.4);
-}
-
-.btn-glass:hover::after {
-    left: 100%;
-}
-
-.btn-glass-secondary {
-    background: rgba(var(--brand-secondary), 0.9);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 15px rgba(var(--brand-secondary), 0.3);
-    backdrop-filter: blur(4px);
-    transition: all 0.3s ease;
-}
-.btn-glass-secondary:hover {
-    background: rgba(var(--brand-secondary), 1);
-    transform: scale(1.05);
-}
-
-
-/* --- Mobile Responsiveness Enhancements --- */
-
-/* Better spacing on mobile */
-@media (max-width: 640px) {
-    h1 {
-        font-size: 2.5rem !important; /* Force larger visual on mobile */
-        line-height: 1.1 !important;
-    }
-    h2 {
-        font-size: 2rem !important;
-    }
-    .section-padding {
-        padding-top: 4rem !important;
-        padding-bottom: 4rem !important;
-    }
-    .glass-card {
-        border-radius: 1.25rem; /* Slightly softer corners on mobile */
-    }
-}
-
-/* --- Hero Section Specifics --- */
-
-.hero-gradient {
-    /* More dynamic gradient overlay */
-    background: linear-gradient(
-        to bottom,
-        rgba(var(--brand-primary), 0.3) 0%,
-        rgba(0,0,0,0) 50%,
-        rgba(var(--brand-primary), 0.6) 100%
-    );
-     z-index: 1;
-}
-
-/* Carousel/Slider */
-.hero-slide {
-    transition: transform 1.5s cubic-bezier(0.7, 0, 0.3, 1), opacity 1s ease;
-}
-
-/* Animation Utilities (GSAP targets) */
-.reveal-text {
-    opacity: 0;
-    transform: translateY(30px);
-}
-
-.reveal-card {
-    opacity: 0;
-    transform: scale(0.95);
-}
-
-.reveal-image {
-    opacity: 0;
-    transform: scale(1.1);
-    filter: blur(10px);
-}
-
-/* Floating Animation for "Blobs" or decorative elements */
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-    100% { transform: translateY(0px); }
-}
+/* Animation utilities */
 .animate-float {
     animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
 }
