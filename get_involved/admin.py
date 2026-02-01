@@ -1,5 +1,17 @@
 from django.contrib import admin
-from .models import MembershipPathwayPage, PathwayStep
+from .models import MembershipPathwayPage, PathwayStep, ChurchMembershipRegistration, DepartmentRegistration
+
+@admin.register(ChurchMembershipRegistration)
+class ChurchMembershipRegistrationAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'email', 'phone_number', 'gender', 'created_at')
+    search_fields = ('full_name', 'email')
+    list_filter = ('gender', 'created_at')
+
+@admin.register(DepartmentRegistration)
+class DepartmentRegistrationAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'email', 'department', 'created_at')
+    search_fields = ('full_name', 'email')
+    list_filter = ('department', 'created_at')
 
 class PathwayStepInline(admin.StackedInline):
     model = PathwayStep

@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register | TVA Get Involved{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="relative w-full h-[40vh] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-primary to-accent"></div>
+     <div class="absolute inset-0 bg-black/20"></div>
+    <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+        <span class="text-white/80 font-black uppercase tracking-widest text-sm mb-4 block animate-fade-in-up">Join the Movement</span>
+        <h1 class="text-4xl md:text-6xl font-black text-white mb-4 tracking-tighter uppercase animate-fade-in-up delay-100">Get Involved</h1>
+        <p class="text-lg md:text-2xl text-white/90 font-medium font-serif italic animate-fade-in-up delay-200">Take the next step in your journey.</p>
+    </div>
+</div>
+
+<!-- Forms Section -->
+<section class="py-24 bg-brandLight">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Messages -->
+        {% if messages %}
+            <div class="mb-12 max-w-3xl mx-auto">
+                {% for message in messages %}
+                    <div class="p-4 rounded-xl {% if message.tags == 'success' %}bg-green-100 text-green-800 border-green-200{% else %}bg-red-100 text-red-800 border-red-200{% endif %} border flex items-center gap-3 shadow-lg">
+                        <i data-lucide="{% if message.tags == 'success' %}check-circle{% else %}alert-circle{% endif %}" class="w-6 h-6"></i>
+                        <span class="font-medium">{{ message }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
+            
+            <!-- Become a Member Card (Left) -->
+            <div class="relative group animate-on-scroll">
+                <div class="glass-card rounded-3xl p-8 md:p-12 bg-white border-t-8 border-primary shadow-2xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-8 -mt-8 z-0"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                <i data-lucide="user-plus" class="w-6 h-6"></i>
+                            </div>
+                            <h2 class="text-3xl font-black text-primary uppercase tracking-tight">Become a Member</h2>
+                        </div>
+                        
+                        <p class="text-slate-600 mb-8 leading-relaxed">
+                            Ready to call TVA your home? Register here to start your journey, join our foundation classes, and become a part of our family.
+                        </p>
+
+                        <form method="POST" class="space-y-4">
+                            {% csrf_token %}
+                            {{ membership_form.full_name }}
+                            {{ membership_form.email }}
+                            {{ membership_form.phone_number }}
+                            {{ membership_form.date_of_birth }}
+                            <div class="grid grid-cols-2 gap-4">
+                                {{ membership_form.gender }}
+                                {{ membership_form.how_did_you_hear }}
+                            </div>
+                            {{ membership_form.address }}
+                            
+                            <button type="submit" name="submit_member" class="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-secondary hover:text-primary transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 mt-4">
+                                Register Membership
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Join a Department Card (Right) -->
+             <div class="relative group animate-on-scroll" style="animation-delay: 200ms;">
+                <div class="glass-card rounded-3xl p-8 md:p-12 bg-white border-t-8 border-secondary shadow-2xl relative overflow-hidden">
+                     <div class="absolute top-0 right-0 w-32 h-32 bg-secondary/10 rounded-bl-full -mr-8 -mt-8 z-0"></div>
+
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-4 mb-8">
+                             <div class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center text-secondary-dark">
+                                <i data-lucide="users" class="w-6 h-6"></i>
+                            </div>
+                            <h2 class="text-3xl font-black text-primary uppercase tracking-tight">Join a Department</h2>
+                        </div>
+
+                         <p class="text-slate-600 mb-8 leading-relaxed">
+                            Use your gifts to serve! Select a department you are interested in, and the team will reach out to you with next steps.
+                        </p>
+
+                        <form method="POST" class="space-y-4">
+                            {% csrf_token %}
+                            {{ department_form.full_name }}
+                            {{ department_form.email }}
+                            {{ department_form.phone_number }}
+                            
+                            <div class="relative">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1 ml-2">Select Department</label>
+                                {{ department_form.department }}
+                            </div>
+
+                            {{ department_form.reason_for_joining }}
+                            
+                            <button type="submit" name="submit_dept" class="w-full bg-secondary text-white font-bold py-4 rounded-xl hover:bg-primary hover:text-white transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 mt-4">
+                                Join Department
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

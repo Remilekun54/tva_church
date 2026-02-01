@@ -39,3 +39,37 @@ class PathwayStep(models.Model):
 
     def __str__(self):
         return f"Step {self.step_number}: {self.title}"
+
+from departments.models import Department
+
+class ChurchMembershipRegistration(models.Model):
+    """Model for general church membership registration"""
+    full_name = models.CharField(max_length=200)
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=20)
+    address = models.TextField(blank=True)
+    date_of_birth = models.DateField(blank=True, null=True)
+    GENDER_CHOICES = [
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+    ]
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, blank=True)
+    how_did_you_hear = models.CharField(max_length=200, blank=True, verbose_name="How did you hear about us?")
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Member Registration: {self.full_name}"
+
+class DepartmentRegistration(models.Model):
+    """Model for joining a specific department"""
+    full_name = models.CharField(max_length=200)
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=20)
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, help_text="Select the department you wish to join")
+    reason_for_joining = models.TextField(verbose_name="Why do you want to join this department?")
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.full_name} -> {self.department.name if self.department else 'Unknown'}"
