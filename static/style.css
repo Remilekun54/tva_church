@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,300;400;700&display=swap');
 
 :root {
-    --brand-primary: #20359A;   /* TVA Blue */
-    --brand-secondary: #7BC62D; /* TVA Green */
-    --brand-accent: #4C9F28;     /* TVA Dark Green */
+    --brand-primary: #1F317D;   /* TVA Blue Main */
+    --brand-secondary: #81C225; /* TVA Green */
+    --brand-accent: #010066;    /* TVA Deep Blue */
 }
 
 body {
@@ -76,3 +76,5 @@ body {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-20px); }
 }
+
+

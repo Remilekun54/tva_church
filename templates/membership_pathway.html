@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Membership Pathway | TVA{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="relative w-full h-[50vh] flex items-center justify-center overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0">
+        {% if page_config.hero_image %}
+            <img src="{{ page_config.hero_image.url }}" alt="Membership Pathway" class="w-full h-full object-cover">
+        {% else %}
+             <!-- Default placeholder if no image uploaded -->
+            <div class="w-full h-full bg-gradient-to-r from-primary to-accent"></div>
+        {% endif %}
+        <!-- Branding Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/60 mix-blend-multiply"></div>
+    </div>
+    
+    <!-- Hero Content -->
+    <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+        <h1 class="text-4xl md:text-6xl font-black text-white mb-4 tracking-tighter uppercase">
+            {{ page_config.hero_title|default:"Membership Pathway" }}
+        </h1>
+        <p class="text-lg md:text-2xl text-white/90 font-medium font-serif italic">
+            {{ page_config.hero_subtitle|default:"Your Journey to Belonging" }}
+        </p>
+    </div>
+</div>
+
+<!-- Steps Section -->
+<section class="py-24 bg-brandLight">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Intro -->
+        <div class="text-center max-w-3xl mx-auto mb-20 animate-on-scroll">
+            <span class="text-secondary font-black uppercase tracking-widest text-sm mb-2 block">Our Process</span>
+            <h2 class="text-3xl md:text-4xl font-black text-primary mb-6">{{ page_config.intro_title|default:"Discovery Track" }}</h2>
+            <p class="text-slate-600 text-lg leading-relaxed">
+                {{ page_config.intro_description|default:"We want to help you connect, grow, and serve." }}
+            </p>
+        </div>
+
+        <!-- Timeline / Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative">
+            {% for step in page_config.steps.all %}
+                <div class="group relative animate-on-scroll" style="animation-delay: {{ forloop.counter0 }}00ms;">
+                    <!-- Card -->
+                    <div class="glass-card h-full rounded-3xl p-8 hover:transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-secondary shadow-lg bg-white relative overflow-hidden">
+                        
+                        <!-- Step Number -->
+                        <div class="absolute -top-4 -right-4 text-9xl font-black text-slate-100/50 select-none z-0 group-hover:text-primary/5 transition-colors">
+                            {{ step.step_number }}
+                        </div>
+
+                        <!-- Icon/Image -->
+                        <div class="relative z-10 mb-6">
+                            <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                                {% if step.image %}
+                                    <img src="{{ step.image.url }}" alt="{{ step.title }}" class="w-10 h-10 object-cover rounded-full">
+                                {% else %}
+                                    <i data-lucide="{{ step.icon_name|default:'circle' }}" class="w-8 h-8"></i>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="relative z-10">
+                            <h3 class="text-xl font-black text-primary mb-3">{{ step.title }}</h3>
+                            <p class="text-slate-600 leading-relaxed text-sm">
+                                {{ step.description }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-span-full text-center py-20">
+                    <p class="text-slate-500 italic">No steps have been configured yet.</p>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Call to Action -->
+        <div class="mt-20 text-center animate-on-scroll">
+            <a href="{% url 'contact' %}" class="inline-flex items-center gap-2 bg-primary text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-secondary hover:text-primary transition-all shadow-xl hover:shadow-2xl transform hover:scale-105">
+                Join the Family <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

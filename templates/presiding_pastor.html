@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Presiding Pastor | TVA{% endblock %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <header class="relative h-[60vh] flex items-center justify-center overflow-hidden">
+      <img
+        src="{% if pastor.hero_image %}{{ pastor.hero_image.url }}{% else %}https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=2000{% endif %}"
+        alt="Presiding Pastor"
+        class="absolute inset-0 w-full h-full object-cover"
+      />
+
+      <div class="absolute inset-0 bg-gradient-to-b from-primary/70 via-primary/50 to-primary/90"></div>
+
+      <div class="relative z-10 text-center px-4 mt-20">
+        <span class="text-secondary font-black uppercase tracking-[0.4em] text-xs mb-4 block">
+          {{ pastor.hero_subtitle|default:"Leading TVA Today" }}
+        </span>
+        <h1 class="text-5xl md:text-7xl font-black text-white serif mb-6 tracking-tight">
+          {{ pastor.hero_title|default:"Our Presiding Pastor" }}
+        </h1>
+        <p class="text-white/90 text-2xl font-bold">
+          {{ pastor.pastor_name|default:"Pastor Name" }}
+        </p>
+      </div>
+    </header>
+
+    <main class="mt-32">
+      <!-- Biography Section -->
+      <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div>
+              <span class="text-secondary font-black uppercase tracking-widest text-sm">
+                About Pastor
+              </span>
+              <h2 class="text-5xl font-black serif mt-4 mb-8 text-primary">
+                {{ pastor.bio_title|default:"Meet Our Pastor" }}
+              </h2>
+              <div class="text-slate-600 text-lg leading-relaxed space-y-4">
+                {{ pastor.bio_content|default:"Meet our presiding pastor..." |linebreaks }}
+              </div>
+            </div>
+            <div>
+              {% if pastor.bio_image %}
+              <img src="{{ pastor.bio_image.url }}" alt="Pastor" class="rounded-3xl shadow-2xl w-full object-cover aspect-square" />
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Vision Section -->
+      <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div>
+              <span class="text-secondary font-black uppercase tracking-widest text-sm">
+                Our Direction
+              </span>
+              <h2 class="text-5xl font-black serif mt-4 mb-8 text-primary">
+                {{ pastor.vision_title|default:"Vision for TVA" }}
+              </h2>
+              <div class="text-slate-600 text-lg leading-relaxed">
+                {{ pastor.vision_content|default:"The vision for TVA's future..." |linebreaks }}
+              </div>
+            </div>
+            <div>
+              {% if pastor.vision_image %}
+              <img src="{{ pastor.vision_image.url }}" alt="Vision" class="rounded-3xl shadow-2xl w-full object-cover aspect-square" />
+              {% else %}
+              <div class="rounded-3xl bg-gradient-to-br from-primary to-secondary aspect-square flex items-center justify-center">
+                <i data-lucide="target" class="w-32 h-32 text-white"></i>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ministry Focus Section -->
+      <section class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div class="order-2 lg:order-1">
+              {% if pastor.focus_image %}
+              <img src="{{ pastor.focus_image.url }}" alt="Ministry Focus" class="rounded-3xl shadow-2xl w-full object-cover aspect-square" />
+              {% else %}
+              <div class="rounded-3xl bg-gradient-to-br from-secondary to-primary aspect-square flex items-center justify-center">
+                <i data-lucide="compass" class="w-32 h-32 text-white"></i>
+              </div>
+              {% endif %}
+            </div>
+            <div class="order-1 lg:order-2">
+              <span class="text-secondary font-black uppercase tracking-widest text-sm">
+                Our Priorities
+              </span>
+              <h2 class="text-5xl font-black serif mt-4 mb-8 text-primary">
+                {{ pastor.focus_title|default:"Ministry Focus" }}
+              </h2>
+              <div class="text-slate-600 text-lg leading-relaxed">
+                {{ pastor.focus_content|default:"Our key ministry priorities..." |linebreaks }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Message Section -->
+      <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div>
+              <span class="text-secondary font-black uppercase tracking-widest text-sm">
+                From The Pastor
+              </span>
+              <h2 class="text-5xl font-black serif mt-4 mb-8 text-primary">
+                {{ pastor.message_title|default:"A Word From Pastor" }}
+              </h2>
+              <div class="bg-slate-50 p-8 md:p-12 rounded-3xl border-l-8 border-secondary">
+                <div class="text-slate-700 text-lg leading-relaxed italic">
+                  {{ pastor.message_content|default:"A personal message from the pastor..." |linebreaks }}
+                </div>
+              </div>
+            </div>
+            <div>
+              {% if pastor.message_image %}
+              <img src="{{ pastor.message_image.url }}" alt="Pastor's Message" class="rounded-3xl shadow-2xl w-full object-cover aspect-square" />
+              {% else %}
+              <div class="rounded-3xl bg-gradient-to-br from-primary to-accent aspect-square flex items-center justify-center">
+                <i data-lucide="message-circle" class="w-32 h-32 text-white"></i>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section class="py-24 bg-secondary">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+          <span class="text-primary font-black uppercase tracking-widest text-sm">
+            {{ pastor.contact_title|default:"Connect With Pastor" }}
+          </span>
+          <h2 class="text-4xl font-black serif mt-4 mb-8 text-primary">
+            Get In Touch
+          </h2>
+          
+          <div class="flex flex-col md:flex-row gap-6 justify-center items-center mt-8">
+            {% if pastor.contact_email %}
+            <a href="mailto:{{ pastor.contact_email }}" class="bg-primary text-white px-8 py-4 rounded-2xl font-black inline-flex items-center gap-2 hover:bg-white hover:text-primary transition-all shadow-xl">
+              <i data-lucide="mail" class="w-5 h-5"></i>
+              Email Pastor
+            </a>
+            {% endif %}
+            
+            <div class="flex gap-4">
+              {% if pastor.facebook_url %}
+              <a href="{{ pastor.facebook_url }}" target="_blank" class="bg-primary text-white p-4 rounded-full hover:bg-white hover:text-primary transition-all">
+                <i data-lucide="facebook" class="w-6 h-6"></i>
+              </a>
+              {% endif %}
+              
+              {% if pastor.instagram_url %}
+              <a href="{{ pastor.instagram_url }}" target="_blank" class="bg-primary text-white p-4 rounded-full hover:bg-white hover:text-primary transition-all">
+                <i data-lucide="instagram" class="w-6 h-6"></i>
+              </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+{% endblock %}

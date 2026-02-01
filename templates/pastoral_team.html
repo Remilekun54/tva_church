@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Pastoral Team | TVA{% endblock %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <header class="relative h-[60vh] flex items-center justify-center overflow-hidden">
+      <img
+        src="{% if team.hero_image %}{{ team.hero_image.url }}{% else %}https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&q=80&w=2000{% endif %}"
+        alt="Pastoral Team"
+        class="absolute inset-0 w-full h-full object-cover"
+      />
+
+      <div class="absolute inset-0 bg-gradient-to-b from-primary/70 via-primary/50 to-primary/90"></div>
+
+      <div class="relative z-10 text-center px-4 mt-20">
+        <span class="text-secondary font-black uppercase tracking-[0.4em] text-xs mb-4 block">
+          {{ team.hero_subtitle|default:"Serving Together in Unity" }}
+        </span>
+        <h1 class="text-5xl md:text-7xl font-black text-white serif mb-6 tracking-tight">
+          {{ team.hero_title|default:"Our Pastoral Team" }}
+        </h1>
+      </div>
+    </header>
+
+    <main class="mt-32">
+      <!-- Overview Section -->
+      <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div>
+              <span class="text-secondary font-black uppercase tracking-widest text-sm">
+                Who We Are
+              </span>
+              <h2 class="text-5xl font-black serif mt-4 mb-8 text-primary">
+                {{ team.overview_title|default:"Meet The Team" }}
+              </h2>
+              <div class="text-slate-600 text-lg leading-relaxed">
+                {{ team.overview_content|default:"Our pastoral team serves together..." |linebreaks }}
+              </div>
+            </div>
+            <div>
+              {% if team.overview_image %}
+              <img src="{{ team.overview_image.url }}" alt="Team Overview" class="rounded-3xl shadow-2xl w-full object-cover aspect-square" />
+              {% else %}
+              <div class="rounded-3xl bg-gradient-to-br from-primary to-secondary aspect-square flex items-center justify-center">
+                <i data-lucide="users" class="w-32 h-32 text-white"></i>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Structure Section -->
+      <section class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div class="order-2 lg:order-1">
+              {% if team.structure_image %}
+              <img src="{{ team.structure_image.url }}" alt="Team Structure" class="rounded-3xl shadow-2xl w-full object-cover aspect-square" />
+              {% else %}
+              <div class="rounded-3xl bg-gradient-to-br from-secondary to-primary aspect-square flex items-center justify-center">
+                <i data-lucide="network" class="w-32 h-32 text-white"></i>
+              </div>
+              {% endif %}
+            </div>
+            <div class="order-1 lg:order-2">
+              <span class="text-secondary font-black uppercase tracking-widest text-sm">
+                How We Work
+              </span>
+              <h2 class="text-5xl font-black serif mt-4 mb-8 text-primary">
+                {{ team.structure_title|default:"Our Structure" }}
+              </h2>
+              <div class="text-slate-600 text-lg leading-relaxed">
+                {{ team.structure_content|default:"Our team structure and organization..." |linebreaks }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Values Section -->
+      <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div>
+              <span class="text-secondary font-black uppercase tracking-widest text-sm">
+                What Drives Us
+              </span>
+              <h2 class="text-5xl font-black serif mt-4 mb-8 text-primary">
+                {{ team.values_title|default:"Our Values" }}
+              </h2>
+              <div class="text-slate-600 text-lg leading-relaxed">
+                {{ team.values_content|default:"The values that guide our team..." |linebreaks }}
+              </div>
+            </div>
+            <div>
+              {% if team.values_image %}
+              <img src="{{ team.values_image.url }}" alt="Team Values" class="rounded-3xl shadow-2xl w-full object-cover aspect-square" />
+              {% else %}
+              <div class="rounded-3xl bg-gradient-to-br from-primary to-accent aspect-square flex items-center justify-center">
+                <i data-lucide="heart" class="w-32 h-32 text-white"></i>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Team Members Section -->
+      <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+          <span class="text-secondary font-black uppercase tracking-widest text-sm text-center block">
+            {{ team.ministry_title|default:"Ministry Areas" }}
+          </span>
+          <h2 class="text-5xl font-black serif mt-4 mb-12 text-primary text-center">
+            Our Team Members
+          </h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for member in team.team_members.all %}
+            <div class="bg-slate-50 rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-300">
+              {% if member.image %}
+              <img src="{{ member.image.url }}" alt="{{ member.name }}" class="w-full aspect-square object-cover" />
+              {% else %}
+              <div class="w-full aspect-square bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                <i data-lucide="user" class="w-24 h-24 text-white"></i>
+              </div>
+              {% endif %}
+              
+              <div class="p-6">
+                <h3 class="text-2xl font-black text-primary mb-1">{{ member.name }}</h3>
+                <p class="text-secondary font-bold mb-2">{{ member.position }}</p>
+                {% if member.ministry_area %}
+                <p class="text-sm text-slate-500 font-semibold mb-3">{{ member.ministry_area }}</p>
+                {% endif %}
+                <p class="text-slate-600 text-sm">{{ member.bio|truncatewords:30 }}</p>
+              </div>
+            </div>
+            {% empty %}
+            <div class="col-span-full text-center py-12">
+              <p class="text-slate-400 italic">Team members will appear here.</p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+
+      <!-- Join Team Section -->
+      <section class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div class="order-2 lg:order-1">
+              {% if team.join_image %}
+              <img src="{{ team.join_image.url }}" alt="Join Our Team" class="rounded-3xl shadow-2xl w-full object-cover aspect-square" />
+              {% else %}
+              <div class="rounded-3xl bg-gradient-to-br from-secondary to-primary aspect-square flex items-center justify-center">
+                <i data-lucide="user-plus" class="w-32 h-32 text-white"></i>
+              </div>
+              {% endif %}
+            </div>
+            <div class="order-1 lg:order-2">
+              <span class="text-secondary font-black uppercase tracking-widest text-sm">
+                Serve With Us
+              </span>
+              <h2 class="text-5xl font-black serif mt-4 mb-8 text-primary">
+                {{ team.join_title|default:"Join Our Team" }}
+              </h2>
+              <div class="text-slate-600 text-lg leading-relaxed mb-8">
+                {{ team.join_content|default:"Interested in serving with our pastoral team? Contact us to learn more." |linebreaks }}
+              </div>
+              
+              <a href="{% url 'contact' %}" class="bg-secondary text-primary px-8 py-4 rounded-2xl font-black inline-flex items-center gap-2 hover:bg-white hover:text-secondary transition-all shadow-xl border-2 border-secondary">
+                <i data-lucide="mail" class="w-5 h-5"></i>
+                Get In Touch
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+{% endblock %}

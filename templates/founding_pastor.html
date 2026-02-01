@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Founding Pastor | TVA{% endblock %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <header class="relative h-[60vh] flex items-center justify-center overflow-hidden">
+      <img
+        src="{% if pastor.hero_image %}{{ pastor.hero_image.url }}{% else %}https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=2000{% endif %}"
+        alt="Founding Pastor"
+        class="absolute inset-0 w-full h-full object-cover"
+      />
+
+      <div class="absolute inset-0 bg-gradient-to-b from-primary/70 via-primary/50 to-primary/90"></div>
+
+      <div class="relative z-10 text-center px-4 mt-20">
+        <span class="text-secondary font-black uppercase tracking-[0.4em] text-xs mb-4 block">
+          {{ pastor.hero_subtitle|default:"The Visionary Behind TVA" }}
+        </span>
+        <h1 class="text-5xl md:text-7xl font-black text-white serif mb-6 tracking-tight">
+          {{ pastor.hero_title|default:"Our Founding Pastor" }}
+        </h1>
+      </div>
+    </header>
+
+    <main class="mt-32">
+      <!-- Biography Section -->
+      <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div class="order-2 lg:order-1">
+              <span class="text-secondary font-black uppercase tracking-widest text-sm">
+                Biography
+              </span>
+              <h2 class="text-5xl font-black serif mt-4 mb-8 text-primary">
+                {{ pastor.bio_title|default:"His Story" }}
+              </h2>
+              <div class="text-slate-600 text-lg leading-relaxed space-y-4">
+                {{ pastor.bio_content|default:"The founding pastor's story..." |linebreaks }}
+              </div>
+            </div>
+            <div class="order-1 lg:order-2">
+              {% if pastor.bio_image %}
+              <img src="{{ pastor.bio_image.url }}" alt="Biography" class="rounded-3xl shadow-2xl w-full object-cover aspect-square" />
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Vision Section -->
+      <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div>
+              <span class="text-secondary font-black uppercase tracking-widest text-sm">
+                The Vision
+              </span>
+              <h2 class="text-5xl font-black serif mt-4 mb-8 text-primary">
+                {{ pastor.vision_title|default:"Founding Vision" }}
+              </h2>
+              <div class="text-slate-600 text-lg leading-relaxed">
+                {{ pastor.vision_content|default:"The founding vision of TVA..." |linebreaks }}
+              </div>
+            </div>
+            <div>
+              {% if pastor.vision_image %}
+              <img src="{{ pastor.vision_image.url }}" alt="Vision" class="rounded-3xl shadow-2xl w-full object-cover aspect-square" />
+              {% else %}
+              <div class="rounded-3xl bg-gradient-to-br from-primary to-secondary aspect-square flex items-center justify-center">
+                <i data-lucide="eye" class="w-32 h-32 text-white"></i>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Legacy Section -->
+      <section class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div class="order-2 lg:order-1">
+              {% if pastor.legacy_image %}
+              <img src="{{ pastor.legacy_image.url }}" alt="Legacy" class="rounded-3xl shadow-2xl w-full object-cover aspect-square" />
+              {% else %}
+              <div class="rounded-3xl bg-gradient-to-br from-secondary to-primary aspect-square flex items-center justify-center">
+                <i data-lucide="award" class="w-32 h-32 text-white"></i>
+              </div>
+              {% endif %}
+            </div>
+            <div class="order-1 lg:order-2">
+              <span class="text-secondary font-black uppercase tracking-widest text-sm">
+                Impact
+              </span>
+              <h2 class="text-5xl font-black serif mt-4 mb-8 text-primary">
+                {{ pastor.legacy_title|default:"His Legacy" }}
+              </h2>
+              <div class="text-slate-600 text-lg leading-relaxed">
+                {{ pastor.legacy_content|default:"The lasting impact and legacy..." |linebreaks }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quotes Section -->
+      <section class="py-24 relative overflow-hidden">
+        {% if pastor.quote_image %}
+        <img src="{{ pastor.quote_image.url }}" alt="Quote Background" class="absolute inset-0 w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-secondary/90"></div>
+        {% else %}
+        <div class="absolute inset-0 bg-secondary"></div>
+        {% endif %}
+        <div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
+          <span class="text-primary font-black uppercase tracking-widest text-sm">
+            {{ pastor.quotes_title|default:"Words of Wisdom" }}
+          </span>
+          <blockquote class="text-4xl md:text-5xl font-black serif mt-8 mb-6 text-primary italic leading-tight">
+            "{{ pastor.featured_quote|default:"A garden where souls are nurtured by grace." }}"
+          </blockquote>
+          <p class="text-primary/70 font-bold">
+            — {{ pastor.quote_author|default:"Founding Pastor" }}
+          </p>
+        </div>
+      </section>
+
+      <!-- Timeline Section -->
+      <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+            <div class="order-2 lg:order-1">
+              {% if pastor.timeline_image %}
+              <img src="{{ pastor.timeline_image.url }}" alt="Timeline" class="rounded-3xl shadow-2xl w-full object-cover aspect-square sticky top-32" />
+              {% else %}
+              <div class="rounded-3xl bg-gradient-to-br from-primary to-accent aspect-square flex items-center justify-center sticky top-32">
+                <i data-lucide="calendar" class="w-32 h-32 text-white"></i>
+              </div>
+              {% endif %}
+            </div>
+            <div class="order-1 lg:order-2">
+              <span class="text-secondary font-black uppercase tracking-widest text-sm">
+                Journey
+              </span>
+              <h2 class="text-5xl font-black serif mt-4 mb-12 text-primary">
+                {{ pastor.timeline_title|default:"Ministry Timeline" }}
+              </h2>
+              
+              <div class="space-y-8">
+                {% for event in pastor.timeline_events.all %}
+                <div class="flex gap-6 items-start">
+                  <div class="flex-shrink-0">
+                    <div class="bg-secondary text-primary font-black text-xl px-6 py-3 rounded-2xl">
+                      {{ event.year }}
+                    </div>
+                  </div>
+                  <div class="flex-grow">
+                    <h3 class="text-2xl font-black text-primary mb-2">{{ event.title }}</h3>
+                    <p class="text-slate-600">{{ event.description }}</p>
+                  </div>
+                </div>
+                {% empty %}
+                <p class="text-slate-400 italic">Timeline events will appear here.</p>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+{% endblock %}

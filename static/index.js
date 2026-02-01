@@ -8,35 +8,20 @@
 
 // Initialize Icons
 lucide.createIcons();
+console.log("TVA Church: index.js loaded successfully");
 
 // 2. Global Mobile Menu Logic
 window.toggleMenu = function() {
     const mobileMenu = document.getElementById("mobile-menu");
     if (!mobileMenu) return;
 
-    const isHidden = mobileMenu.classList.contains("hidden");
-
-    if (isHidden) {
-        // Show Menu
+    // Utilize Tailwind's 'hidden' class for toggling
+    if (mobileMenu.classList.contains("hidden")) {
         mobileMenu.classList.remove("hidden");
         document.body.style.overflow = "hidden"; // Prevent background scrolling
-        
-        // GSAP Animation
-        gsap.fromTo(mobileMenu, 
-            { y: 50, opacity: 0 }, 
-            { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" }
-        );
     } else {
-        // Hide Menu
-        gsap.to(mobileMenu, { 
-            y: 50, 
-            opacity: 0, 
-            duration: 0.3, 
-            onComplete: () => {
-                mobileMenu.classList.add("hidden");
-                document.body.style.overflow = "auto"; 
-            }
-        });
+        mobileMenu.classList.add("hidden");
+        document.body.style.overflow = "auto";
     }
 };
 
@@ -46,30 +31,16 @@ window.toggleAccordion = function(id) {
     const icon = document.getElementById('icon-' + id);
     if (!element) return;
 
-    const isHidden = element.classList.contains('hidden');
-
-    if (isHidden) {
+    if (element.classList.contains('hidden')) {
         element.classList.remove('hidden');
         if(icon) icon.style.transform = 'rotate(180deg)';
-        
-        gsap.fromTo(element, 
-            { height: 0, opacity: 0 },
-            { height: "auto", opacity: 1, duration: 0.3 }
-        );
     } else {
-        gsap.to(element, {
-            height: 0,
-            opacity: 0,
-            duration: 0.2,
-            onComplete: () => {
-                element.classList.add('hidden');
-                if(icon) icon.style.transform = 'rotate(0deg)';
-                // Reset inline styles from GSAP so it can be re-opened
-                element.style.height = ''; 
-                element.style.opacity = '';
-            }
-        });
+        element.classList.add('hidden');
+        if(icon) icon.style.transform = 'rotate(0deg)';
     }
+    
+    // Smooth transition can be added via CSS utility classes if needed, 
+    // but for now we prioritize functionality.
 }
 
 // 4. Hero Carousel & Scroll Effects
@@ -131,28 +102,50 @@ document.addEventListener("DOMContentLoaded", () => {
     
     if (track && btnPrev && btnNext) {
         let scrollAmount = 0;
-        const scrollStep = 340; // width of card + gap approx
         
-        btnNext.addEventListener("click", () => {
-            const maxScroll = track.scrollWidth - track.clientWidth;
-            scrollAmount += scrollStep;
-            if (scrollAmount > maxScroll) scrollAmount = 0; // Loop back
-            track.style.transform = `translateX(-${scrollAmount}px)`;
-        });
+        const updateSlider = () => {
+            const firstImage = track.querySelector('img');
+            if (!firstImage) return;
 
-        btnPrev.addEventListener("click", () => {
-            scrollAmount -= scrollStep;
-            if (scrollAmount < 0) {
-                 // Go to end
-                 const maxScroll = track.scrollWidth - track.clientWidth;
-                 scrollAmount = maxScroll > 0 ? maxScroll : 0; 
-            }
-            track.style.transform = `translateX(-${scrollAmount}px)`;
-        });
+            const imageWidth = firstImage.offsetWidth;
+            const gap = 24; // Corresponding to Tailwind 'gap-6' (6 * 4px)
+            const scrollStep = imageWidth + gap;
+            const maxScroll = track.scrollWidth - track.parentElement.clientWidth;
+
+            btnNext.onclick = () => {
+                scrollAmount += scrollStep;
+                if (scrollAmount > maxScroll) {
+                    scrollAmount = 0; // Seamless loop back to start
+                }
+                gsap.to(track, {
+                    x: -scrollAmount,
+                    duration: 0.6,
+                    ease: "power2.inOut"
+                });
+            };
+
+            btnPrev.onclick = () => {
+                scrollAmount -= scrollStep;
+                if (scrollAmount < 0) {
+                    scrollAmount = maxScroll > 0 ? maxScroll : 0; // Go to end
+                }
+                gsap.to(track, {
+                    x: -scrollAmount,
+                    duration: 0.6,
+                    ease: "power2.inOut"
+                });
+            };
+        };
+
+        // Initialize and handle resize
+        window.addEventListener('load', updateSlider);
+        window.addEventListener('resize', updateSlider);
+        updateSlider();
     }
 
     // --- 6. Advanced Scroll Animations (GSAP) ---
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    // DISABLED TEMPORARILY: Debugging blank page issue
+    if (false && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);
 
         // Utility function for consistent triggers
@@ -161,80 +154,109 @@ document.addEventListener("DOMContentLoaded", () => {
                 ...animationData,
                 scrollTrigger: {
                     trigger: trigger,
-                    start: "top 85%", // Start animation when top of element hits 85% of viewport
-                    toggleActions: "play none none reverse" 
+                    start: "top 95%", // Trigger much earlier (almost immediately when entering screen)
+                    toggleActions: "play none none none" // Play once and stay visible. Do NOT reverse/hide on scroll up.
                 }
             };
         };
 
-        // 1. Hero Text Stagger (already handled by CSS/HTML structure usually, but let's reinforce)
-        // (Skipping Hero to avoid conflict with existing carousel logic which handles opacity)
+        // 1. Hero (Skipped to preserve carousel)
 
         // 2. About Section
-        gsap.from(".glass-card img", setupTrigger(".glass-card", {
-            x: -50, opacity: 0, duration: 1, ease: "power2.out"
-        }));
-        gsap.from(".lg\\:w-1\\/2 h2", setupTrigger(".lg\\:w-1\\/2 h2", {
-            x: 50, opacity: 0, duration: 1, delay: 0.2
-        }));
+        // Note: Classes might have changed, using safe selectors
+        const aboutImages = document.querySelectorAll(".glass-card img");
+        if(aboutImages.length > 0) {
+             gsap.from(aboutImages, setupTrigger(".glass-card", {
+                x: -30, opacity: 0, duration: 0.6, ease: "power2.out"
+            }));
+        }
+        
+        const aboutText = document.querySelectorAll(".lg\\:w-1\\/2 h2");
+        if(aboutText.length > 0) {
+            gsap.from(aboutText, setupTrigger(".lg\\:w-1\\/2 h2", {
+                x: 30, opacity: 0, duration: 0.6, delay: 0.1
+            }));
+        }
 
         // 3. Sermons Preview
-        gsap.from("#sermons-preview .sermon-header", setupTrigger("#sermons-preview", {
-            y: 30, opacity: 0, duration: 0.8
-        }));
-        gsap.from(".sermon-card", setupTrigger("#sermons-preview .grid", {
-            y: 50, opacity: 0, duration: 0.8, stagger: 0.1
-        }));
+        gsap.from("#sermons-preview .sermon-header", {
+            scrollTrigger: {
+                trigger: "#sermons-preview",
+                start: "top 90%",
+                toggleActions: "play none none none"
+            },
+            y: 30,
+            opacity: 0,
+            duration: 0.8
+        });
 
-        // 4. Core Values (GOGAP / TVA Experience)
+        gsap.from(".sermon-card", {
+            scrollTrigger: {
+                trigger: "#sermons-preview .grid",
+                start: "top 90%",
+                toggleActions: "play none none none"
+            },
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            clearProps: "all" // Important: prevents conflicts with CSS transitions after GSAP finishes
+        });
+
+        // 4. Core Values
         gsap.from(".grid .group", setupTrigger(".py-32 .grid", {
-            scale: 0.9, opacity: 0, duration: 0.6, stagger: 0.2, ease: "back.out(1.7)"
+            scale: 0.95, opacity: 0, duration: 0.5, stagger: 0.1, ease: "back.out(1.2)"
         }));
 
         // 5. Store Section
         gsap.from(".store-image", setupTrigger("#store-preview", {
-            x: -50, opacity: 0, duration: 1
+            x: -30, opacity: 0, duration: 0.8
         }));
         gsap.from(".store-text", setupTrigger("#store-preview", {
-            x: 50, opacity: 0, duration: 1
+            x: 30, opacity: 0, duration: 0.8
         }));
 
         // 6. Pastor Section
         gsap.from(".pastor-info", setupTrigger("#pastor-section", {
-            x: -50, opacity: 0, duration: 1
+            x: -30, opacity: 0, duration: 0.8
         }));
         gsap.from(".pastor-image", setupTrigger("#pastor-section", {
-            scale: 0.8, opacity: 0, duration: 1, ease: "power2.out"
+            scale: 0.9, opacity: 0, duration: 0.8, ease: "power2.out"
         }));
 
-        // 7. Events Section
-        gsap.from(".event-card", setupTrigger("#events", {
-            y: 30, opacity: 0, duration: 0.8, stagger: 0.1
-        }));
+        // 7. Events Section (Removed animation to fix visibility issues)
 
         // 8. Gallery Section
         gsap.from("#gallery-track img", setupTrigger("#gallery-track", {
-            x: 100, opacity: 0, duration: 0.8, stagger: 0.1
+            x: 50, opacity: 0, duration: 0.6, stagger: 0.1
         }));
 
         // 9. Featured Quote
         gsap.from(".bg-primary i, .bg-primary h2", setupTrigger(".bg-primary.py-24", {
-            scale: 0.9, opacity: 0, duration: 1, stagger: 0.2
+            scale: 0.95, opacity: 0, duration: 0.8, stagger: 0.2
         }));
 
         // 10. Offering Section
         gsap.from(".shadow-inner", setupTrigger(".py-24.bg-white .shadow-inner", {
-            y: 50, opacity: 0, duration: 1, ease: "elastic.out(1, 0.7)"
+            y: 30, opacity: 0, duration: 0.8
         }));
 
         // 11. Contact Section
         gsap.from("#contact-preview h2, #contact-preview .space-y-8", setupTrigger("#contact-preview", {
-            x: -30, opacity: 0, duration: 1, stagger: 0.2
+            x: -20, opacity: 0, duration: 0.8, stagger: 0.1
         }));
         gsap.from("#contact-preview form", setupTrigger("#contact-preview", {
-            x: 30, opacity: 0, duration: 1
+            x: 20, opacity: 0, duration: 0.8
         }));
+
+        // 12. Branches Section (Removed animation to fix visibility issues)
     }
+    // Final refresh to catch any late-loading layouts (like images)
+    window.addEventListener("load", () => {
+        if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.refresh();
+        }
+    });
 
     // Re-run icon initialization for any dynamic elements
     lucide.createIcons();

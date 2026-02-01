@@ -7,6 +7,7 @@ class AboutSection(models.Model):
     main_image = models.ImageField(upload_to='about/', null=True, blank=True)
     established_year = models.CharField(max_length=20, default="Est. 2012")
     established_text = models.CharField(max_length=100, default="A Decade of Grace")
+    foundation_quote = models.TextField(default="A garden where souls are nurtured by grace and set on fire by the Spirit.", help_text="A short summary or mandate of your founding.")
     description = models.TextField(default="")
     
     # Mission Section
@@ -14,16 +15,20 @@ class AboutSection(models.Model):
     mission_title = models.CharField(max_length=100, default="Our Mission")
     mission_description = models.TextField(default="To cultivate a global garden...")
 
-    # Vision Section
-    vision_subtitle = models.CharField(max_length=100, default="Our Future")
     vision_title = models.CharField(max_length=100, default="Our Vision")
     vision_description = models.TextField(default="To see the fragrance of God's presence...")
 
+    # Statement of Faith Section (Integrated)
+    sof_subtitle = models.CharField(max_length=100, default="Foundations")
+    sof_title = models.CharField(max_length=100, default="Statement of Faith")
+    sof_description = models.TextField(default="Our beliefs are rooted in...")
+    doctrine_pdf = models.FileField(upload_to='doctrines/', null=True, blank=True)
+
     class Meta:
-        verbose_name_plural = "About Section"
+        verbose_name_plural = "About Section (Main)"
 
     def __str__(self):
-        return "About Page Content"
+        return "Main About Page Content"
 
 class Branch(models.Model):
     branch_name = models.CharField(max_length=255)
@@ -83,25 +88,16 @@ class Leader(models.Model):
     def __str__(self):
         return f"{self.name} ({self.position})"
 
-class StatementOfFaith(models.Model):
-    sof_subtitle = models.CharField(max_length=100, default="Foundations")
-    sof_title = models.CharField(max_length=100, default="Statement of Faith")
-    sof_description = models.TextField(default="Our beliefs are rooted in...")
-    doctrine_pdf = models.FileField(upload_to='doctrines/', null=True, blank=True)
-
-    class Meta:
-        verbose_name_plural = "Statement of Faith (Header)"
-
-    def __str__(self):
-        return "Statement of Faith Header"
 
 class BeliefPoint(models.Model):
+    about_section = models.ForeignKey(AboutSection, on_delete=models.CASCADE, related_name='beliefs', null=True, blank=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
         ordering = ['order']
+        verbose_name_plural = "Belief Points (Cards)"
 
     def __str__(self):
         return self.title
@@ -131,3 +127,148 @@ class Statistic(models.Model):
 
     def __str__(self):
         return f"{self.number} {self.label}"
+# Founding Pastor Page Model
+class FoundingPastor(models.Model):
+    # Section 1: Hero
+    hero_title = models.CharField(max_length=200, default="Our Founding Pastor")
+    hero_subtitle = models.CharField(max_length=200, default="The Visionary Behind TVA")
+    hero_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
+    
+    # Section 2: Biography
+    bio_title = models.CharField(max_length=200, default="His Story")
+    bio_content = models.TextField(default="")
+    bio_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
+    
+    # Section 3: Vision
+    vision_title = models.CharField(max_length=200, default="Founding Vision")
+    vision_content = models.TextField(default="")
+    vision_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
+    
+    # Section 4: Legacy
+    legacy_title = models.CharField(max_length=200, default="His Legacy")
+    legacy_content = models.TextField(default="")
+    legacy_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
+    
+    # Section 5: Quotes
+    quotes_title = models.CharField(max_length=200, default="Words of Wisdom")
+    featured_quote = models.TextField(default="")
+    quote_author = models.CharField(max_length=100, default="Founding Pastor")
+    quote_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
+    
+    # Section 6: Timeline
+    timeline_title = models.CharField(max_length=200, default="Ministry Timeline")
+    timeline_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
+    
+    class Meta:
+        verbose_name_plural = "Founding Pastor Page"
+    
+    def __str__(self):
+        return "Founding Pastor Page Content"
+
+# Presiding Pastor Page Model
+class PresidingPastor(models.Model):
+    # Section 1: Hero
+    hero_title = models.CharField(max_length=200, default="Our Presiding Pastor")
+    hero_subtitle = models.CharField(max_length=200, default="Leading TVA Today")
+    hero_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
+    pastor_name = models.CharField(max_length=200, default="Pastor Name")
+    
+    # Section 2: Biography
+    bio_title = models.CharField(max_length=200, default="Meet Our Pastor")
+    bio_content = models.TextField(default="")
+    bio_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
+    
+    # Section 3: Vision
+    vision_title = models.CharField(max_length=200, default="Vision for TVA")
+    vision_content = models.TextField(default="")
+    vision_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
+    
+    # Section 4: Ministry Focus
+    focus_title = models.CharField(max_length=200, default="Ministry Focus")
+    focus_content = models.TextField(default="")
+    focus_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
+    
+    # Section 5: Message
+    message_title = models.CharField(max_length=200, default="A Word From Pastor")
+    message_content = models.TextField(default="")
+    message_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
+    
+    # Section 6: Contact
+    contact_title = models.CharField(max_length=200, default="Connect With Pastor")
+    contact_email = models.EmailField(blank=True, null=True)
+    facebook_url = models.URLField(blank=True, null=True)
+    instagram_url = models.URLField(blank=True, null=True)
+    
+    class Meta:
+        verbose_name_plural = "Presiding Pastor Page"
+    
+    def __str__(self):
+        return "Presiding Pastor Page Content"
+
+# Pastoral Team Page Model
+class PastoralTeam(models.Model):
+    # Section 1: Hero
+    hero_title = models.CharField(max_length=200, default="Our Pastoral Team")
+    hero_subtitle = models.CharField(max_length=200, default="Serving Together in Unity")
+    hero_image = models.ImageField(upload_to='pastoral_team/', null=True, blank=True)
+    
+    # Section 2: Overview
+    overview_title = models.CharField(max_length=200, default="Meet The Team")
+    overview_content = models.TextField(default="")
+    overview_image = models.ImageField(upload_to='pastoral_team/', null=True, blank=True)
+    
+    # Section 3: Team Structure
+    structure_title = models.CharField(max_length=200, default="Our Structure")
+    structure_content = models.TextField(default="")
+    structure_image = models.ImageField(upload_to='pastoral_team/', null=True, blank=True)
+    
+    # Section 4: Team Values
+    values_title = models.CharField(max_length=200, default="Our Values")
+    values_content = models.TextField(default="")
+    values_image = models.ImageField(upload_to='pastoral_team/', null=True, blank=True)
+    
+    # Section 5: Ministry Areas (handled by team members below)
+    ministry_title = models.CharField(max_length=200, default="Ministry Areas")
+    
+    # Section 6: Join Team
+    join_title = models.CharField(max_length=200, default="Join Our Team")
+    join_content = models.TextField(default="")
+    join_image = models.ImageField(upload_to='pastoral_team/', null=True, blank=True)
+    
+    class Meta:
+        verbose_name_plural = "Pastoral Team Page"
+    
+    def __str__(self):
+        return "Pastoral Team Page Content"
+
+# Timeline Milestone for Founding Pastor
+class PastoralTimeline(models.Model):
+    founding_pastor = models.ForeignKey(FoundingPastor, on_delete=models.CASCADE, related_name='timeline_events', null=True, blank=True)
+    year = models.CharField(max_length=4, help_text="e.g., 2012")
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    order = models.PositiveIntegerField(default=0)
+    
+    class Meta:
+        ordering = ['year', 'order']
+        verbose_name_plural = "Pastoral Timeline Events"
+    
+    def __str__(self):
+        return f"{self.year} - {self.title}"
+
+# Team Member for Pastoral Team
+class TeamMember(models.Model):
+    pastoral_team = models.ForeignKey(PastoralTeam, on_delete=models.CASCADE, related_name='team_members', null=True, blank=True)
+    name = models.CharField(max_length=200)
+    position = models.CharField(max_length=200)
+    bio = models.TextField()
+    image = models.ImageField(upload_to='team_members/', null=True, blank=True)
+    ministry_area = models.CharField(max_length=200, blank=True)
+    order = models.PositiveIntegerField(default=0)
+    
+    class Meta:
+        ordering = ['order']
+        verbose_name_plural = "Team Members"
+    
+    def __str__(self):
+        return f"{self.name} - {self.position}"

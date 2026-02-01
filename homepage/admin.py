@@ -1,9 +1,6 @@
-
 # Register your models here.
 from django.contrib import admin
-from .models import HeroSlide
-from .models import Sermon
-from .models import Event
+from .models import HeroSlide, AboutSection, CoreValue, StoreSection, PastorSection, FeaturedQuote, GivingSection, EventsHeader
 from .models import GalleryImage
 from .models import ContactMessage 
 from .models import FooterSettings, ChurchBranch
@@ -15,19 +12,12 @@ class HeroSlideAdmin(admin.ModelAdmin):
     list_display = ('title', 'order', 'is_active')
     list_editable = ('order', 'is_active')
 
-# Sermon Admin
-@admin.register(Sermon)
-class SermonAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'date', 'duration')
-    list_filter = ('category', 'date')
-    search_fields = ('title', 'category')
+# About Section Admin
+@admin.register(AboutSection)
+class AboutSectionAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return not AboutSection.objects.exists()
 
-
-# Event Admin
-@admin.register(Event)
-class EventAdmin(admin.ModelAdmin):
-    list_display = ('title', 'date')
-    search_fields = ('title',)
 
 
 # Gallery Image Admin
@@ -56,3 +46,34 @@ class FooterSettingsAdmin(admin.ModelAdmin):
 class ChurchBranchAdmin(admin.ModelAdmin):
     list_display = ('branch_name', 'order')
     list_editable = ('order',)
+
+
+@admin.register(CoreValue)
+class CoreValueAdmin(admin.ModelAdmin):
+    list_display = ('title', 'icon_name', 'order')
+    list_editable = ('order',)
+
+@admin.register(StoreSection)
+class StoreSectionAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return not StoreSection.objects.exists()
+
+@admin.register(PastorSection)
+class PastorSectionAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return not PastorSection.objects.exists()
+
+@admin.register(FeaturedQuote)
+class FeaturedQuoteAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return not FeaturedQuote.objects.exists()
+
+@admin.register(GivingSection)
+class GivingSectionAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return not GivingSection.objects.exists()
+
+@admin.register(EventsHeader)
+class EventsHeaderAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return not EventsHeader.objects.exists()

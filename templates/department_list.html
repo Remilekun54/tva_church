@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Departments | TVA{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="relative w-full h-[40vh] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-primary to-accent">
+        <!-- Optional: Add a subtle pattern overlay here -->
+    </div>
+    <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+        <h1 class="text-4xl md:text-6xl font-black text-white mb-4 tracking-tighter uppercase">Our Departments</h1>
+        <p class="text-lg md:text-2xl text-white/90 font-medium font-serif italic"> Serving with Excellence</p>
+    </div>
+</div>
+
+<!-- Departments Grid -->
+<section class="py-24 bg-brandLight">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for department in departments %}
+            <div class="group relative animate-on-scroll" style="animation-delay: {{ forloop.counter0 }}00ms;">
+                <div class="glass-card h-full rounded-3xl overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300 border border-white/40 shadow-lg bg-white flex flex-col">
+                    
+                    <!-- Card Image -->
+                    <div class="h-48 overflow-hidden relative">
+                        {% if department.card_image %}
+                            <img src="{{ department.card_image.url }}" alt="{{ department.name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        {% else %}
+                            <div class="w-full h-full bg-primary/10 flex items-center justify-center">
+                                <i data-lucide="users" class="w-12 h-12 text-primary/40"></i>
+                            </div>
+                        {% endif %}
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-60"></div>
+                        <h3 class="absolute bottom-4 left-4 text-white font-black text-xl z-10">{{ department.name }}</h3>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <p class="text-slate-600 mb-6 line-clamp-3 text-sm leading-relaxed">
+                            {{ department.card_summary }}
+                        </p>
+                        <a href="{% url 'department_detail' department.slug %}" class="inline-flex items-center gap-2 text-primary font-bold hover:text-secondary transition-colors uppercase text-xs tracking-wider">
+                            Learn More <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-full text-center py-20">
+                <p class="text-slate-500 italic">No departments have been added yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

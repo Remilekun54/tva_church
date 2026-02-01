@@ -1,8 +1,8 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from about.views import about_view
+from about.views import about_view, founding_pastor_view, presiding_pastor_view, pastoral_team_view
 from homepage import views as home_views # Rename to avoid confusion
 from sermons.views import sermon_list 
 from events.views import event_list
@@ -18,6 +18,11 @@ urlpatterns = [
 
     path('', home_views.home, name='home'),
     path('about/', about_view, name='about'),
+    path('about/founding-pastor/', founding_pastor_view, name='founding_pastor'),
+    path('about/presiding-pastor/', presiding_pastor_view, name='presiding_pastor'),
+    path('about/pastoral-team/', pastoral_team_view, name='pastoral_team'),
+    path('get-involved/', include('get_involved.urls')),
+    path('departments/', include('departments.urls')), # Added this line
     path('sermons/', sermon_list, name='sermons'), 
     path('store/', store_view, name='store'),
     

@@ -2,37 +2,52 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from .models import AboutSection
+from .models import AboutSection, BeliefPoint
 from .models import Branch, BranchActivity
 from .models import CoreValue
 from .models import Leader
 
 
+class BeliefPointInline(admin.TabularInline):
+    model = BeliefPoint
+    extra = 3
+    fields = ('title', 'description', 'order')
+    classes = ('collapse',)
+
 @admin.register(AboutSection)
 class AboutAdmin(admin.ModelAdmin):
-    # This prevents the admin from adding multiple about sections
+    fieldsets = (
+        ('Story & Foundation', {
+            'fields': ('subtitle', 'title', 'main_image', 'established_year', 'established_text', 'foundation_quote', 'description')
+        }),
+        ('Mission & Vision', {
+            'fields': ('mission_subtitle', 'mission_title', 'mission_description', 'vision_title', 'vision_description')
+        }),
+        ('Statement of Faith & Doctrine Upload', {
+            'fields': ('sof_subtitle', 'sof_title', 'sof_description', 'doctrine_pdf'),
+            'description': 'Manage the Statement of Faith and upload the Doctrine PDF here.'
+        }),
+    )
+    inlines = [BeliefPointInline]
+
     def has_add_permission(self, request):
         if AboutSection.objects.exists():
             return False
         return True
-    
 
 class ActivityInline(admin.TabularInline):
     model = BranchActivity
-    extra = 1 # Shows one empty row by default
+    extra = 1
 
 @admin.register(Branch)
 class BranchAdmin(admin.ModelAdmin):
     list_display = ('branch_name', 'is_active')
     inlines = [ActivityInline]
 
-
-
 @admin.register(CoreValue)
 class CoreValueAdmin(admin.ModelAdmin):
     list_display = ('title', 'order', 'color_scheme')
     list_editable = ('order', 'color_scheme')
-
 
 @admin.register(Leader)
 class LeaderAdmin(admin.ModelAdmin):
@@ -40,38 +55,112 @@ class LeaderAdmin(admin.ModelAdmin):
     list_editable = ('order', 'branch')
     list_filter = ('branch',)
 
-
-from django.contrib import admin
-from .models import AboutSection, StatementOfFaith, BeliefPoint
-
-# 1. Register the Statement of Faith Header
-@admin.register(StatementOfFaith)
-class StatementOfFaithAdmin(admin.ModelAdmin):
-    list_display = ('sof_title', 'sof_subtitle')
-    
-    # This prevents the "Add" button from showing up if an entry already exists
-    def has_add_permission(self, request):
-        if StatementOfFaith.objects.exists():
-            return False
-        return True
-
-# 2. Register the individual Belief Points
 @admin.register(BeliefPoint)
 class BeliefPointAdmin(admin.ModelAdmin):
     list_display = ('title', 'order')
     list_editable = ('order',)
 
-
-from .models import HistoryMilestone
+from .models import HistoryMilestone, Statistic
 
 @admin.register(HistoryMilestone)
 class HistoryMilestoneAdmin(admin.ModelAdmin):
     list_display = ('year', 'title', 'order')
     list_editable = ('order',)
 
-from .models import Statistic
-
 @admin.register(Statistic)
 class StatisticAdmin(admin.ModelAdmin):
     list_display = ('label', 'number', 'order')
     list_editable = ('order',)
+
+# Pastoral Pages Admin
+from .models import FoundingPastor, PresidingPastor, PastoralTeam, PastoralTimeline, TeamMember
+
+class PastoralTimelineInline(admin.TabularInline):
+    model = PastoralTimeline
+    extra = 2
+    fields = ('year', 'title', 'description', 'order')
+
+@admin.register(FoundingPastor)
+class FoundingPastorAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('Hero Section', {
+            'fields': ('hero_title', 'hero_subtitle', 'hero_image')
+        }),
+        ('Biography Section', {
+            'fields': ('bio_title', 'bio_content', 'bio_image')
+        }),
+        ('Vision Section', {
+            'fields': ('vision_title', 'vision_content', 'vision_image')
+        }),
+        ('Legacy Section', {
+            'fields': ('legacy_title', 'legacy_content', 'legacy_image')
+        }),
+        ('Quotes Section', {
+            'fields': ('quotes_title', 'featured_quote', 'quote_author', 'quote_image')
+        }),
+        ('Timeline Section', {
+            'fields': ('timeline_title', 'timeline_image')
+        }),
+    )
+    inlines = [PastoralTimelineInline]
+    
+    def has_add_permission(self, request):
+        return not FoundingPastor.objects.exists()
+
+@admin.register(PresidingPastor)
+class PresidingPastorAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('Hero Section', {
+            'fields': ('hero_title', 'hero_subtitle', 'hero_image', 'pastor_name')
+        }),
+        ('Biography Section', {
+            'fields': ('bio_title', 'bio_content', 'bio_image')
+        }),
+        ('Vision Section', {
+            'fields': ('vision_title', 'vision_content', 'vision_image')
+        }),
+        ('Ministry Focus Section', {
+            'fields': ('focus_title', 'focus_content', 'focus_image')
+        }),
+        ('Message Section', {
+            'fields': ('message_title', 'message_content', 'message_image')
+        }),
+        ('Contact Section', {
+            'fields': ('contact_title', 'contact_email', 'facebook_url', 'instagram_url')
+        }),
+    )
+    
+    def has_add_permission(self, request):
+        return not PresidingPastor.objects.exists()
+
+class TeamMemberInline(admin.TabularInline):
+    model = TeamMember
+    extra = 3
+    fields = ('name', 'position', 'ministry_area', 'bio', 'image', 'order')
+
+@admin.register(PastoralTeam)
+class PastoralTeamAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('Hero Section', {
+            'fields': ('hero_title', 'hero_subtitle', 'hero_image')
+        }),
+        ('Overview Section', {
+            'fields': ('overview_title', 'overview_content', 'overview_image')
+        }),
+        ('Structure Section', {
+            'fields': ('structure_title', 'structure_content', 'structure_image')
+        }),
+        ('Values Section', {
+            'fields': ('values_title', 'values_content', 'values_image')
+        }),
+        ('Ministry Areas Section', {
+            'fields': ('ministry_title',)
+        }),
+        ('Join Team Section', {
+            'fields': ('join_title', 'join_content', 'join_image')
+        }),
+    )
+    inlines = [TeamMemberInline]
+    
+    def has_add_permission(self, request):
+        return not PastoralTeam.objects.exists()

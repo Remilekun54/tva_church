@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'homepage',
     'about',
+    'get_involved',
+    'departments',
     'sermons',
     'events',
     'store',

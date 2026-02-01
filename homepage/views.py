@@ -4,9 +4,13 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import (
-    HeroSlide, Sermon, Event, GalleryImage, 
+    HeroSlide, GalleryImage, AboutSection,
+    CoreValue, StoreSection, PastorSection,
+    FeaturedQuote, GivingSection, EventsHeader,
     ContactMessage, FooterSettings, ChurchBranch
 )
+from sermons.models import Sermon
+from events.models import Event
 
 def home(request):
     # --- 1. HANDLE POST REQUESTS (Form Submissions) ---
@@ -26,9 +30,16 @@ def home(request):
     # --- 2. HANDLE GET REQUESTS (Page Loading) ---
     # Fetching data - using .filter(is_active=True) where applicable is safer
     slides = HeroSlide.objects.filter(is_active=True)
-    latest_sermons = Sermon.objects.all().order_by('-id')[:4]
-    events = Event.objects.all().order_by('id')[:4] 
+    latest_sermons = Sermon.objects.all().order_by('-date_preached')[:4]
+    events = Event.objects.filter(is_active=True).order_by('date')[:4] 
     gallery_images = GalleryImage.objects.all()
+    about_section = AboutSection.objects.first()
+    core_values = CoreValue.objects.all()
+    store_section = StoreSection.objects.first()
+    pastor_section = PastorSection.objects.first()
+    featured_quote = FeaturedQuote.objects.first()
+    giving_section = GivingSection.objects.first()
+    events_header = EventsHeader.objects.first()
     
     # Footer and Branch Data
     footer_settings = FooterSettings.objects.first()
@@ -41,6 +52,13 @@ def home(request):
         'gallery_images': gallery_images,
         'footer': footer_settings,  # This name MUST match your HTML {{ footer... }}
         'branches': branches,
+        'about_section': about_section,
+        'core_values': core_values,
+        'store_section': store_section,
+        'pastor': pastor_section,
+        'featured_quote': featured_quote,
+        'giving': giving_section,
+        'events_header': events_header,
     }
     
     return render(request, 'index.html', context)

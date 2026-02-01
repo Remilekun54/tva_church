@@ -19,34 +19,18 @@ class HeroSlide(models.Model):
     def __str__(self):
         return self.title
     
-# Sermon Model
-
-class Sermon(models.Model):
-    title = models.CharField(max_length=255)
-    category = models.CharField(max_length=100)  # e.g., Foundations, Grace
-    image = models.ImageField(upload_to='sermons/')
-    date = models.DateField()
-    duration = models.IntegerField(help_text="Duration in minutes")
-    video_url = models.URLField(blank=True, null=True, help_text="Link to the sermon video")
-    created_at = models.DateTimeField(auto_now_add=True)
+# About Section Model
+class AboutSection(models.Model):
+    tagline = models.CharField(max_length=100, default="About Us")
+    title = models.CharField(max_length=255, help_text="Use <br> for line breaks and <span class='text-secondary italic'>Text</span> for styled text")
+    description = models.TextField()
+    image = models.ImageField(upload_to='about_section/')
+    button_text = models.CharField(max_length=50, default="Discover Our Mission")
+    button_url = models.CharField(max_length=255, default="/about/")
 
     class Meta:
-        ordering = ['-date'] # Show newest first
-
-    def __str__(self):
-        return self.title
-    
-
-# Event Model
-
-class Event(models.Model):
-    title = models.CharField(max_length=200)
-    date = models.DateField()
-    description = models.TextField(help_text="Short summary of the event")
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ['date'] # Shows soonest events first
+        verbose_name = "About Section"
+        verbose_name_plural = "About Section"
 
     def __str__(self):
         return self.title
@@ -83,6 +67,48 @@ class ContactMessage(models.Model):
     def __str__(self):
         return f"Message from {self.name} - {self.email}"
 
+
+# Core Value Model
+class CoreValue(models.Model):
+    title = models.CharField(max_length=100)
+    icon_name = models.CharField(max_length=50, help_text="Enter Lucide icon name (e.g., flame, book-open, users)")
+    description = models.TextField()
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Core Value"
+        verbose_name_plural = "Core Values"
+
+    def __str__(self):
+        return self.title
+
+
+# Store Section Model
+class StoreSection(models.Model):
+    subtitle = models.CharField(max_length=100, default="Our Store")
+    title = models.CharField(max_length=255, help_text="Use <br> for line breaks and <span class='text-secondary italic'>Text</span> for styled text")
+    description = models.TextField()
+    image = models.ImageField(upload_to='store_section/')
+    
+    # Feature 1
+    feature1_title = models.CharField(max_length=100, default="Books")
+    feature1_text = models.CharField(max_length=255, default="In-depth study guides")
+    
+    # Feature 2
+    feature2_title = models.CharField(max_length=100, default="Courses/Apparel")
+    feature2_text = models.CharField(max_length=255, default="TVA Merchandise")
+    
+    button_text = models.CharField(max_length=50, default="Visit the Store")
+    button_url = models.CharField(max_length=255, default="/store/")
+
+    class Meta:
+        verbose_name = "Store Section"
+        verbose_name_plural = "Store Section"
+
+    def __str__(self):
+        return self.title
+
 from django.db import models
 
 
@@ -111,3 +137,58 @@ class ChurchBranch(models.Model):
 
     def __str__(self):
         return self.branch_name
+
+
+# Pastor Section Model
+class PastorSection(models.Model):
+    tagline = models.CharField(max_length=100, default="Our Shepherd")
+    name = models.CharField(max_length=255, default="Pastor Adeyinka")
+    quote = models.TextField(help_text="The italicized quote")
+    description = models.TextField(help_text="The main bio description")
+    image = models.ImageField(upload_to='pastor_section/')
+    button_text = models.CharField(max_length=100, default="Read Full Bio")
+    button_url = models.CharField(max_length=255, default="/about/")
+
+    class Meta:
+        verbose_name = "Pastor Section"
+        verbose_name_plural = "Pastor Section"
+
+    def __str__(self):
+        return self.name
+
+# Featured Quote Model
+class FeaturedQuote(models.Model):
+    quote = models.TextField()
+    author_label = models.CharField(max_length=100, default="TVA Mandate")
+
+    class Meta:
+        verbose_name = "Featured Quote"
+        verbose_name_plural = "Featured Quote"
+
+    def __str__(self):
+        return self.author_label
+
+# Giving Section Model
+class GivingSection(models.Model):
+    title = models.CharField(max_length=255, default="Partner with the Vision")
+    description = models.TextField()
+    button_text = models.CharField(max_length=100, default="Give Online")
+    button_url = models.CharField(max_length=255, default="/offering/")
+
+    class Meta:
+        verbose_name = "Giving Section"
+        verbose_name_plural = "Giving Section"
+
+    def __str__(self):
+        return self.title
+
+# Events Header Model
+class EventsHeader(models.Model):
+    title = models.CharField(max_length=255, default="Upcoming Events & News")
+
+    class Meta:
+        verbose_name = "Events Header"
+        verbose_name_plural = "Events Header"
+
+    def __str__(self):
+        return self.title

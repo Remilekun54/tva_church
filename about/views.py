@@ -1,20 +1,20 @@
 from django.shortcuts import render
+from homepage.models import ChurchBranch
 from .models import (
     AboutSection, 
-    Branch, 
     CoreValue, 
     Leader, 
-    StatementOfFaith, 
     BeliefPoint,
     HistoryMilestone,
-    Statistic
-
+    Statistic,
+    FoundingPastor,
+    PresidingPastor,
+    PastoralTeam
 )
 
 def about_view(request):
     # 1. Fetch Single-Entry Data
     about_data = AboutSection.objects.first()
-    sof_data = StatementOfFaith.objects.first()
     
     # 2. Fetch List Data (Ordered)
     core_values = CoreValue.objects.all().order_by('order')
@@ -22,7 +22,7 @@ def about_view(request):
     
     # 3. Fetch Related Data (Optimized)
     # prefetch_related handles the activities inside the branches
-    branches = Branch.objects.filter(is_active=True).prefetch_related('activities')
+    branches = ChurchBranch.objects.all().order_by('order')
     
     # select_related handles the branch name for each leader
     leaders = Leader.objects.all().select_related('branch').order_by('order')
@@ -30,13 +30,10 @@ def about_view(request):
     # 4. Debugging Logs (Check your terminal)
     if not about_data:
         print("!!! WARNING: No AboutSection data found !!!")
-    if not sof_data:
-        print("!!! WARNING: No StatementOfFaith data found !!!")
 
     # 5. Combine everything into the context
     context = {
         'about': about_data,
-        'sof': sof_data,
         'core_values': core_values,
         'beliefs': beliefs,
         'branches': branches,
@@ -47,5 +44,29 @@ def about_view(request):
     
     return render(request, 'about.html', context)
 
+def founding_pastor_view(request):
+    pastor_data = FoundingPastor.objects.first()
+    
+    context = {
+        'pastor': pastor_data,
+    }
+    
+    return render(request, 'founding_pastor.html', context)
 
+def presiding_pastor_view(request):
+    pastor_data = PresidingPastor.objects.first()
+    
+    context = {
+        'pastor': pastor_data,
+    }
+    
+    return render(request, 'presiding_pastor.html', context)
 
+def pastoral_team_view(request):
+    team_data = PastoralTeam.objects.first()
+    
+    context = {
+        'team': team_data,
+    }
+    
+    return render(request, 'pastoral_team.html', context)
