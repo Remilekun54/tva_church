@@ -15,6 +15,7 @@ from contact.views import contact_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("ckeditor5/", include('django_ckeditor_5.urls')),
 
     path('', home_views.home, name='home'),
     path('about/', about_view, name='about'),
@@ -23,6 +24,7 @@ urlpatterns = [
     path('about/pastoral-team/', pastoral_team_view, name='pastoral_team'),
     path('get-involved/', include('get_involved.urls')),
     path('departments/', include('departments.urls')), # Added this line
+    path('blog/', include('blog.urls')),
     path('sermons/', sermon_list, name='sermons'), 
     path('store/', store_view, name='store'),
     

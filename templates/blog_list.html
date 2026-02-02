@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Blog | TVA{% endblock %}
+
+{% block content %}
+<main class="mt-20">
+    <!-- Blog Header -->
+    <div class="relative py-24 bg-primary overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1519834785169-98be25ec3f84?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10"></div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10 text-center">
+            <span class="text-secondary font-black uppercase tracking-widest text-sm mb-4 block">Kingdom Insights</span>
+            <h1 class="text-5xl md:text-7xl font-black text-white serif mb-6">Our Blog</h1>
+            <p class="text-xl text-emerald-50 max-w-2xl mx-auto">
+                Discover articles, teachings, and stories to inspire your walk with God.
+            </p>
+        </div>
+    </div>
+
+    <!-- Blog Grid -->
+    <section class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for post in posts %}
+                <article class="bg-white rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group flex flex-col h-full">
+                    <div class="relative h-64 overflow-hidden">
+                        {% if post.image %}
+                        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                        {% else %}
+                        <div class="w-full h-full bg-slate-200 flex items-center justify-center">
+                            <i data-lucide="image" class="w-12 h-12 text-slate-400"></i>
+                        </div>
+                        {% endif %}
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-primary shadow-sm">
+                            {{ post.created_at|date:"M d, Y" }}
+                        </div>
+                    </div>
+                    
+                    <div class="p-8 flex flex-col flex-grow">
+                        <div class="mb-4">
+                            <span class="text-secondary font-bold text-xs uppercase tracking-wider">Article</span>
+                        </div>
+                        <h2 class="text-2xl font-black text-primary serif mb-4 leading-tight group-hover:text-secondary transition-colors">
+                            <a href="{% url 'blog_detail' post.slug %}">
+                                {{ post.title }}
+                            </a>
+                        </h2>
+                        <p class="text-slate-600 line-clamp-3 mb-6">
+                            {{ post.content|striptags|truncatewords:20 }}
+                        </p>
+                        
+                        <div class="mt-auto pt-6 border-t border-slate-100 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-primary font-bold text-xs">
+                                    {{ post.author.username|make_list|first|upper }}
+                                </div>
+                                <span class="text-sm font-bold text-slate-500">{{ post.author.username }}</span>
+                            </div>
+                            <a href="{% url 'blog_detail' post.slug %}" class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center group-hover:bg-secondary transition-colors">
+                                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+                {% empty %}
+                <div class="col-span-full text-center py-20">
+                    <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="pen-tool" class="w-10 h-10 text-slate-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-black text-primary mb-2">No Articles Yet</h3>
+                    <p class="text-slate-500">Check back soon for new content.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

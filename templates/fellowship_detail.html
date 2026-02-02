@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ fellowship.get_name_display }} | TVA{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<header class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+    <div class="absolute inset-0 bg-primary">
+        {% if fellowship.hero_image %}
+            <div class="absolute inset-0 bg-[url('{{ fellowship.hero_image.url }}')] bg-cover bg-center opacity-30"></div>
+        {% else %}
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-20"></div>
+        {% endif %}
+        <div class="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/80 to-primary"></div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-4 relative z-10 text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-secondary text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur-sm border border-white/10">
+            <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+            TVA Fellowship
+        </div>
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 uppercase tracking-tight leading-none">
+            {{ fellowship.get_name_display }}
+        </h1>
+        <p class="text-lg text-blue-100/80 max-w-2xl mx-auto leading-relaxed">
+            Building strong bonds, growing in faith, and impacting our world together.
+        </p>
+    </div>
+</header>
+<!-- End Hero -->
+
+<section class="py-20 bg-white relative">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid lg:grid-cols-3 gap-12">
+            
+            <!-- Main Content -->
+            <div class="lg:col-span-2 space-y-16">
+                
+                <!-- About Section -->
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-black text-slate-900">{{ fellowship.about_title }}</h2>
+                    <div class="prose prose-slate prose-lg text-slate-600">
+                        {{ fellowship.about_text|linebreaks }}
+                    </div>
+                </div>
+
+                <!-- Activities Summary -->
+                {% if fellowship.activities_summary %}
+                <div class="bg-brandLight rounded-3xl p-8 border border-primary/5">
+                    <h3 class="text-xl font-black text-primary mb-4 flex items-center gap-2">
+                        <i data-lucide="calendar-check" class="w-6 h-6"></i> Activities for the Year
+                    </h3>
+                    <p class="text-slate-600 leading-relaxed mb-6">{{ fellowship.activities_summary|linebreaksbr }}</p>
+                    
+                    {% if fellowship.calendar_file %}
+                        <a href="{{ fellowship.calendar_file.url }}" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-primary font-bold shadow-sm border border-primary/10 hover:bg-primary hover:text-white transition-all">
+                            <i data-lucide="download"></i> Download Activities Calendar
+                        </a>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <!-- Future Events -->
+                <div>
+                    <h3 class="text-2xl font-black text-slate-900 mb-8 flex items-center gap-3">
+                        <i data-lucide="calendar-days" class="w-8 h-8 text-secondary"></i> Upcoming Events
+                    </h3>
+                    
+                    {% if future_events %}
+                        <div class="space-y-6">
+                            {% for event in future_events %}
+                            <div class="bg-white rounded-3xl p-6 shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col md:flex-row gap-6 group hover:-translate-y-1 transition-all">
+                                <!-- Date Badge -->
+                                <div class="shrink-0 flex md:flex-col items-center justify-center w-full md:w-24 h-16 md:h-24 bg-primary/5 rounded-2xl text-center md:text-left gap-2 md:gap-0">
+                                    <span class="text-sm font-bold text-primary/60 uppercase">{{ event.date|date:"M" }}</span>
+                                    <span class="text-2xl md:text-3xl font-black text-primary">{{ event.date|date:"d" }}</span>
+                                </div>
+                                
+                                <div class="grow">
+                                    <h4 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-primary transition-colors">{{ event.title }}</h4>
+                                    <div class="flex flex-wrap gap-4 text-sm text-slate-500 mb-4">
+                                        {% if event.time %}
+                                            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-4 h-4"></i> {{ event.time|time:"g:i A" }}</span>
+                                        {% endif %}
+                                        {% if event.location %}
+                                            <span class="flex items-center gap-1"><i data-lucide="map-pin" class="w-4 h-4"></i> {{ event.location }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <p class="text-slate-600 text-sm line-clamp-2">{{ event.description }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="p-8 rounded-3xl bg-slate-50 text-center border-2 border-dashed border-slate-200">
+                            <p class="text-slate-500 font-medium">No upcoming events scheduled at the moment.</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Past Events Carousel-style -->
+                {% if past_events %}
+                <div>
+                    <h3 class="text-2xl font-black text-slate-900 mb-8 flex items-center gap-3">
+                        <i data-lucide="history" class="w-8 h-8 text-slate-400"></i> Past Events
+                    </h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        {% for event in past_events|slice:":4" %}
+                        <div class="bg-white rounded-2xl p-4 border border-slate-100 opacity-60 hover:opacity-100 transition-opacity">
+                            <div class="text-xs font-bold text-slate-400 uppercase mb-1">{{ event.date|date:"F j, Y" }}</div>
+                            <h4 class="font-bold text-slate-800">{{ event.title }}</h4>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1">
+                <div class="sticky top-32 space-y-6">
+                    
+                    <!-- Join Card -->
+                    <div class="bg-secondary rounded-3xl p-8 shadow-xl relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
+                        
+                        <div class="relative z-10">
+                            <h3 class="text-2xl font-black text-white mb-4">Join the Family</h3>
+                            <div class="prose prose-invert prose-sm text-white/90 mb-8">
+                                {{ fellowship.join_info|linebreaks }}
+                            </div>
+                            <a href="{% url 'get_involved:registration' %}" class="w-full block py-4 rounded-xl bg-white text-secondary font-black text-center shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
+                                Register Now
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="bg-white rounded-3xl p-6 shadow-lg shadow-slate-200/50 border border-slate-100">
+                        <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Other Fellowships</h4>
+                        <ul class="space-y-2">
+                            <li>
+                                <a href="{% url 'get_involved:fellowship_detail' 'box-18' %}" class="block p-3 rounded-xl hover:bg-slate-50 text-slate-600 font-bold hover:text-primary transition-colors flex justify-between">
+                                    Box-18 (Men) <i data-lucide="arrow-right" class="w-4 h-4 opacity-0 hover:opacity-100"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'get_involved:fellowship_detail' 'v-mums' %}" class="block p-3 rounded-xl hover:bg-slate-50 text-slate-600 font-bold hover:text-primary transition-colors flex justify-between">
+                                    V-Mums (Women) <i data-lucide="arrow-right" class="w-4 h-4 opacity-0 hover:opacity-100"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'get_involved:fellowship_detail' 'singles-youths' %}" class="block p-3 rounded-xl hover:bg-slate-50 text-slate-600 font-bold hover:text-primary transition-colors flex justify-between">
+                                    Singles & Youths <i data-lucide="arrow-right" class="w-4 h-4 opacity-0 hover:opacity-100"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

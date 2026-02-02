@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django_ckeditor_5.fields import CKEditor5Field
 
 class Department(models.Model):
     name = models.CharField(max_length=200)
@@ -11,7 +12,7 @@ class Department(models.Model):
     
     # Detail Page Fields
     hero_image = models.ImageField(upload_to='departments/heroes/', help_text="Large banner image for the department detail page.")
-    content = models.TextField(help_text="Full details about the department (History, activities, etc.)")
+    content = CKEditor5Field('Content', config_name='default', help_text="Full details about the department (History, activities, etc.)")
     
     order = models.PositiveIntegerField(default=0, help_text="Order in the list (lowest first)")
     

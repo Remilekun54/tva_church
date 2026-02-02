@@ -37,7 +37,7 @@
                 {{ team.overview_title|default:"Meet The Team" }}
               </h2>
               <div class="text-slate-600 text-lg leading-relaxed">
-                {{ team.overview_content|default:"Our pastoral team serves together..." |linebreaks }}
+                {{ team.overview_content|default:"Our pastoral team serves together..." |safe }}
               </div>
             </div>
             <div>
@@ -74,7 +74,7 @@
                 {{ team.structure_title|default:"Our Structure" }}
               </h2>
               <div class="text-slate-600 text-lg leading-relaxed">
-                {{ team.structure_content|default:"Our team structure and organization..." |linebreaks }}
+                {{ team.structure_content|default:"Our team structure and organization..." |safe }}
               </div>
             </div>
           </div>
@@ -93,7 +93,7 @@
                 {{ team.values_title|default:"Our Values" }}
               </h2>
               <div class="text-slate-600 text-lg leading-relaxed">
-                {{ team.values_content|default:"The values that guide our team..." |linebreaks }}
+                {{ team.values_content|default:"The values that guide our team..." |safe }}
               </div>
             </div>
             <div>
@@ -136,7 +136,7 @@
                 {% if member.ministry_area %}
                 <p class="text-sm text-slate-500 font-semibold mb-3">{{ member.ministry_area }}</p>
                 {% endif %}
-                <p class="text-slate-600 text-sm">{{ member.bio|truncatewords:30 }}</p>
+                <p class="text-slate-600 text-sm">{{ member.bio|striptags|truncatewords:30 }}</p>
               </div>
             </div>
             {% empty %}
@@ -169,7 +169,7 @@
                 {{ team.join_title|default:"Join Our Team" }}
               </h2>
               <div class="text-slate-600 text-lg leading-relaxed mb-8">
-                {{ team.join_content|default:"Interested in serving with our pastoral team? Contact us to learn more." |linebreaks }}
+                {{ team.join_content|default:"Interested in serving with our pastoral team? Contact us to learn more." |safe }}
               </div>
               
               <a href="{% url 'contact' %}" class="bg-secondary text-primary px-8 py-4 rounded-2xl font-black inline-flex items-center gap-2 hover:bg-white hover:text-secondary transition-all shadow-xl border-2 border-secondary">

@@ -1,5 +1,6 @@
 
 from django.db import models
+from django_ckeditor_5.fields import CKEditor5Field
 
 class EventCategory(models.Model):
     name = models.CharField(max_length=100)
@@ -14,7 +15,7 @@ class Event(models.Model):
     title = models.CharField(max_length=200)
     category = models.ForeignKey(EventCategory, on_delete=models.SET_NULL, null=True)
     tagline = models.CharField(max_length=100, help_text="e.g., Special Encounter")
-    description = models.TextField(help_text="Brief description of the event")
+    description = CKEditor5Field('Content', config_name='default', help_text="Brief description of the event")
     image = models.ImageField(upload_to='events/')
     
     date = models.DateField()

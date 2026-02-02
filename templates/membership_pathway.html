@@ -45,7 +45,7 @@
         <!-- Timeline / Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative">
             {% for step in page_config.steps.all %}
-                <div class="group relative animate-on-scroll" style="animation-delay: {{ forloop.counter0 }}00ms;">
+                <div class="group relative animate-on-scroll">
                     <!-- Card -->
                     <div class="glass-card h-full rounded-3xl p-8 hover:transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-secondary shadow-lg bg-white relative overflow-hidden">
                         
@@ -83,7 +83,7 @@
         
         <!-- Call to Action -->
         <div class="mt-20 text-center animate-on-scroll">
-            <a href="{% url 'contact' %}" class="inline-flex items-center gap-2 bg-primary text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-secondary hover:text-primary transition-all shadow-xl hover:shadow-2xl transform hover:scale-105">
+            <a href="{% url 'get_involved:registration' %}" class="inline-flex items-center gap-2 bg-primary text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-secondary hover:text-primary transition-all shadow-xl hover:shadow-2xl transform hover:scale-105">
                 Join the Family <i data-lucide="arrow-right" class="w-5 h-5"></i>
             </a>
         </div>

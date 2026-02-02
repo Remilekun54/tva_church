@@ -40,7 +40,7 @@
                 {{ pastor.bio_title|default:"Meet Our Pastor" }}
               </h2>
               <div class="text-slate-600 text-lg leading-relaxed space-y-4">
-                {{ pastor.bio_content|default:"Meet our presiding pastor..." |linebreaks }}
+                {{ pastor.bio_content|default:"Meet our presiding pastor..." |safe }}
               </div>
             </div>
             <div>
@@ -64,7 +64,7 @@
                 {{ pastor.vision_title|default:"Vision for TVA" }}
               </h2>
               <div class="text-slate-600 text-lg leading-relaxed">
-                {{ pastor.vision_content|default:"The vision for TVA's future..." |linebreaks }}
+                {{ pastor.vision_content|default:"The vision for TVA's future..." |safe }}
               </div>
             </div>
             <div>
@@ -101,7 +101,7 @@
                 {{ pastor.focus_title|default:"Ministry Focus" }}
               </h2>
               <div class="text-slate-600 text-lg leading-relaxed">
-                {{ pastor.focus_content|default:"Our key ministry priorities..." |linebreaks }}
+                {{ pastor.focus_content|default:"Our key ministry priorities..." |safe }}
               </div>
             </div>
           </div>
@@ -121,7 +121,7 @@
               </h2>
               <div class="bg-slate-50 p-8 md:p-12 rounded-3xl border-l-8 border-secondary">
                 <div class="text-slate-700 text-lg leading-relaxed italic">
-                  {{ pastor.message_content|default:"A personal message from the pastor..." |linebreaks }}
+                  {{ pastor.message_content|default:"A personal message from the pastor..." |safe }}
                 </div>
               </div>
             </div>

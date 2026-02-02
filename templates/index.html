@@ -21,11 +21,18 @@
               </span>
               <h1 class="text-4xl md:text-7xl font-black text-primary mb-6 leading-[1.05] serif">{{ slide.title|safe }}
               </h1>
-              <p class="text-lg md:text-xl text-slate-700 max-w-xl mb-8 font-bold">{{ slide.description }}</p>
+              <div class="text-lg md:text-xl text-slate-700 max-w-xl mb-8 font-bold">{{ slide.description|safe }}</div>
               <div class="flex flex-col sm:flex-row gap-4">
                 <a href="{% url 'contact' %}"
                   class="btn-glass px-10 py-4 rounded-2xl text-lg font-bold flex items-center justify-center gap-3">Join
                   Us <i data-lucide="arrow-right"></i></a>
+                {% if slide.live_stream_url %}
+                <a href="{{ slide.live_stream_url }}" target="_blank"
+                  class="px-10 py-4 rounded-2xl text-lg font-bold bg-red-600 text-white border border-red-500 hover:bg-red-700 transition-all text-center flex items-center justify-center gap-2">
+                  <i data-lucide="video" class="w-5 h-5"></i>
+                  {{ slide.live_stream_button_text|default:"Watch Live" }}
+                </a>
+                {% endif %}
                 <a href="{% url 'sermons' %}"
                   class="px-10 py-4 rounded-2xl text-lg font-bold bg-white/50 text-primary border border-primary/20 hover:bg-white transition-all text-center">Watch
                   Sermons</a>
@@ -60,7 +67,7 @@
         <div class="lg:w-1/2">
           <span class="text-primary font-black uppercase tracking-widest text-sm mb-4 block">{{ about_section.tagline}}</span>
           <h2 class="text-4xl md:text-6xl font-black text-primary serif mb-8">{{ about_section.title|safe }}</h2>
-          <p class="text-lg text-slate-600 mb-6">{{ about_section.description }}</p>
+          <div class="text-lg text-slate-600 mb-6">{{ about_section.description|safe }}</div>
           <a href="{{ about_section.button_url }}"
             class="btn-glass text-primary px-8 py-4 rounded-xl font-bold inline-flex items-center gap-2">{{about_section.button_text }} <i data-lucide="arrow-right"></i></a>
         </div>
@@ -179,9 +186,9 @@
         <h3 class="text-2xl font-black text-primary mb-4">
           {{ value.title }}
         </h3>
-        <p class="text-slate-600 leading-relaxed">
-          {{ value.description }}
-        </p>
+        <div class="text-slate-600 leading-relaxed">
+          {{ value.description|safe }}
+        </div>
       </div>
       {% empty %}
       <!-- Fallback Values if none added in admin -->
@@ -241,9 +248,9 @@
         <h2 class="text-4xl md:text-5xl font-black text-primary serif mb-6">
           {{ store_section.title|safe }}
         </h2>
-        <p class="text-slate-600 text-lg mb-8">
-          {{ store_section.description }}
-        </p>
+        <div class="text-slate-600 text-lg mb-8">
+          {{ store_section.description|safe }}
+        </div>
         <div class="grid grid-cols-2 gap-4 mb-10">
           <div class="p-4 bg-slate-50 rounded-2xl border-l-4 border-secondary">
             <h4 class="font-black text-primary">{{ store_section.feature1_title }}</h4>
@@ -305,10 +312,10 @@
         <p class="text-emerald-50/70 text-lg leading-relaxed mb-8 italic">
           "{{ pastor.quote }}"
         </p>
-        <p class="text-emerald-50/70 mb-10">
-          {{ pastor.description }}
-        </p>
-        <a href="{{ pastor.button_url }}"
+        <div class="text-emerald-50/70 mb-10">
+          {{ pastor.description|safe }}
+        </div>
+        <a href="{% url 'presiding_pastor' %}"
           class="border-2 border-secondary text-secondary px-8 py-3 rounded-full font-black hover:bg-secondary hover:text-primary transition-all">
           {{ pastor.button_text }}
         </a>
@@ -336,7 +343,7 @@
           With over 20 years of ministry, Pastor John leads TVA with a
           vision for revival and a passion for the broken-hearted.
         </p>
-        <a href="{% url 'about' %}"
+        <a href="{% url 'presiding_pastor' %}"
           class="border-2 border-secondary text-secondary px-8 py-3 rounded-full font-black hover:bg-secondary hover:text-primary transition-all">Read
           Full Bio</a>
       </div>
@@ -397,7 +404,7 @@
             </h3>
             
             <p class="text-slate-500 mb-6 text-sm line-clamp-3 leading-relaxed">
-              {{ event.description }}
+              {{ event.description|striptags }}
             </p>
 
             <div class="mt-auto space-y-3">
@@ -561,9 +568,9 @@
         {{ giving.title }}
       </h2>
 
-      <p class="text-slate-600 text-lg mb-10">
-        {{ giving.description }}
-      </p>
+      <div class="text-slate-600 text-lg mb-10">
+        {{ giving.description|safe }}
+      </div>
 
       <a href="{{ giving.button_url }}"
         class="inline-block bg-secondary text-white px-12 py-5 rounded-2xl font-black text-xl hover:scale-105 transition-transform shadow-2xl">

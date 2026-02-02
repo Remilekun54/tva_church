@@ -3,13 +3,16 @@
 # Create your models here.
 
 from django.db import models
+from django_ckeditor_5.fields import CKEditor5Field
 
 # Hero Slide Model
 class HeroSlide(models.Model):
     title = models.CharField(max_length=200, help_text="Use <br> for line breaks and <span class='text-secondary italic'>Text</span> for gold text")
     sub_heading = models.CharField(max_length=100)
-    description = models.TextField()
+    description = CKEditor5Field('Content', config_name='default')
     image = models.ImageField(upload_to='hero_slides/')
+    live_stream_button_text = models.CharField(max_length=50, blank=True, null=True, default="Watch Live", help_text="Text for the live stream button")
+    live_stream_url = models.URLField(blank=True, null=True, help_text="URL for the live stream (e.g., YouTube Link). Leave empty to hide button.")
     is_active = models.BooleanField(default=True)
     order = models.PositiveIntegerField(default=0)
 
@@ -23,7 +26,7 @@ class HeroSlide(models.Model):
 class AboutSection(models.Model):
     tagline = models.CharField(max_length=100, default="About Us")
     title = models.CharField(max_length=255, help_text="Use <br> for line breaks and <span class='text-secondary italic'>Text</span> for styled text")
-    description = models.TextField()
+    description = CKEditor5Field('Content', config_name='default')
     image = models.ImageField(upload_to='about_section/')
     button_text = models.CharField(max_length=50, default="Discover Our Mission")
     button_url = models.CharField(max_length=255, default="/about/")
@@ -72,7 +75,7 @@ class ContactMessage(models.Model):
 class CoreValue(models.Model):
     title = models.CharField(max_length=100)
     icon_name = models.CharField(max_length=50, help_text="Enter Lucide icon name (e.g., flame, book-open, users)")
-    description = models.TextField()
+    description = CKEditor5Field('Content', config_name='default')
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
@@ -88,7 +91,7 @@ class CoreValue(models.Model):
 class StoreSection(models.Model):
     subtitle = models.CharField(max_length=100, default="Our Store")
     title = models.CharField(max_length=255, help_text="Use <br> for line breaks and <span class='text-secondary italic'>Text</span> for styled text")
-    description = models.TextField()
+    description = CKEditor5Field('Content', config_name='default')
     image = models.ImageField(upload_to='store_section/')
     
     # Feature 1
@@ -144,7 +147,7 @@ class PastorSection(models.Model):
     tagline = models.CharField(max_length=100, default="Our Shepherd")
     name = models.CharField(max_length=255, default="Pastor Adeyinka")
     quote = models.TextField(help_text="The italicized quote")
-    description = models.TextField(help_text="The main bio description")
+    description = CKEditor5Field('Content', config_name='default', help_text="The main bio description")
     image = models.ImageField(upload_to='pastor_section/')
     button_text = models.CharField(max_length=100, default="Read Full Bio")
     button_url = models.CharField(max_length=255, default="/about/")
@@ -171,7 +174,7 @@ class FeaturedQuote(models.Model):
 # Giving Section Model
 class GivingSection(models.Model):
     title = models.CharField(max_length=255, default="Partner with the Vision")
-    description = models.TextField()
+    description = CKEditor5Field('Content', config_name='default')
     button_text = models.CharField(max_length=100, default="Give Online")
     button_url = models.CharField(max_length=255, default="/offering/")
 

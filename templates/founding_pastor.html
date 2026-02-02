@@ -37,7 +37,7 @@
                 {{ pastor.bio_title|default:"His Story" }}
               </h2>
               <div class="text-slate-600 text-lg leading-relaxed space-y-4">
-                {{ pastor.bio_content|default:"The founding pastor's story..." |linebreaks }}
+                {{ pastor.bio_content|default:"The founding pastor's story..." |safe }}
               </div>
             </div>
             <div class="order-1 lg:order-2">
@@ -61,7 +61,7 @@
                 {{ pastor.vision_title|default:"Founding Vision" }}
               </h2>
               <div class="text-slate-600 text-lg leading-relaxed">
-                {{ pastor.vision_content|default:"The founding vision of TVA..." |linebreaks }}
+                {{ pastor.vision_content|default:"The founding vision of TVA..." |safe }}
               </div>
             </div>
             <div>
@@ -98,7 +98,7 @@
                 {{ pastor.legacy_title|default:"His Legacy" }}
               </h2>
               <div class="text-slate-600 text-lg leading-relaxed">
-                {{ pastor.legacy_content|default:"The lasting impact and legacy..." |linebreaks }}
+                {{ pastor.legacy_content|default:"The lasting impact and legacy..." |safe }}
               </div>
             </div>
           </div>

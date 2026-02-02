@@ -106,8 +106,8 @@
                         </button>
                         <div class="absolute top-full left-0 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 w-64">
                             <div class="glass-card rounded-2xl p-2 bg-white/80 backdrop-blur-xl">
-                                <a href="{% url 'membership_pathway' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">Membership Pathway</a>
-                                <a href="#" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">G-12 Academy</a>
+                                <a href="{% url 'get_involved:membership_pathway' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">Membership Pathway</a>
+                                <a href="{% url 'department_list' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">G-12 Academy</a>
                                 
                                 <!-- Nested Service Group -->
                                 <div class="relative group/sub">
@@ -117,12 +117,12 @@
                                     <div class="absolute left-full top-0 pl-2 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300 transform translate-x-2 group-hover/sub:translate-x-0 w-60">
                                         <div class="glass-card rounded-2xl p-2 bg-white/90">
                                             <a href="{% url 'department_list' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">Departments</a>
-                                            <a href="{% url 'registration' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">Register</a>
+                                            <a href="{% url 'get_involved:registration' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">Register</a>
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <a href="{% url 'department_list' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">City Altar</a>
+                                <a href="{% url 'get_involved:city_altar_list' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">City Altar</a>
 
                                 <!-- Nested Fellowship -->
                                 <div class="relative group/sub">
@@ -131,9 +131,9 @@
                                     </button>
                                     <div class="absolute left-full top-0 pl-2 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300 transform translate-x-2 group-hover/sub:translate-x-0 w-60">
                                         <div class="glass-card rounded-2xl p-2 bg-white/90">
-                                            <a href="{% url 'department_list' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">Box-18</a>
-                                            <a href="{% url 'department_list' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">V-Mums</a>
-                                            <a href="{% url 'department_list' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">Singles & Youths</a>
+                                            <a href="{% url 'get_involved:fellowship_detail' 'box-18' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">Box-18</a>
+                                            <a href="{% url 'get_involved:fellowship_detail' 'v-mums' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">V-Mums</a>
+                                            <a href="{% url 'get_involved:fellowship_detail' 'singles-youths' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">Singles & Youths</a>
                                         </div>
                                     </div>
                                 </div>
@@ -144,7 +144,7 @@
                     <a href="{% url 'sermons' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Sermons</a>
                     <a href="{% url 'events' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Events</a>
                     <a href="{% url 'store' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Store</a>
-                    <a href="{% url 'department_list' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Blog</a>
+                    <a href="{% url 'blog_list' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Blog</a>
                     <a href="{% url 'contact' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Contact</a>
                 </div>
 
@@ -195,7 +195,7 @@
                             Get Involved <i data-lucide="chevron-down" class="w-4 h-4 transition-transform text-primary" id="icon-mobile-involved"></i>
                         </button>
                         <div id="mobile-involved" class="hidden pl-4 space-y-1 pb-2 bg-primary/5 rounded-xl mb-2 mt-2">
-                             <a href="{% url 'membership_pathway' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">Membership Pathway</a>
+                             <a href="{% url 'get_involved:membership_pathway' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">Membership Pathway</a>
                              <a href="{% url 'department_list' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">G-12 Academy</a>
                              
                              <!-- Nested Service Group -->
@@ -205,11 +205,11 @@
                                 </button>
                                 <div id="mobile-service" class="hidden pl-4 border-l border-primary/10 ml-1 mt-1 space-y-1">
                                     <a href="{% url 'department_list' %}" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">Departments</a>
-                                    <a href="{% url 'department_list' %}" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">Register</a>
+                                    <a href="{% url 'get_involved:registration' %}" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">Register</a>
                                 </div>
                              </div>
 
-                             <a href="#" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">City Altar</a>
+                             <a href="{% url 'get_involved:city_altar_list' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">City Altar</a>
                              
                              <!-- Nested Fellowship -->
                              <div>
@@ -217,9 +217,9 @@
                                     Fellowship <i data-lucide="chevron-down" class="w-3 h-3 transition-transform text-primary" id="icon-mobile-fellowship"></i>
                                 </button>
                                 <div id="mobile-fellowship" class="hidden pl-4 border-l border-primary/10 ml-1 mt-1 space-y-1">
-                                    <a href="#" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">Box-18</a>
-                                    <a href="#" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">V-Mums</a>
-                                    <a href="#" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">Singles & Youths</a>
+                                    <a href="{% url 'get_involved:fellowship_detail' 'box-18' %}" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">Box-18</a>
+                                    <a href="{% url 'get_involved:fellowship_detail' 'v-mums' %}" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">V-Mums</a>
+                                    <a href="{% url 'get_involved:fellowship_detail' 'singles-youths' %}" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">Singles & Youths</a>
                                 </div>
                              </div>
                         </div>
@@ -228,7 +228,7 @@
                     <a href="{% url 'sermons' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Sermons</a>
                     <a href="{% url 'events' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Events</a>
                     <a href="{% url 'store' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Store</a>
-                    <a href="#" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Blog</a>
+                    <a href="{% url 'blog_list' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Blog</a>
                     <a href="{% url 'contact' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Contact</a>
                 </div>
 

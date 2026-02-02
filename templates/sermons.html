@@ -88,7 +88,7 @@
             <div class="p-8">
               <span class="text-accent font-bold text-xs uppercase tracking-widest block mb-2">{{ sermon.series_name }}</span>
               <h4 class="text-2xl font-black text-primary mb-4 leading-snug">{{ sermon.title }}</h4>
-              <p class="text-slate-500 text-sm mb-6">{{ sermon.description|truncatewords:20 }}</p>
+              <p class="text-slate-500 text-sm mb-6">{{ sermon.description|striptags|truncatewords:20 }}</p>
               
               <div class="flex items-center justify-between pt-6 border-t border-slate-50">
                 <div class="flex items-center gap-2">

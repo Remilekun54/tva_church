@@ -1,4 +1,5 @@
 from django.db import models
+from django_ckeditor_5.fields import CKEditor5Field
 from about.models import Branch, Leader
 
 class CommonBase(models.Model):
@@ -8,7 +9,7 @@ class CommonBase(models.Model):
         ('paid', 'Paid/Buy'),
     ]
     title = models.CharField(max_length=255)
-    description = models.TextField()
+    description = CKEditor5Field('Content', config_name='default')
     thumbnail = models.ImageField(upload_to='resources/thumbnails/')
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='free')
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)

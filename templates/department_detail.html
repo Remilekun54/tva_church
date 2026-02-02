@@ -32,11 +32,11 @@
         <!-- Content Card -->
         <div class="glass-card rounded-3xl p-8 md:p-12 -mt-32 relative z-20 bg-white/90 backdrop-blur-xl shadow-2xl animate-fade-in-up delay-200">
             <div class="prose prose-lg prose-slate max-w-none">
-                {{ department.content|linebreaks }}
+                {{ department.content|safe }}
             </div>
             
             <div class="mt-12 pt-8 border-t border-slate-200 flex justify-center">
-                <a href="{% url 'contact' %}" class="inline-flex items-center gap-2 bg-primary text-white px-8 py-3 rounded-full font-bold hover:bg-secondary hover:text-primary transition-all shadow-lg">
+                <a href="{% url 'get_involved:registration' %}" class="inline-flex items-center gap-2 bg-primary text-white px-8 py-3 rounded-full font-bold hover:bg-secondary hover:text-primary transition-all shadow-lg">
                     Join this Department <i data-lucide="user-plus" class="w-5 h-5"></i>
                 </a>
             </div>

@@ -1,5 +1,11 @@
 from django.contrib import admin
-from .models import MembershipPathwayPage, PathwayStep, ChurchMembershipRegistration, DepartmentRegistration
+from .models import MembershipPathwayPage, PathwayStep, ChurchMembershipRegistration, DepartmentRegistration, CityAltar
+
+@admin.register(CityAltar)
+class CityAltarAdmin(admin.ModelAdmin):
+    list_display = ('name', 'location', 'leader_name', 'meeting_day', 'meeting_time')
+    search_fields = ('name', 'location', 'leader_name', 'address')
+    list_filter = ('meeting_day', 'location')
 
 @admin.register(ChurchMembershipRegistration)
 class ChurchMembershipRegistrationAdmin(admin.ModelAdmin):
@@ -37,3 +43,39 @@ class MembershipPathwayPageAdmin(admin.ModelAdmin):
             'fields': ('intro_title', 'intro_description')
         }),
     )
+
+from .models import Box18Fellowship, VMumsFellowship, SinglesFellowship, FellowshipEvent, Fellowship
+
+class FellowshipEventInline(admin.StackedInline):
+    model = FellowshipEvent
+    extra = 1
+    classes = ('collapse',)
+
+class BaseFellowshipAdmin(admin.ModelAdmin):
+    inlines = [FellowshipEventInline]
+    exclude = ('name',) # Name is set automatically
+    
+    def has_add_permission(self, request):
+        # Only allow one instance per type
+        if self.model.objects.filter(name=self.expected_type).exists():
+            return False
+        return True
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(name=self.expected_type)
+
+    def save_model(self, request, obj, form, change):
+        obj.name = self.expected_type
+        super().save_model(request, obj, form, change)
+
+@admin.register(Box18Fellowship)
+class Box18Admin(BaseFellowshipAdmin):
+    expected_type = 'BOX18'
+
+@admin.register(VMumsFellowship)
+class VMumsAdmin(BaseFellowshipAdmin):
+    expected_type = 'VMUMS'
+
+@admin.register(SinglesFellowship)
+class SinglesAdmin(BaseFellowshipAdmin):
+    expected_type = 'SINGLES'

@@ -1,4 +1,5 @@
 from django.db import models
+from django_ckeditor_5.fields import CKEditor5Field
 
 class AboutSection(models.Model):
     # Header Section
@@ -8,20 +9,20 @@ class AboutSection(models.Model):
     established_year = models.CharField(max_length=20, default="Est. 2012")
     established_text = models.CharField(max_length=100, default="A Decade of Grace")
     foundation_quote = models.TextField(default="A garden where souls are nurtured by grace and set on fire by the Spirit.", help_text="A short summary or mandate of your founding.")
-    description = models.TextField(default="")
+    description = CKEditor5Field('Content', config_name='default', default="")
     
     # Mission Section
     mission_subtitle = models.CharField(max_length=100, default="Our Purpose")
     mission_title = models.CharField(max_length=100, default="Our Mission")
-    mission_description = models.TextField(default="To cultivate a global garden...")
+    mission_description = CKEditor5Field('Content', config_name='default', default="To cultivate a global garden...")
 
     vision_title = models.CharField(max_length=100, default="Our Vision")
-    vision_description = models.TextField(default="To see the fragrance of God's presence...")
+    vision_description = CKEditor5Field('Content', config_name='default', default="To see the fragrance of God's presence...")
 
     # Statement of Faith Section (Integrated)
     sof_subtitle = models.CharField(max_length=100, default="Foundations")
     sof_title = models.CharField(max_length=100, default="Statement of Faith")
-    sof_description = models.TextField(default="Our beliefs are rooted in...")
+    sof_description = CKEditor5Field('Content', config_name='default', default="Our beliefs are rooted in...")
     doctrine_pdf = models.FileField(upload_to='doctrines/', null=True, blank=True)
 
     class Meta:
@@ -61,7 +62,7 @@ class CoreValue(models.Model):
     ]
     title = models.CharField(max_length=100)
     icon_name = models.CharField(max_length=50, help_text="Enter Lucide icon name")
-    description = models.TextField()
+    description = CKEditor5Field('Content', config_name='default')
     color_scheme = models.CharField(max_length=20, choices=COLOR_CHOICES, default='primary')
     order = models.PositiveIntegerField(default=0)
 
@@ -136,17 +137,17 @@ class FoundingPastor(models.Model):
     
     # Section 2: Biography
     bio_title = models.CharField(max_length=200, default="His Story")
-    bio_content = models.TextField(default="")
+    bio_content = CKEditor5Field('Content', config_name='default', default="")
     bio_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
     
     # Section 3: Vision
     vision_title = models.CharField(max_length=200, default="Founding Vision")
-    vision_content = models.TextField(default="")
+    vision_content = CKEditor5Field('Content', config_name='default', default="")
     vision_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
     
     # Section 4: Legacy
     legacy_title = models.CharField(max_length=200, default="His Legacy")
-    legacy_content = models.TextField(default="")
+    legacy_content = CKEditor5Field('Content', config_name='default', default="")
     legacy_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
     
     # Section 5: Quotes
@@ -175,22 +176,22 @@ class PresidingPastor(models.Model):
     
     # Section 2: Biography
     bio_title = models.CharField(max_length=200, default="Meet Our Pastor")
-    bio_content = models.TextField(default="")
+    bio_content = CKEditor5Field('Content', config_name='default', default="")
     bio_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
     
     # Section 3: Vision
     vision_title = models.CharField(max_length=200, default="Vision for TVA")
-    vision_content = models.TextField(default="")
+    vision_content = CKEditor5Field('Content', config_name='default', default="")
     vision_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
     
     # Section 4: Ministry Focus
     focus_title = models.CharField(max_length=200, default="Ministry Focus")
-    focus_content = models.TextField(default="")
+    focus_content = CKEditor5Field('Content', config_name='default', default="")
     focus_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
     
     # Section 5: Message
     message_title = models.CharField(max_length=200, default="A Word From Pastor")
-    message_content = models.TextField(default="")
+    message_content = CKEditor5Field('Content', config_name='default', default="")
     message_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
     
     # Section 6: Contact
@@ -214,17 +215,17 @@ class PastoralTeam(models.Model):
     
     # Section 2: Overview
     overview_title = models.CharField(max_length=200, default="Meet The Team")
-    overview_content = models.TextField(default="")
+    overview_content = CKEditor5Field('Content', config_name='default', default="")
     overview_image = models.ImageField(upload_to='pastoral_team/', null=True, blank=True)
     
     # Section 3: Team Structure
     structure_title = models.CharField(max_length=200, default="Our Structure")
-    structure_content = models.TextField(default="")
+    structure_content = CKEditor5Field('Content', config_name='default', default="")
     structure_image = models.ImageField(upload_to='pastoral_team/', null=True, blank=True)
     
     # Section 4: Team Values
     values_title = models.CharField(max_length=200, default="Our Values")
-    values_content = models.TextField(default="")
+    values_content = CKEditor5Field('Content', config_name='default', default="")
     values_image = models.ImageField(upload_to='pastoral_team/', null=True, blank=True)
     
     # Section 5: Ministry Areas (handled by team members below)
@@ -232,7 +233,7 @@ class PastoralTeam(models.Model):
     
     # Section 6: Join Team
     join_title = models.CharField(max_length=200, default="Join Our Team")
-    join_content = models.TextField(default="")
+    join_content = CKEditor5Field('Content', config_name='default', default="")
     join_image = models.ImageField(upload_to='pastoral_team/', null=True, blank=True)
     
     class Meta:
@@ -261,7 +262,7 @@ class TeamMember(models.Model):
     pastoral_team = models.ForeignKey(PastoralTeam, on_delete=models.CASCADE, related_name='team_members', null=True, blank=True)
     name = models.CharField(max_length=200)
     position = models.CharField(max_length=200)
-    bio = models.TextField()
+    bio = CKEditor5Field('Content', config_name='default')
     image = models.ImageField(upload_to='team_members/', null=True, blank=True)
     ministry_area = models.CharField(max_length=200, blank=True)
     order = models.PositiveIntegerField(default=0)

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }} | TVA Blog{% endblock %}
+
+{% block content %}
+<main class="mt-20">
+    <article>
+        <!-- Article Header -->
+        <header class="relative py-32 bg-primary overflow-hidden">
+            {% if post.image %}
+            <div class="absolute inset-0">
+                <img src="{{ post.image.url }}" class="w-full h-full object-cover opacity-30" alt="{{ post.title }}">
+                <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/80 to-transparent"></div>
+            </div>
+            {% endif %}
+            
+            <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+                <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full mb-8 text-white/90 border border-white/20">
+                    <span class="text-secondary font-black uppercase tracking-widest text-xs">{{ post.created_at|date:"M d, Y" }}</span>
+                    <span class="w-1 h-1 bg-white rounded-full"></span>
+                    <span class="font-bold text-xs uppercase tracking-wider">By {{ post.author.username }}</span>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-black text-white serif mb-8 leading-tight">
+                    {{ post.title }}
+                </h1>
+            </div>
+        </header>
+
+        <!-- Article Content -->
+        <div class="bg-white relative -mt-10 rounded-t-[3rem] z-20">
+            <div class="max-w-3xl mx-auto px-4 py-20">
+                <div class="prose prose-lg prose-slate hover:prose-a:text-secondary max-w-none">
+                    {{ post.content|safe }}
+                </div>
+                
+                <!-- Share / Navigation -->
+                <div class="mt-16 pt-10 border-t border-slate-100 flex justify-between items-center">
+                    <a href="{% url 'blog_list' %}" class="flex items-center gap-2 text-slate-500 font-bold hover:text-primary transition-colors">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        Back to All Articles
+                    </a>
+                    
+                    <div class="flex gap-4">
+                        <button class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-600 hover:bg-secondary hover:text-white transition-colors">
+                            <i data-lucide="share-2" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</main>
+{% endblock %}

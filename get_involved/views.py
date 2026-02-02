@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import MembershipPathwayPage
+from .models import MembershipPathwayPage, CityAltar, Fellowship, FellowshipEvent
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 from .forms import ChurchMembershipForm, DepartmentRegistrationForm
 
 def membership_pathway_view(request):
@@ -35,3 +37,46 @@ def registration_view(request):
         'department_form': department_form,
     }
     return render(request, 'registration.html', context)
+
+def city_altar_list_view(request):
+    """View to list all City Altars (House Fellowships)"""
+    altars = CityAltar.objects.all().order_by('location', 'name')
+    context = {
+        'altars': altars,
+    }
+    return render(request, 'city_altar_list.html', context)
+
+def city_altar_detail_view(request, pk):
+    """View to show details of a specific City Altar"""
+    altar = get_object_or_404(CityAltar, pk=pk)
+    context = {
+        'altar': altar,
+    }
+    return render(request, 'city_altar_detail.html', context)
+
+def fellowship_detail_view(request, fellowship_type):
+    """View to show details of a specific fellowship (Box-18, V-Mums, Singles)"""
+    # map url slug to model choices
+    type_map = {
+        'box-18': 'BOX18',
+        'v-mums': 'VMUMS',
+        'singles-youths': 'SINGLES'
+    }
+    
+    db_type = type_map.get(fellowship_type)
+    if not db_type:
+        return redirect('home') # or 404
+        
+    fellowship = get_object_or_404(Fellowship, name=db_type)
+    
+    # Split events
+    now = timezone.now().date()
+    future_events = fellowship.events.filter(date__gte=now).order_by('date')
+    past_events = fellowship.events.filter(date__lt=now).order_by('-date')
+    
+    context = {
+        'fellowship': fellowship,
+        'future_events': future_events,
+        'past_events': past_events,
+    }
+    return render(request, 'fellowship_detail.html', context)
