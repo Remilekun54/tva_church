@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,300;400;700&display=swap');
+
+:root {
+    --brand-primary: #1F317D;   /* TVA Blue Main */
+    --brand-secondary: #81C225; /* TVA Green */
+    --brand-accent: #010066;    /* TVA Deep Blue */
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #c2f2ff; /* Light Brand Background */
+    color: #1a1a1a;
+    overflow-x: hidden;
+}
+
+/* Glassmorphism Styles - TRANSPARENT WHITE GLASS */
+.glass-nav {
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+/* "Dark" glass is now a slightly more visible but still transparent white glass */
+.glass-dark {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    color: #20359A; 
+}
+
+/* Custom Buttons */
+.btn-glass {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #20359A; 
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.btn-glass:hover {
+    background: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(32, 53, 154, 0.15);
+    color: #7BC62D; /* Secondary Brand Color on Hov */
+}
+
+/* Hero Gradient Overlay - Updated to Brand Colors (Blue to Transparent) */
+.hero-gradient {
+    background: linear-gradient(to right, rgba(32, 53, 154, 0.85), rgba(32, 53, 154, 0.3));
+}
+
+/* Serif Font Class */
+.serif {
+    font-family: 'Fraunces', serif;
+}
+
+/* Animation utilities */
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+
