@@ -23,13 +23,6 @@
             <p class="text-slate-500">Equipping the saints with spiritual resources.</p>
           </div>
 
-          <div class="flex flex-wrap justify-center gap-3 mb-16">
-            <a href="{% url 'store' %}" class="px-6 py-2 rounded-full font-bold {% if not current_category %}bg-primary text-white{% else %}bg-slate-100 text-primary{% endif %}">All</a>
-            {% for cat in categories %}
-            <a href="?category={{ cat.slug }}" class="px-6 py-2 rounded-full font-bold {% if current_category == cat.slug %}bg-primary text-white{% else %}bg-slate-100 text-primary{% endif %}">{{ cat.name }}</a>
-            {% endfor %}
-          </div>
-
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {% for item in products %}
             <div class="group">
@@ -38,22 +31,37 @@
                 <img src="{{ item.thumbnail.url }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="{{ item.title }}" />
                 {% endif %}
 
-                <div class="absolute top-4 left-4 z-10">
-                  <span class="px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md text-[10px] font-black uppercase tracking-tighter text-primary shadow-sm">{{ item.category.name }}</span>
+                <div class="absolute bottom-4 inset-x-4 flex flex-col gap-2 translate-y-12 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all z-10">
+                  {% if item.sellar_link %}
+                  <a href="{{ item.sellar_link }}" target="_blank" class="bg-primary text-white py-3 rounded-xl font-bold shadow-lg text-center text-xs hover:bg-blue-800 transition-all">
+                    Buy on Sellar
+                  </a>
+                  {% endif %}
+                  {% if item.amazon_link %}
+                  <a href="{{ item.amazon_link }}" target="_blank" class="bg-amber-500 text-white py-3 rounded-xl font-bold shadow-lg text-center text-xs hover:bg-amber-600 transition-all">
+                    Buy on Amazon
+                  </a>
+                  {% endif %}
+                  {% if not item.sellar_link and not item.amazon_link %}
+                  <button 
+                    onclick="togglePaymentModal(true, '{{ item.title|escapejs }}', '{{ item.sellar_price }}')"
+                    class="bg-primary text-white py-3 rounded-xl font-bold shadow-lg text-center text-xs hover:bg-blue-800 transition-all"
+                  >
+                    Contact to Buy
+                  </button>
+                  {% endif %}
                 </div>
-
-                <button 
-                  onclick="togglePaymentModal(true, '{{ item.title|escapejs }}', '{{ item.price }}')"
-                  class="absolute bottom-4 inset-x-4 bg-primary text-white py-4 rounded-2xl font-bold translate-y-12 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all shadow-2xl z-10"
-                >
-                  Buy Now
-                </button>
               </div>
 
               <div class="px-2">
                 <span class="text-[10px] font-bold text-accent uppercase tracking-widest">{% if item.author_or_preacher %}{{ item.author_or_preacher}}{% else %}TVA Resource{% endif %}</span>
                 <h4 class="text-lg font-black text-primary leading-tight mt-1">{{ item.title }}</h4>
-                <p class="text-secondary font-black text-xl mt-2">₦{{ item.price }}</p>
+                <div class="flex items-baseline gap-2 mt-2">
+                    <p class="text-secondary font-black text-xl">₦{{ item.sellar_price }}</p>
+                    {% if item.amazon_price %}
+                    <p class="text-slate-400 font-bold text-sm">(${{ item.amazon_price }})</p>
+                    {% endif %}
+                </div>
               </div>
             </div>
             {% empty %}

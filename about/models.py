@@ -173,6 +173,7 @@ class FoundingPastor(models.Model):
     threads_url = models.URLField(blank=True, null=True)
     x_url = models.URLField(blank=True, null=True, verbose_name="X (Twitter) URL")
     tiktok_url = models.URLField(blank=True, null=True)
+    medium_url = models.URLField(blank=True, null=True, help_text="Link to Medium articles")
 
     # Section 8: Books
     books_title = models.CharField(max_length=200, default="Books & Resources")
@@ -223,6 +224,7 @@ class PresidingPastor(models.Model):
     threads_url = models.URLField(blank=True, null=True)
     x_url = models.URLField(blank=True, null=True, verbose_name="X (Twitter) URL")
     tiktok_url = models.URLField(blank=True, null=True)
+    medium_url = models.URLField(blank=True, null=True, help_text="Link to Medium articles")
 
     # Section 7: Books
     books_title = models.CharField(max_length=200, default="Books & Resources")

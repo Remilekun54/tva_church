@@ -191,6 +191,12 @@
               Get on Amazon
             </a>
             {% endif %}
+            {% if pastor.medium_url %}
+            <a href="{{ pastor.medium_url }}" target="_blank" class="bg-primary text-white px-8 py-4 rounded-2xl font-black inline-flex items-center gap-2 hover:bg-secondary hover:text-primary transition-all shadow-xl">
+              <i data-lucide="book-text" class="w-5 h-5"></i>
+              Read on Medium
+            </a>
+            {% endif %}
           </div>
         </div>
       </section>

@@ -2,7 +2,6 @@ from django.db import models
 from django_ckeditor_5.fields import CKEditor5Field
 
 # Create your models here.
-from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -15,17 +14,14 @@ class Category(models.Model):
         return self.name
 
 class Product(models.Model):
-    PRODUCT_TYPES = [
-        ('digital', 'Digital (Downloadable)'),
-        ('physical', 'Physical (Shippable)'),
-    ]
-
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     title = models.CharField(max_length=255)
     description = CKEditor5Field('Content', config_name='default')
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    sellar_price = models.DecimalField(max_digits=10, decimal_places=2, help_text="Price in Naira (₦)")
+    amazon_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, help_text="Price in Dollars ($)")
+    sellar_link = models.URLField(blank=True, null=True, help_text="Link to Sellar store")
+    amazon_link = models.URLField(blank=True, null=True, help_text="Link to Amazon store")
     thumbnail = models.ImageField(upload_to='store/thumbnails/')
-    product_type = models.CharField(max_length=10, choices=PRODUCT_TYPES, default='physical')
     
     # Optional fields for specific items
     author_or_preacher = models.CharField(max_length=255, blank=True, help_text="Optional: Name of Author/Preacher")

@@ -109,7 +109,7 @@ class FoundingPastorAdmin(admin.ModelAdmin):
             'fields': ('contact_title', 'contact_email', 'facebook_url', 'instagram_url', 'linkedin_url', 'mixlr_url', 'threads_url', 'x_url', 'tiktok_url')
         }),
         ('Books Section', {
-            'fields': ('books_title', 'selar_book_url', 'amazon_book_url')
+            'fields': ('books_title', 'selar_book_url', 'amazon_book_url', 'medium_url')
         }),
     )
     inlines = [PastoralTimelineInline]
@@ -139,7 +139,7 @@ class PresidingPastorAdmin(admin.ModelAdmin):
             'fields': ('contact_title', 'contact_email', 'facebook_url', 'instagram_url', 'linkedin_url', 'mixlr_url', 'threads_url', 'x_url', 'tiktok_url')
         }),
         ('Books Section', {
-            'fields': ('books_title', 'selar_book_url', 'amazon_book_url')
+            'fields': ('books_title', 'selar_book_url', 'amazon_book_url', 'medium_url')
         }),
     )
     
