@@ -151,8 +151,10 @@ class PastorSection(models.Model):
     image = models.ImageField(upload_to='pastor_section/')
     button_text = models.CharField(max_length=100, default="Read Full Bio")
     button_url = models.CharField(max_length=255, default="/about/")
+    order = models.PositiveIntegerField(default=0)
 
     class Meta:
+        ordering = ['order']
         verbose_name = "Pastor Section"
         verbose_name_plural = "Pastor Section"
 

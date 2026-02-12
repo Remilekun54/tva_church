@@ -64,9 +64,9 @@
     {% endif %}
 
     <!-- NEW NAVIGATION BAR (Ported from React) -->
-    <nav class="fixed top-0 w-full z-50 transition-all duration-300 bg-transparent h-24" id="navbar">
+    <nav class="fixed top-0 w-full z-50 lg:transition-all lg:duration-300 bg-transparent h-24" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-            <div class="flex justify-between items-center h-full">
+            <div class="flex justify-center items-center h-full gap-8">
                 <!-- Logo -->
                 <a href="{% url 'home' %}" class="flex items-center gap-3 group">
                      <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-secondary shadow-lg bg-white group-hover:scale-105 transition-transform">
@@ -79,7 +79,7 @@
                 </a>
 
                 <!-- Desktop Navigation -->
-                <div class="hidden lg:flex items-center gap-1 bg-white/30 backdrop-blur-md rounded-full p-1 border border-white/40 shadow-sm">
+                <nav id="nav-menu-list" class="hidden lg:flex items-center gap-1 bg-white/30 backdrop-blur-md rounded-full p-1 border border-secondary shadow-sm transition-all duration-300">
                     
                     <!-- Home -->
                     <a href="{% url 'home' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Home</a>
@@ -101,13 +101,13 @@
 
                     <!-- Get Involved Dropdown -->
                     <div class="relative group">
-                        <button class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md flex items-center gap-1">
+                        <button class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md flex items-center gap-1 whitespace-nowrap">
                             Get Involved <i data-lucide="chevron-down" class="w-3 h-3 transition-transform group-hover:rotate-180"></i>
                         </button>
                         <div class="absolute top-full left-0 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 w-64">
                             <div class="glass-card rounded-2xl p-2 bg-white/80 backdrop-blur-xl">
                                 <a href="{% url 'get_involved:membership_pathway' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">Membership Pathway</a>
-                                <a href="{% url 'department_list' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">G-12 Academy</a>
+                                <a href="{% url 'get_involved:g12_membership' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">G-12 Membership</a>
                                 
                                 <!-- Nested Service Group -->
                                 <div class="relative group/sub">
@@ -131,8 +131,8 @@
                                     </button>
                                     <div class="absolute left-full top-0 pl-2 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300 transform translate-x-2 group-hover/sub:translate-x-0 w-60">
                                         <div class="glass-card rounded-2xl p-2 bg-white/90">
-                                            <a href="{% url 'get_involved:fellowship_detail' 'box-18' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">Box-18</a>
-                                            <a href="{% url 'get_involved:fellowship_detail' 'v-mums' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">V-Mums</a>
+                                            <a href="{% url 'get_involved:fellowship_detail' 'box-18' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">Box-18 (Married Men)</a>
+                                            <a href="{% url 'get_involved:fellowship_detail' 'v-mums' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">V-Moms (Married Women)</a>
                                             <a href="{% url 'get_involved:fellowship_detail' 'singles-youths' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">Singles & Youths</a>
                                         </div>
                                     </div>
@@ -146,11 +146,11 @@
                     <a href="{% url 'store' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Store</a>
                     <a href="{% url 'blog_list' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Blog</a>
                     <a href="{% url 'contact' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Contact</a>
-                </div>
+                </nav>
 
                 <!-- CTA & Mobile Toggle -->
                 <div class="flex items-center gap-4">
-                    <div class="hidden md:block">
+                    <div class="hidden md:block flex-shrink-0">
                         <a href="{% url 'offering' %}" class="px-6 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 text-white bg-secondary border border-secondary hover:bg-white hover:text-secondary transition-colors shadow-lg shadow-secondary/20">
                             Give Now <i data-lucide="heart" class="w-4 h-4 fill-current"></i>
                         </a>
@@ -163,81 +163,83 @@
             </div>
         </div>
 
-        <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu" class="hidden fixed inset-y-0 left-0 w-3/4 sm:w-1/2 z-[100] bg-white/95 backdrop-blur-xl flex flex-col border-r border-white/20 shadow-2xl">
-            <div class="flex justify-between items-center p-6 border-b border-primary/10">
-                <span class="text-base font-black text-primary uppercase tracking-wider">Menu</span>
-                <button onclick="toggleMenu()" class="p-2 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-all">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-
-            <div class="flex-grow overflow-y-auto p-6 pb-32">
-                <div class="flex flex-col space-y-2">
-                    <a href="{% url 'home' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Home</a>
-                    
-                    <!-- Mobile Accordion: About -->
-                    <div class="border-b border-primary/10">
-                        <button onclick="toggleAccordion('mobile-about')" class="w-full flex justify-between items-center py-2 text-base font-black text-primary hover:text-secondary">
-                            About <i data-lucide="chevron-down" class="w-4 h-4 transition-transform text-primary" id="icon-mobile-about"></i>
-                        </button>
-                        <div id="mobile-about" class="hidden pl-4 space-y-1 pb-2 bg-primary/5 rounded-xl mb-2 mt-2">
-                             <a href="{% url 'about' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">About TVA</a>
-                             <a href="{% url 'founding_pastor' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">Founding Pastor</a>
-                             <a href="{% url 'presiding_pastor' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">Presiding Pastor</a>
-                             <a href="{% url 'pastoral_team' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">Pastoral Team</a>
-                        </div>
-                    </div>
-
-                    <!-- Mobile Accordion: Get Involved -->
-                    <div class="border-b border-primary/10">
-                        <button onclick="toggleAccordion('mobile-involved')" class="w-full flex justify-between items-center py-2 text-base font-black text-primary hover:text-secondary">
-                            Get Involved <i data-lucide="chevron-down" class="w-4 h-4 transition-transform text-primary" id="icon-mobile-involved"></i>
-                        </button>
-                        <div id="mobile-involved" class="hidden pl-4 space-y-1 pb-2 bg-primary/5 rounded-xl mb-2 mt-2">
-                             <a href="{% url 'get_involved:membership_pathway' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">Membership Pathway</a>
-                             <a href="{% url 'department_list' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">G-12 Academy</a>
-                             
-                             <!-- Nested Service Group -->
-                             <div>
-                                <button onclick="toggleAccordion('mobile-service')" class="w-full flex justify-between items-center py-1.5 text-sm font-bold text-primary/80 hover:text-primary">
-                                    Service Groups <i data-lucide="chevron-down" class="w-3 h-3 transition-transform text-primary" id="icon-mobile-service"></i>
-                                </button>
-                                <div id="mobile-service" class="hidden pl-4 border-l border-primary/10 ml-1 mt-1 space-y-1">
-                                    <a href="{% url 'department_list' %}" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">Departments</a>
-                                    <a href="{% url 'get_involved:registration' %}" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">Register</a>
-                                </div>
-                             </div>
-
-                             <a href="{% url 'get_involved:city_altar_list' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">City Altar</a>
-                             
-                             <!-- Nested Fellowship -->
-                             <div>
-                                <button onclick="toggleAccordion('mobile-fellowship')" class="w-full flex justify-between items-center py-1.5 text-sm font-bold text-primary/80 hover:text-primary">
-                                    Fellowship <i data-lucide="chevron-down" class="w-3 h-3 transition-transform text-primary" id="icon-mobile-fellowship"></i>
-                                </button>
-                                <div id="mobile-fellowship" class="hidden pl-4 border-l border-primary/10 ml-1 mt-1 space-y-1">
-                                    <a href="{% url 'get_involved:fellowship_detail' 'box-18' %}" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">Box-18</a>
-                                    <a href="{% url 'get_involved:fellowship_detail' 'v-mums' %}" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">V-Mums</a>
-                                    <a href="{% url 'get_involved:fellowship_detail' 'singles-youths' %}" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">Singles & Youths</a>
-                                </div>
-                             </div>
-                        </div>
-                    </div>
-
-                    <a href="{% url 'sermons' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Sermons</a>
-                    <a href="{% url 'events' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Events</a>
-                    <a href="{% url 'store' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Store</a>
-                    <a href="{% url 'blog_list' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Blog</a>
-                    <a href="{% url 'contact' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Contact</a>
-                </div>
-
-                <a href="{% url 'offering' %}" class="mt-6 w-full bg-secondary text-white py-3 rounded-xl font-bold flex justify-center items-center gap-2 shadow-xl shadow-secondary/20 hover:scale-[1.02] transition-transform text-sm">
-                    Give Now <i data-lucide="heart" class="w-4 h-4 fill-current"></i>
-                </a>
-            </div>
         </div>
     </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="hidden fixed inset-y-0 left-0 w-3/4 sm:w-1/2 z-[100] bg-white/95 backdrop-blur-xl flex flex-col border-r border-white/20 shadow-2xl">
+        <div class="flex justify-between items-center p-6 border-b border-primary/10">
+            <span class="text-base font-black text-primary uppercase tracking-wider">Menu</span>
+            <button onclick="toggleMenu()" class="p-2 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-all">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <div class="flex-grow overflow-y-auto p-6 pb-32">
+            <div class="flex flex-col space-y-2">
+                <a href="{% url 'home' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Home</a>
+                
+                <!-- Mobile Accordion: About -->
+                <div class="border-b border-primary/10">
+                    <button onclick="toggleAccordion('mobile-about')" class="w-full flex justify-between items-center py-2 text-base font-black text-primary hover:text-secondary">
+                        About <i data-lucide="chevron-down" class="w-4 h-4 transition-transform text-primary" id="icon-mobile-about"></i>
+                    </button>
+                    <div id="mobile-about" class="hidden pl-4 space-y-1 pb-2 bg-primary/5 rounded-xl mb-2 mt-2">
+                            <a href="{% url 'about' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">About TVA</a>
+                            <a href="{% url 'founding_pastor' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">Founding Pastor</a>
+                            <a href="{% url 'presiding_pastor' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">Presiding Pastor</a>
+                            <a href="{% url 'pastoral_team' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">Pastoral Team</a>
+                    </div>
+                </div>
+
+                <!-- Mobile Accordion: Get Involved -->
+                <div class="border-b border-primary/10">
+                    <button onclick="toggleAccordion('mobile-involved')" class="w-full flex justify-between items-center py-2 text-base font-black text-primary hover:text-secondary">
+                        Get Involved <i data-lucide="chevron-down" class="w-4 h-4 transition-transform text-primary" id="icon-mobile-involved"></i>
+                    </button>
+                    <div id="mobile-involved" class="hidden pl-4 space-y-1 pb-2 bg-primary/5 rounded-xl mb-2 mt-2">
+                            <a href="{% url 'get_involved:membership_pathway' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">Membership Pathway</a>
+                            <a href="{% url 'get_involved:g12_membership' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">G-12 Membership</a>
+                            
+                            <!-- Nested Service Group -->
+                            <div>
+                            <button onclick="toggleAccordion('mobile-service')" class="w-full flex justify-between items-center py-1.5 text-sm font-bold text-primary/80 hover:text-primary">
+                                Service Groups <i data-lucide="chevron-down" class="w-3 h-3 transition-transform text-primary" id="icon-mobile-service"></i>
+                            </button>
+                            <div id="mobile-service" class="hidden pl-4 border-l border-primary/10 ml-1 mt-1 space-y-1">
+                                <a href="{% url 'department_list' %}" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">Departments</a>
+                                <a href="{% url 'get_involved:registration' %}" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">Register</a>
+                            </div>
+                            </div>
+
+                            <a href="{% url 'get_involved:city_altar_list' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">City Altar</a>
+                            
+                            <!-- Nested Fellowship -->
+                            <div>
+                            <button onclick="toggleAccordion('mobile-fellowship')" class="w-full flex justify-between items-center py-1.5 text-sm font-bold text-primary/80 hover:text-primary">
+                                Fellowship <i data-lucide="chevron-down" class="w-3 h-3 transition-transform text-primary" id="icon-mobile-fellowship"></i>
+                            </button>
+                            <div id="mobile-fellowship" class="hidden pl-4 border-l border-primary/10 ml-1 mt-1 space-y-1">
+                                <a href="{% url 'get_involved:fellowship_detail' 'box-18' %}" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">Box-18 (Married Men)</a>
+                                <a href="{% url 'get_involved:fellowship_detail' 'v-mums' %}" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">V-Moms (Married Women)</a>
+                                <a href="{% url 'get_involved:fellowship_detail' 'singles-youths' %}" class="block text-xs font-bold text-primary/60 hover:text-primary py-1">Singles & Youths</a>
+                            </div>
+                            </div>
+                    </div>
+                </div>
+
+                <a href="{% url 'sermons' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Sermons</a>
+                <a href="{% url 'events' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Events</a>
+                <a href="{% url 'store' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Store</a>
+                <a href="{% url 'blog_list' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Blog</a>
+                <a href="{% url 'contact' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Contact</a>
+            </div>
+
+            <a href="{% url 'offering' %}" class="mt-6 w-full bg-secondary text-white py-3 rounded-xl font-bold flex justify-center items-center gap-2 shadow-xl shadow-secondary/20 hover:scale-[1.02] transition-transform text-sm">
+                Give Now <i data-lucide="heart" class="w-4 h-4 fill-current"></i>
+            </a>
+        </div>
+    </div>
 
     <!-- CONTENT BLOCK -->
     {% block content %}
@@ -259,12 +261,39 @@
                         <span class="text-4xl font-black text-white tracking-tighter serif italic">TVA</span>
                     </div>
                     <p class="max-w-md text-emerald-100/50 leading-relaxed mb-10 italic">
-                        "A garden where souls are nurtured by grace and strengthened through prayer."
+                        TVA is a family church of diplomats on divine assignment. It is a company of different folks with large heart and inner strength.
+                        
                     </p>
-                    <div class="flex gap-6">
+                    <div class="flex flex-wrap gap-4">
                         <a href="#" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-secondary hover:text-primary transition-all"><i data-lucide="facebook"></i></a>
                         <a href="#" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-secondary hover:text-primary transition-all"><i data-lucide="instagram"></i></a>
                         <a href="#" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-secondary hover:text-primary transition-all"><i data-lucide="youtube"></i></a>
+                        
+                        <!-- Threads -->
+                        <a href="#" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-secondary hover:text-primary transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-5 h-5">
+                                <path d="M6.321 6.016c-.27-.18-1.166-.802-1.166-.802.756-1.081 1.753-1.502 3.132-1.502.975 0 1.803.327 2.394.948s.928 1.509 1.005 2.644q.492.207.905.484c1.109.745 1.719 1.86 1.719 3.137 0 2.716-2.226 5.075-6.256 5.075C4.594 16 1 13.987 1 7.994 1 2.034 4.482 0 8.044 0 9.69 0 13.55.243 15 5.036l-1.36.353C12.516 1.974 10.163 1.43 8.006 1.43c-3.565 0-5.582 2.171-5.582 6.79 0 4.143 2.254 6.343 5.63 6.343 2.777 0 4.847-1.443 4.847-3.556 0-1.438-1.208-2.127-1.27-2.127-.236 1.234-.868 3.31-3.644 3.31-1.618 0-3.013-1.118-3.013-2.582 0-2.09 1.984-2.847 3.55-2.847.586 0 1.294.04 1.663.114 0-.637-.54-1.728-1.9-1.728-1.25 0-1.566.405-1.967.868ZM8.716 8.19c-2.04 0-2.304.87-2.304 1.416 0 .878 1.043 1.168 1.6 1.168 1.02 0 2.067-.282 2.232-2.423a6.2 6.2 0 0 0-1.528-.161"/>
+                            </svg>
+                        </a>
+
+                        <!-- X (Twitter) -->
+                        <a href="#" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-secondary hover:text-primary transition-all">
+                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" fill="currentColor" class="w-5 h-5">
+                                <path d="M178.57 127.15 290.27 0h-26.46l-97.03 110.38L89.34 0H0l117.13 166.93L0 300.25h26.46l102.4-116.59 81.8 116.59h89.34M36.01 19.54H76.66l187.13 262.13h-40.66"/>
+                            </svg>
+                        </a>
+
+                        <!-- TikTok -->
+                        <a href="#" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-secondary hover:text-primary transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                                <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91"/>
+                            </svg>
+                        </a>
+
+                        <!-- Mixlr -->
+                        <a href="#" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-secondary hover:text-primary transition-all">
+                           <i data-lucide="radio"></i>
+                        </a>
                     </div>
                 </div>
                 <div>
@@ -293,11 +322,20 @@
             </div>
             <div class="pt-8 border-t border-white/5 text-center">
                 <p class="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">
-                    &copy; 2026 The Vineyard Assembly. All rights reserved.
+                    &copy; (2026) The Vineyard Assembly INC. All rights reserved.
                 </p>
             </div>
         </div>
     </footer>
+
+
+
+    <!-- Scroll to Top Button (Isolated) -->
+    <div class="fixed bottom-8 right-8 z-[9999] pointer-events-none">
+        <button id="scrollToTopBtn" onclick="scrollToTop()" class="pointer-events-auto bg-secondary text-white p-4 rounded-full shadow-2xl translate-y-24 opacity-0 transition-all duration-500 hover:bg-primary hover:scale-110 flex items-center justify-center transform focus:outline-none focus:ring-4 focus:ring-secondary/50">
+            <i data-lucide="arrow-up" class="w-6 h-6"></i>
+        </button>
+    </div>
 
     <script>
         // Inline script to ensuring icons load immediately

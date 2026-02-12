@@ -21,7 +21,7 @@
         <h1 class="text-5xl md:text-7xl font-black text-white serif mb-6 tracking-tight">
           Who We Are
         </h1>
-        <p class="text-white/90 text-lg md:text-xl max-w-2xl mx-auto font-medium leading-relaxed italic">
+        <p class="text-slate-100 text-lg md:text-xl max-w-2xl mx-auto font-medium leading-relaxed italic">
           Rooted in grace, growing in power, and dedicated to the cultivation of souls through prayer.
         </p>
       </div>
@@ -61,7 +61,7 @@
                 </h2>
               </div>
 
-              <div class="text-white/70 text-lg leading-relaxed mb-8">
+              <div class="text-slate-600 text-lg leading-relaxed mb-8">
               {{ about.description|safe }}
             </div>
 
@@ -75,7 +75,7 @@
             {% endif %}
 
               <a href="{% url 'contact' %}" class="inline-block bg-primary text-white px-8 py-4 rounded-2xl font-bold hover:bg-accent transition-all shadow-xl">
-                Contact  Church Secretary
+                Contact Us
               </a>
             </div>
           </div>
@@ -225,9 +225,9 @@
         </h2>
       </div>
 
-      <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {% for value in core_values %}
-        <div class="glass-card p-10 border-b-4 {% if value.color_scheme == 'secondary' %}border-secondary {% elif value.color_scheme == 'accent' %}border-accent {% else %}border-primary{% endif %} hover:-translate-y-2 transition-transform reveal-card">
+        <div class="glass-card p-10 rounded-[20%] border-b-4 {% if value.color_scheme == 'secondary' %}border-secondary {% elif value.color_scheme == 'accent' %}border-accent {% else %}border-primary{% endif %} hover:-translate-y-2 transition-transform reveal-card">
           <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 {% if value.color_scheme == 'secondary' %}bg-secondary/20 text-primary {% elif value.color_scheme == 'accent' %}bg-accent/20 text-accent {% else %}bg-primary/10 text-primary{% endif %}">
             <i data-lucide="{{ value.icon_name }}"></i>
           </div>

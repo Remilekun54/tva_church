@@ -26,3 +26,17 @@ class DepartmentRegistrationForm(forms.ModelForm):
             'department': forms.Select(attrs={'class': 'w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-secondary focus:ring-4 focus:ring-secondary/10 transition-all outline-none bg-white'}),
             'reason_for_joining': forms.Textarea(attrs={'class': 'w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-secondary focus:ring-4 focus:ring-secondary/10 transition-all outline-none', 'rows': 3, 'placeholder': 'Tell us why you want to serve...'}),
         }
+
+from .models import G12Registration
+
+class G12RegistrationForm(forms.ModelForm):
+    class Meta:
+        model = G12Registration
+        fields = ['full_name', 'email', 'phone_number', 'branch', 'preferred_class_time']
+        widgets = {
+            'full_name': forms.TextInput(attrs={'class': 'w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none', 'placeholder': 'Full Name'}),
+            'email': forms.EmailInput(attrs={'class': 'w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none', 'placeholder': 'Email Address'}),
+            'phone_number': forms.TextInput(attrs={'class': 'w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none', 'placeholder': 'Phone Number'}),
+            'branch': forms.TextInput(attrs={'class': 'w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none', 'placeholder': 'Church Branch'}),
+            'preferred_class_time': forms.TextInput(attrs={'class': 'w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none', 'placeholder': 'e.g. Sundays after service'}),
+        }

@@ -9,4 +9,5 @@ urlpatterns = [
     path('city-altars/', views.city_altar_list_view, name='city_altar_list'),
     path('city-altars/<int:pk>/', views.city_altar_detail_view, name='city_altar_detail'),
     path('fellowships/<str:fellowship_type>/', views.fellowship_detail_view, name='fellowship_detail'),
+    path('g12/', views.g12_view, name='g12_membership'),
 ]

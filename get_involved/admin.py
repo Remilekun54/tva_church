@@ -3,7 +3,7 @@ from .models import MembershipPathwayPage, PathwayStep, ChurchMembershipRegistra
 
 @admin.register(CityAltar)
 class CityAltarAdmin(admin.ModelAdmin):
-    list_display = ('name', 'location', 'leader_name', 'meeting_day', 'meeting_time')
+    list_display = ('name', 'location', 'leader_name', 'whatsapp_number', 'meeting_day', 'meeting_time')
     search_fields = ('name', 'location', 'leader_name', 'address')
     list_filter = ('meeting_day', 'location')
 
@@ -79,3 +79,37 @@ class VMumsAdmin(BaseFellowshipAdmin):
 @admin.register(SinglesFellowship)
 class SinglesAdmin(BaseFellowshipAdmin):
     expected_type = 'SINGLES'
+
+from .models import G12Page, G12Registration
+
+@admin.register(G12Page)
+class G12PageAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        if self.model.objects.exists():
+            return False
+        return True
+    
+    fieldsets = (
+        ('Hero Section', {
+            'fields': ('hero_title', 'hero_subtitle', 'hero_image')
+        }),
+        ('Section 1', {
+            'fields': ('section1_title', 'section1_content', 'section1_image')
+        }),
+        ('Section 2', {
+            'fields': ('section2_title', 'section2_content', 'section2_image')
+        }),
+        ('Section 3', {
+            'fields': ('section3_title', 'section3_content', 'section3_image')
+        }),
+        ('Registration Section', {
+            'fields': ('registration_title', 'registration_subtitle')
+        }),
+    )
+
+@admin.register(G12Registration)
+class G12RegistrationAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'email', 'phone_number', 'branch', 'created_at')
+    list_filter = ('branch', 'created_at')
+    search_fields = ('full_name', 'email', 'phone_number')
+    readonly_fields = ('created_at',)

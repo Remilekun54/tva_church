@@ -140,6 +140,36 @@
 
       <!-- Contact Section -->
       <section class="py-24 bg-secondary">
+      <!-- Books Section -->
+      {% if pastor.selar_book_url or pastor.amazon_book_url %}
+      <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+          <span class="text-secondary font-black uppercase tracking-widest text-sm">
+            Resources
+          </span>
+          <h2 class="text-4xl font-black serif mt-4 mb-8 text-primary">
+            {{ pastor.books_title|default:"Books & Resources" }}
+          </h2>
+          <div class="flex flex-wrap justify-center gap-6 mt-8">
+            {% if pastor.selar_book_url %}
+            <a href="{{ pastor.selar_book_url }}" target="_blank" class="bg-primary text-white px-8 py-4 rounded-2xl font-black inline-flex items-center gap-2 hover:bg-secondary hover:text-primary transition-all shadow-xl">
+              <i data-lucide="book-open" class="w-5 h-5"></i>
+              Get on Selar
+            </a>
+            {% endif %}
+            {% if pastor.amazon_book_url %}
+            <a href="{{ pastor.amazon_book_url }}" target="_blank" class="bg-primary text-white px-8 py-4 rounded-2xl font-black inline-flex items-center gap-2 hover:bg-secondary hover:text-primary transition-all shadow-xl">
+              <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+              Get on Amazon
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </section>
+      {% endif %}
+
+      <!-- Contact Section -->
+      <section class="py-24 bg-secondary">
         <div class="max-w-4xl mx-auto px-4 text-center">
           <span class="text-primary font-black uppercase tracking-widest text-sm">
             {{ pastor.contact_title|default:"Connect With Pastor" }}
@@ -148,7 +178,7 @@
             Get In Touch
           </h2>
           
-          <div class="flex flex-col md:flex-row gap-6 justify-center items-center mt-8">
+          <div class="flex flex-col items-center gap-8 mt-8">
             {% if pastor.contact_email %}
             <a href="mailto:{{ pastor.contact_email }}" class="bg-primary text-white px-8 py-4 rounded-2xl font-black inline-flex items-center gap-2 hover:bg-white hover:text-primary transition-all shadow-xl">
               <i data-lucide="mail" class="w-5 h-5"></i>
@@ -156,16 +186,49 @@
             </a>
             {% endif %}
             
-            <div class="flex gap-4">
+            <div class="flex flex-wrap justify-center gap-4">
               {% if pastor.facebook_url %}
-              <a href="{{ pastor.facebook_url }}" target="_blank" class="bg-primary text-white p-4 rounded-full hover:bg-white hover:text-primary transition-all">
+              <a href="{{ pastor.facebook_url }}" target="_blank" class="bg-primary text-white p-4 rounded-full hover:bg-white hover:text-primary transition-all" title="Facebook">
                 <i data-lucide="facebook" class="w-6 h-6"></i>
               </a>
               {% endif %}
               
               {% if pastor.instagram_url %}
-              <a href="{{ pastor.instagram_url }}" target="_blank" class="bg-primary text-white p-4 rounded-full hover:bg-white hover:text-primary transition-all">
+              <a href="{{ pastor.instagram_url }}" target="_blank" class="bg-primary text-white p-4 rounded-full hover:bg-white hover:text-primary transition-all" title="Instagram">
                 <i data-lucide="instagram" class="w-6 h-6"></i>
+              </a>
+              {% endif %}
+
+              {% if pastor.linkedin_url %}
+              <a href="{{ pastor.linkedin_url }}" target="_blank" class="bg-primary text-white p-4 rounded-full hover:bg-white hover:text-primary transition-all" title="LinkedIn">
+                <i data-lucide="linkedin" class="w-6 h-6"></i>
+              </a>
+              {% endif %}
+
+              {% if pastor.x_url %}
+              <a href="{{ pastor.x_url }}" target="_blank" class="bg-primary text-white p-4 rounded-full hover:bg-white hover:text-primary transition-all" title="X (Twitter)">
+                <!-- Twitter/X Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>
+              </a>
+              {% endif %}
+
+              {% if pastor.tiktok_url %}
+              <a href="{{ pastor.tiktok_url }}" target="_blank" class="bg-primary text-white p-4 rounded-full hover:bg-white hover:text-primary transition-all" title="TikTok">
+                <!-- TikTok Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M9 12a4 4 0 1 0 4 4v-12a5 5 0 0 0 5 5"/></svg>
+              </a>
+              {% endif %}
+
+              {% if pastor.threads_url %}
+              <a href="{{ pastor.threads_url }}" target="_blank" class="bg-primary text-white p-4 rounded-full hover:bg-white hover:text-primary transition-all" title="Threads">
+                <!-- Threads Icon (At Sign as proxy or similar) -->
+                 <i data-lucide="at-sign" class="w-6 h-6"></i>
+              </a>
+              {% endif %}
+
+              {% if pastor.mixlr_url %}
+              <a href="{{ pastor.mixlr_url }}" target="_blank" class="bg-primary text-white p-4 rounded-full hover:bg-white hover:text-primary transition-all" title="Mixlr">
+                <i data-lucide="radio" class="w-6 h-6"></i>
               </a>
               {% endif %}
             </div>

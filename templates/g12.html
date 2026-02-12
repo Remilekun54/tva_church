@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page.hero_title|default:"G-12 Membership" }} | TVA{% endblock %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <header class="relative h-[60vh] flex items-center justify-center overflow-hidden">
+      <img
+        src="{% if page.hero_image %}{{ page.hero_image.url }}{% else %}https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=2000{% endif %}"
+        alt="G-12 Membership"
+        class="absolute inset-0 w-full h-full object-cover"
+      />
+
+      <div class="absolute inset-0 bg-gradient-to-b from-primary/70 via-primary/50 to-primary/90"></div>
+
+      <div class="relative z-10 text-center px-4 mt-20">
+        <span class="text-secondary font-black uppercase tracking-[0.4em] text-xs mb-4 block">
+          {{ page.hero_subtitle|default:"Your Journey to Belonging" }}
+        </span>
+        <h1 class="text-5xl md:text-7xl font-black text-white serif mb-6 tracking-tight">
+          {{ page.hero_title|default:"G-12 Membership" }}
+        </h1>
+      </div>
+    </header>
+
+    <main class="mt-32">
+      <!-- Section 1 -->
+      <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div>
+              <span class="text-secondary font-black uppercase tracking-widest text-sm">
+                The Foundation
+              </span>
+              <h2 class="text-5xl font-black serif mt-4 mb-8 text-primary">
+                {{ page.section1_title|default:"What is G-12?" }}
+              </h2>
+              <div class="text-slate-600 text-lg leading-relaxed">
+                {% if page.section1_content %}
+                    {{ page.section1_content|linebreaks }}
+                {% else %}
+                    <p>The G-12 vision is a strategy for church growth and evangelism. We believe in the power of twelve, following the example of Jesus and His disciples.</p>
+                {% endif %}
+              </div>
+            </div>
+            <div>
+              {% if page.section1_image %}
+              <img src="{{ page.section1_image.url }}" alt="{{ page.section1_title }}" class="rounded-3xl shadow-2xl w-full object-cover aspect-video" />
+              {% else %}
+              <div class="rounded-3xl bg-gradient-to-br from-primary to-secondary aspect-video flex items-center justify-center">
+                <i data-lucide="users" class="w-32 h-32 text-white"></i>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2 -->
+      <section class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div class="order-2 lg:order-1">
+              {% if page.section2_image %}
+              <img src="{{ page.section2_image.url }}" alt="{{ page.section2_title }}" class="rounded-3xl shadow-2xl w-full object-cover aspect-video" />
+              {% else %}
+              <div class="rounded-3xl bg-gradient-to-br from-secondary to-primary aspect-video flex items-center justify-center">
+                <i data-lucide="target" class="w-32 h-32 text-white"></i>
+              </div>
+              {% endif %}
+            </div>
+            <div class="order-1 lg:order-2">
+              <span class="text-secondary font-black uppercase tracking-widest text-sm">
+                Our Purpose
+              </span>
+              <h2 class="text-5xl font-black serif mt-4 mb-8 text-primary">
+                {{ page.section2_title|default:"Our Vision for You" }}
+              </h2>
+              <div class="text-slate-600 text-lg leading-relaxed">
+                {% if page.section2_content %}
+                    {{ page.section2_content|linebreaks }}
+                {% else %}
+                    <p>We want to see every member developed into a leader, fulfilling their God-given potential and impact their world for Christ.</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3 -->
+      <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div>
+              <span class="text-secondary font-black uppercase tracking-widest text-sm">
+                Get Started
+              </span>
+              <h2 class="text-5xl font-black serif mt-4 mb-8 text-primary">
+                {{ page.section3_title|default:"Class Schedule" }}
+              </h2>
+              <div class="text-slate-600 text-lg leading-relaxed">
+                {% if page.section3_content %}
+                    {{ page.section3_content|linebreaks }}
+                {% else %}
+                    <p>Classes run periodically throughout the year. Register below to be notified of the next available session in your location.</p>
+                {% endif %}
+              </div>
+            </div>
+            <div>
+              {% if page.section3_image %}
+              <img src="{{ page.section3_image.url }}" alt="{{ page.section3_title }}" class="rounded-3xl shadow-2xl w-full object-cover aspect-video" />
+              {% else %}
+              <div class="rounded-3xl bg-gradient-to-br from-primary to-accent aspect-video flex items-center justify-center">
+                <i data-lucide="calendar" class="w-32 h-32 text-white"></i>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Registration Section -->
+      <section id="register" class="py-24 bg-primary relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+        <div class="max-w-3xl mx-auto px-4 relative z-10">
+          <div class="text-center mb-16">
+            <span class="text-secondary font-black uppercase tracking-widest text-sm block mb-4">
+                Take the Next Step
+            </span>
+            <h2 class="text-5xl font-black text-white serif mb-6">
+              {{ page.registration_title|default:"Join Our Next Class" }}
+            </h2>
+            <div class="text-slate-300 text-lg leading-relaxed">
+                {{ page.registration_subtitle|default:"Register today to start your journey."|linebreaks }}
+            </div>
+          </div>
+
+          <div class="bg-white p-12 rounded-[3rem] shadow-2xl">
+            <form method="POST" class="space-y-6">
+              {% csrf_token %}
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-slate-400 ml-4">Full Name</label>
+                    {{ form.full_name }}
+                    {{ form.full_name.errors }}
+                </div>
+                <div class="space-y-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-slate-400 ml-4">Email Address</label>
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-slate-400 ml-4">Phone Number</label>
+                    {{ form.phone_number }}
+                    {{ form.phone_number.errors }}
+                </div>
+                <div class="space-y-2">
+                    <label class="text-xs font-black uppercase tracking-widest text-slate-400 ml-4">Church Branch</label>
+                    {{ form.branch }}
+                    {{ form.branch.errors }}
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <label class="text-xs font-black uppercase tracking-widest text-slate-400 ml-4">Preferred Class Time</label>
+                {{ form.preferred_class_time }}
+                {{ form.preferred_class_time.errors }}
+              </div>
+
+              <button type="submit" class="w-full bg-secondary text-primary font-black py-5 rounded-2xl hover:bg-primary hover:text-white transition-all shadow-xl text-lg uppercase tracking-widest mt-8">
+                Submit Registration
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+{% endblock %}

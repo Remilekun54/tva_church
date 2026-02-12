@@ -74,9 +74,16 @@
                             </div>
                         </div>
 
-                        <a href="{% url 'get_involved:city_altar_detail' altar.pk %}" class="block w-full py-4 rounded-xl bg-slate-900 text-white font-bold text-center hover:bg-secondary hover:text-white transition-all shadow-lg shadow-slate-900/20 group-hover:shadow-secondary/30">
-                            Join Fellowship
-                        </a>
+                        <div class="flex gap-3">
+                            <a href="{% url 'get_involved:city_altar_detail' altar.pk %}" class="flex-grow py-4 rounded-xl bg-slate-900 text-white font-bold text-center hover:bg-primary transition-all shadow-lg shadow-slate-900/20">
+                                Join Fellowship
+                            </a>
+                            {% if altar.whatsapp_number %}
+                            <a href="https://wa.me/{{ altar.whatsapp_number|cut:' '|cut:'+'|cut:'-'|cut:'('|cut:')' }}" target="_blank" class="w-14 flex items-center justify-center rounded-xl bg-[#25D366] text-white hover:bg-[#128C7E] transition-all shadow-lg shadow-green-500/20" title="Chat on WhatsApp">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg>
+                            </a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
                 {% endfor %}

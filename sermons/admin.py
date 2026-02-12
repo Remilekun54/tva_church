@@ -1,32 +1,39 @@
 from django.contrib import admin
 import datetime
-from .models import Sermon, Book
+from .models import Sermon, Book, SermonCategory
+
+@admin.register(SermonCategory)
+class SermonCategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug')
+    prepopulated_fields = {'slug': ('name',)}
 
 @admin.register(Sermon)
 class SermonAdmin(admin.ModelAdmin):
     # Columns shown in the list view
-    list_display = ('title', 'preacher', 'branch', 'date_preached', 'status', 'price', 'is_trending')
+    list_display = ('title', 'category', 'preacher', 'branch', 'date_preached', 'status', 'is_trending')
     
     # Filtering options
-    list_filter = ('status', 'branch', 'is_trending', 'date_preached')
+    list_filter = ('category', 'status', 'branch', 'is_trending', 'date_preached')
     
     # Search box
-    search_fields = ('title', 'series_name', 'description', 'preacher__name')
+    search_fields = ('title', 'theme', 'series_name', 'description', 'preacher__name')
     
     # Quick edits
-    list_editable = ('status', 'is_trending', 'price')
+    list_editable = ('status', 'is_trending')
     
     # Field groupings
     fieldsets = (
         ('Basic Information', {
-            'fields': ('title', 'series_name', 'description', 'thumbnail')
+            'fields': ('title', 'category', 'theme', 'series_name', 'description', 'thumbnail')
         }),
         ('Pricing', {
-            # REMOVE 'store_url' FROM HERE
             'fields': ('status', 'price') 
         }),
-        ('Media Links', {
+        ('External Links', {
             'fields': ('video_url', 'audio_url')
+        }),
+        ('Direct Uploads', {
+            'fields': ('video_file', 'audio_file')
         }),
         ('Details & Relationships', {
             'fields': ('preacher', 'branch', 'duration', 'date_preached')

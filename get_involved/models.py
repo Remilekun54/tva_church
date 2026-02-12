@@ -96,6 +96,7 @@ class CityAltar(models.Model):
     
     description = models.TextField(blank=True, help_text="Brief description or welcome message")
     contact_phone = models.CharField(max_length=20)
+    whatsapp_number = models.CharField(max_length=20, blank=True, help_text="WhatsApp number with country code (e.g., +234...)")
     contact_email = models.EmailField(blank=True)
     
     created_at = models.DateTimeField(auto_now_add=True)
@@ -110,8 +111,8 @@ class CityAltar(models.Model):
 class Fellowship(models.Model):
     """Model for different fellowships (Box-18, V-Mums, Singles)"""
     FELLOWSHIP_Types = [
-        ('BOX18', 'Box-18 (Men)'),
-        ('VMUMS', 'V-Mums (Women)'),
+        ('BOX18', 'Box-18 (Married Men)'),
+        ('VMUMS', 'V-Moms (Married Women)'),
         ('SINGLES', 'Singles & Youths'),
     ]
     
@@ -151,17 +152,71 @@ class FellowshipEvent(models.Model):
 class Box18Fellowship(Fellowship):
     class Meta:
         proxy = True
-        verbose_name = "Box-18 (Men's Fellowship)"
-        verbose_name_plural = "Box-18 (Men's Fellowship)"
+        verbose_name = "Box-18 (Married Men)"
+        verbose_name_plural = "Box-18 (Married Men)"
 
 class VMumsFellowship(Fellowship):
     class Meta:
         proxy = True
-        verbose_name = "V-Mums (Women's Fellowship)"
-        verbose_name_plural = "V-Mums (Women's Fellowship)"
+        verbose_name = "V-Moms (Married Women)"
+        verbose_name_plural = "V-Moms (Married Women)"
 
 class SinglesFellowship(Fellowship):
     class Meta:
         proxy = True
         verbose_name = "Singles & Youths"
         verbose_name_plural = "Singles & Youths"
+
+class G12Page(models.Model):
+    """Singleton model for the G-12 Membership Page Config"""
+    hero_title = models.CharField(max_length=200, default="G-12 Membership Classes")
+    hero_subtitle = models.CharField(max_length=200, default="Your Journey to Leadership and Discipleship")
+    hero_image = models.ImageField(upload_to='g12/', blank=True, null=True)
+    
+    # Section 1
+    section1_title = models.CharField(max_length=200, default="What is G-12?")
+    section1_content = models.TextField(default="")
+    section1_image = models.ImageField(upload_to='g12/', blank=True, null=True)
+    
+    # Section 2
+    section2_title = models.CharField(max_length=200, default="Our Vision for You")
+    section2_content = models.TextField(default="")
+    section2_image = models.ImageField(upload_to='g12/', blank=True, null=True)
+    
+    # Section 3
+    section3_title = models.CharField(max_length=200, default="Class Schedule")
+    section3_content = models.TextField(default="")
+    section3_image = models.ImageField(upload_to='g12/', blank=True, null=True)
+    
+    # Section 4 (Registration)
+    registration_title = models.CharField(max_length=200, default="Join Our Next Class")
+    registration_subtitle = models.TextField(default="Register today to start your journey.")
+
+    def save(self, *args, **kwargs):
+        if not self.pk and G12Page.objects.exists():
+            raise ValidationError('There can be only one G-12 Page instance')
+        return super(G12Page, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return "G-12 Page Configuration"
+
+    class Meta:
+        verbose_name = "G-12 Page Configuration"
+        verbose_name_plural = "G-12 Page Configuration"
+
+class G12Registration(models.Model):
+    """Model for G-12 membership class registration"""
+    full_name = models.CharField(max_length=200)
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=20)
+    branch = models.CharField(max_length=100, help_text="Your local church branch")
+    preferred_class_time = models.CharField(max_length=200, help_text="e.g., Sundays after service, Saturdays 4pm")
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"G-12 Registration: {self.full_name}"
+
+    class Meta:
+        verbose_name = "G-12 Registration"
+        verbose_name_plural = "G-12 Registrations"

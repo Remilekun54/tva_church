@@ -78,8 +78,11 @@ class Leader(models.Model):
     position = models.CharField(max_length=255)
     branch = models.ForeignKey('Branch', on_delete=models.SET_NULL, null=True, blank=True, related_name='leaders')
     image = models.ImageField(upload_to='leaders/')
+    contact_email = models.EmailField(blank=True, null=True)
     facebook_url = models.URLField(blank=True, null=True)
     instagram_url = models.URLField(blank=True, null=True)
+    linkedin_url = models.URLField(blank=True, null=True)
+    tiktok_url = models.URLField(blank=True, null=True)
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
@@ -159,6 +162,22 @@ class FoundingPastor(models.Model):
     # Section 6: Timeline
     timeline_title = models.CharField(max_length=200, default="Ministry Timeline")
     timeline_image = models.ImageField(upload_to='pastors/', null=True, blank=True)
+
+    # Section 7: Contact & Social
+    contact_title = models.CharField(max_length=200, default="Connect With Founding Pastor")
+    contact_email = models.EmailField(blank=True, null=True)
+    facebook_url = models.URLField(blank=True, null=True)
+    instagram_url = models.URLField(blank=True, null=True)
+    linkedin_url = models.URLField(blank=True, null=True)
+    mixlr_url = models.URLField(blank=True, null=True)
+    threads_url = models.URLField(blank=True, null=True)
+    x_url = models.URLField(blank=True, null=True, verbose_name="X (Twitter) URL")
+    tiktok_url = models.URLField(blank=True, null=True)
+
+    # Section 8: Books
+    books_title = models.CharField(max_length=200, default="Books & Resources")
+    selar_book_url = models.URLField(blank=True, null=True, help_text="Link to Selar store/book")
+    amazon_book_url = models.URLField(blank=True, null=True, help_text="Link to Amazon author page/book")
     
     class Meta:
         verbose_name_plural = "Founding Pastor Page"
@@ -199,6 +218,16 @@ class PresidingPastor(models.Model):
     contact_email = models.EmailField(blank=True, null=True)
     facebook_url = models.URLField(blank=True, null=True)
     instagram_url = models.URLField(blank=True, null=True)
+    linkedin_url = models.URLField(blank=True, null=True)
+    mixlr_url = models.URLField(blank=True, null=True)
+    threads_url = models.URLField(blank=True, null=True)
+    x_url = models.URLField(blank=True, null=True, verbose_name="X (Twitter) URL")
+    tiktok_url = models.URLField(blank=True, null=True)
+
+    # Section 7: Books
+    books_title = models.CharField(max_length=200, default="Books & Resources")
+    selar_book_url = models.URLField(blank=True, null=True, help_text="Link to Selar store/book")
+    amazon_book_url = models.URLField(blank=True, null=True, help_text="Link to Amazon author page/book")
     
     class Meta:
         verbose_name_plural = "Presiding Pastor Page"
@@ -265,6 +294,11 @@ class TeamMember(models.Model):
     bio = CKEditor5Field('Content', config_name='default')
     image = models.ImageField(upload_to='team_members/', null=True, blank=True)
     ministry_area = models.CharField(max_length=200, blank=True)
+    contact_email = models.EmailField(blank=True, null=True)
+    facebook_url = models.URLField(blank=True, null=True)
+    instagram_url = models.URLField(blank=True, null=True)
+    linkedin_url = models.URLField(blank=True, null=True)
+    tiktok_url = models.URLField(blank=True, null=True)
     order = models.PositiveIntegerField(default=0)
     
     class Meta:

@@ -36,7 +36,7 @@ def home(request):
     about_section = AboutSection.objects.first()
     core_values = CoreValue.objects.all()
     store_section = StoreSection.objects.first()
-    pastor_section = PastorSection.objects.first()
+    pastors = PastorSection.objects.all()
     featured_quote = FeaturedQuote.objects.first()
     giving_section = GivingSection.objects.first()
     events_header = EventsHeader.objects.first()
@@ -55,7 +55,7 @@ def home(request):
         'about_section': about_section,
         'core_values': core_values,
         'store_section': store_section,
-        'pastor': pastor_section,
+        'pastors': pastors,
         'featured_quote': featured_quote,
         'giving': giving_section,
         'events_header': events_header,

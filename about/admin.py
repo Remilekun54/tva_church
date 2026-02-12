@@ -2,10 +2,8 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from .models import AboutSection, BeliefPoint
-from .models import Branch, BranchActivity
-from .models import CoreValue
-from .models import Leader
+from .models import AboutSection, BeliefPoint, Branch, BranchActivity, CoreValue, Leader, HistoryMilestone, Statistic
+from .models import FoundingPastor, PresidingPastor, PastoralTeam, PastoralTimeline, TeamMember
 
 
 class BeliefPointInline(admin.TabularInline):
@@ -54,13 +52,20 @@ class LeaderAdmin(admin.ModelAdmin):
     list_display = ('name', 'position', 'branch', 'order')
     list_editable = ('order', 'branch')
     list_filter = ('branch',)
+    fields = ('name', 'position', 'branch', 'image', 'contact_email', 'facebook_url', 'instagram_url', 'linkedin_url', 'tiktok_url', 'order')
+
+@admin.register(TeamMember)
+class TeamMemberAdmin(admin.ModelAdmin):
+    list_display = ('name', 'position', 'pastoral_team', 'order')
+    list_editable = ('order',)
+    list_filter = ('pastoral_team',)
 
 @admin.register(BeliefPoint)
 class BeliefPointAdmin(admin.ModelAdmin):
     list_display = ('title', 'order')
     list_editable = ('order',)
 
-from .models import HistoryMilestone, Statistic
+# Additional models registered below
 
 @admin.register(HistoryMilestone)
 class HistoryMilestoneAdmin(admin.ModelAdmin):
@@ -73,7 +78,6 @@ class StatisticAdmin(admin.ModelAdmin):
     list_editable = ('order',)
 
 # Pastoral Pages Admin
-from .models import FoundingPastor, PresidingPastor, PastoralTeam, PastoralTimeline, TeamMember
 
 class PastoralTimelineInline(admin.TabularInline):
     model = PastoralTimeline
@@ -101,6 +105,12 @@ class FoundingPastorAdmin(admin.ModelAdmin):
         ('Timeline Section', {
             'fields': ('timeline_title', 'timeline_image')
         }),
+        ('Contact & Social Section', {
+            'fields': ('contact_title', 'contact_email', 'facebook_url', 'instagram_url', 'linkedin_url', 'mixlr_url', 'threads_url', 'x_url', 'tiktok_url')
+        }),
+        ('Books Section', {
+            'fields': ('books_title', 'selar_book_url', 'amazon_book_url')
+        }),
     )
     inlines = [PastoralTimelineInline]
     
@@ -126,7 +136,10 @@ class PresidingPastorAdmin(admin.ModelAdmin):
             'fields': ('message_title', 'message_content', 'message_image')
         }),
         ('Contact Section', {
-            'fields': ('contact_title', 'contact_email', 'facebook_url', 'instagram_url')
+            'fields': ('contact_title', 'contact_email', 'facebook_url', 'instagram_url', 'linkedin_url', 'mixlr_url', 'threads_url', 'x_url', 'tiktok_url')
+        }),
+        ('Books Section', {
+            'fields': ('books_title', 'selar_book_url', 'amazon_book_url')
         }),
     )
     
@@ -136,7 +149,7 @@ class PresidingPastorAdmin(admin.ModelAdmin):
 class TeamMemberInline(admin.TabularInline):
     model = TeamMember
     extra = 3
-    fields = ('name', 'position', 'ministry_area', 'bio', 'image', 'order')
+    fields = ('name', 'position', 'ministry_area', 'bio', 'image', 'contact_email', 'facebook_url', 'instagram_url', 'linkedin_url', 'tiktok_url', 'order')
 
 @admin.register(PastoralTeam)
 class PastoralTeamAdmin(admin.ModelAdmin):

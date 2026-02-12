@@ -60,8 +60,8 @@ class StoreSectionAdmin(admin.ModelAdmin):
 
 @admin.register(PastorSection)
 class PastorSectionAdmin(admin.ModelAdmin):
-    def has_add_permission(self, request):
-        return not PastorSection.objects.exists()
+    list_display = ('name', 'tagline', 'order')
+    list_editable = ('order',)
 
 @admin.register(FeaturedQuote)
 class FeaturedQuoteAdmin(admin.ModelAdmin):

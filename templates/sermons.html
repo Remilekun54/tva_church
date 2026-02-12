@@ -30,85 +30,149 @@
     <!-- Sermons Section -->
     <section id="sermons-page" class="py-24">
       <div class="max-w-7xl mx-auto px-4">
-        <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-          <div>
+        <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 gap-8">
+          <div class="max-w-xl">
             <span class="text-accent font-black uppercase tracking-widest text-sm">Media Center</span>
             <h2 class="text-5xl font-black text-primary serif mt-2 italic">Latest Teachings</h2>
           </div>
           
-          <div class="flex flex-wrap gap-4">
-            <a href="{% url 'sermons' %}" class="px-6 py-2 rounded-full font-bold text-sm {% if not current_sort %}bg-primary text-white shadow-lg{% else %}glass-card text-primary hover:bg-white/50{% endif %} transition-all">Latest</a>
-            <a href="?sort=trending" class="px-6 py-2 rounded-full font-bold text-sm {% if current_sort == 'trending' %}bg-primary text-white shadow-lg{% else %}glass-card text-primary hover:bg-white/50{% endif %} transition-all">Trending</a>
-            
-            <form method="GET" class="inline">
-                <select name="branch" onchange="this.form.submit()" class="px-6 py-2 rounded-full glass-card font-bold text-primary focus:outline-none cursor-pointer">
+          <div class="w-full lg:w-auto">
+            <form method="GET" class="grid grid-cols-1 md:grid-cols-2 lg:flex flex-wrap gap-4">
+                <!-- Sort Filters -->
+                <div class="flex gap-2 min-w-max">
+                   <a href="{% url 'sermons' %}" class="px-6 py-3 rounded-xl font-bold text-sm {% if not current_sort %}bg-primary text-white shadow-lg{% else %}glass-card text-primary hover:bg-white/50{% endif %} transition-all">Latest</a>
+                   <a href="?sort=trending" class="px-6 py-3 rounded-xl font-bold text-sm {% if current_sort == 'trending' %}bg-primary text-white shadow-lg{% else %}glass-card text-primary hover:bg-white/50{% endif %} transition-all">Trending</a>
+                </div>
+
+                <!-- Category Filter -->
+                <select name="category" onchange="this.form.submit()" class="px-6 py-3 rounded-xl glass-card font-bold text-primary focus:outline-none cursor-pointer border-none shadow-sm min-w-[160px]">
+                    <option value="">All Categories</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat.slug }}" {% if current_category == cat.slug %}selected{% endif %}>{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
+
+                <!-- Year Filter -->
+                <select name="year" onchange="this.form.submit()" class="px-6 py-3 rounded-xl glass-card font-bold text-primary focus:outline-none cursor-pointer border-none shadow-sm min-w-[120px]">
+                    <option value="">All Years</option>
+                    {% for y in years %}
+                    <option value="{{ y }}" {% if current_year == y|stringformat:"i" %}selected{% endif %}>{{ y }}</option>
+                    {% endfor %}
+                </select>
+
+                <!-- Branch Filter -->
+                <select name="branch" onchange="this.form.submit()" class="px-6 py-3 rounded-xl glass-card font-bold text-primary focus:outline-none cursor-pointer border-none shadow-sm min-w-[160px]">
                     <option value="">All Branches</option>
                     {% for branch in branches %}
                     <option value="{{ branch.id }}" {% if current_branch == branch.id|stringformat:"i" %}selected{% endif %}>{{ branch.branch_name }}</option>
                     {% endfor %}
                 </select>
+
+                <!-- Theme Search -->
+                <div class="relative flex-grow lg:flex-grow-0 lg:w-64">
+                    <input type="text" name="theme" value="{{ current_theme|default:'' }}" placeholder="Search Theme..." class="w-full px-6 py-3 rounded-xl glass-card font-bold text-primary focus:outline-none border-none shadow-sm placeholder:text-primary/40">
+                    <button type="submit" class="absolute right-4 top-1/2 -translate-y-1/2 text-primary/60 hover:text-primary">
+                        <i data-lucide="search" class="w-4 h-4"></i>
+                    </button>
+                </div>
             </form>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {% for sermon in sermons %}
-          <div class="glass-card overflow-hidden group hover:-translate-y-2 transition-all duration-500 relative reveal-card">
+          <div class="glass-card overflow-hidden group hover:-translate-y-2 transition-all duration-500 relative flex flex-col h-full">
             
             <div class="absolute top-4 right-4 z-20 flex flex-col items-end gap-2">
                 <span class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest {% if sermon.status == 'free' %}bg-secondary text-primary{% else %}bg-accent text-white shadow-lg{% endif %}">
                     {{ sermon.get_status_display }}
                 </span>
-                {% if sermon.status == 'paid' and sermon.price %}
-                <span class="bg-white text-primary px-3 py-1 rounded-lg shadow-md font-black text-sm border border-emerald-50 animate-bounce">
-                    ₦{{ sermon.price }}
+                {% if sermon.category %}
+                <span class="px-3 py-1 rounded-lg bg-white/90 backdrop-blur-sm text-primary text-[10px] font-black uppercase tracking-wider shadow-sm border border-slate-100">
+                    {{ sermon.category.name }}
                 </span>
                 {% endif %}
             </div>
 
-            <div class="relative h-64 overflow-hidden">
+            <div class="relative h-64 overflow-hidden shrink-0">
               {% if sermon.thumbnail %}
                 <img src="{{ sermon.thumbnail.url }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="{{ sermon.title }}" />
               {% endif %}
               
-              <a href="{% if sermon.status == 'paid' %}{% url 'store' %}{% else %}{{ sermon.video_url|default:'#' }}{% endif %}" 
-                 class="absolute inset-0 bg-primary/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
-                 {% if sermon.status != 'paid' %}target="_blank"{% endif %}>
-      
-                <div class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center shadow-2xl transform scale-50 group-hover:scale-100 transition-transform duration-300">
-                  {% if sermon.status == 'paid' %}
+              <!-- Play/Purchase Overlay -->
+              <div class="absolute inset-0 bg-primary/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
+                {% if sermon.status == 'paid' %}
+                  <a href="{% url 'store' %}" class="w-16 h-16 bg-accent text-white rounded-full flex items-center justify-center shadow-2xl transform scale-50 group-hover:scale-100 transition-transform duration-300">
                     <i data-lucide="shopping-cart" class="w-6 h-6"></i>
-                  {% else %}
+                  </a>
+                {% elif sermon.video_file %}
+                   <a href="{{ sermon.video_file.url }}" target="_blank" class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center shadow-2xl transform scale-50 group-hover:scale-100 transition-transform duration-300">
                     <i data-lucide="play" class="fill-current w-6 h-6"></i>
-                  {% endif %}
-                </div>
-              </a>
+                  </a>
+                {% elif sermon.video_url %}
+                  <a href="{{ sermon.video_url }}" target="_blank" class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center shadow-2xl transform scale-50 group-hover:scale-100 transition-transform duration-300">
+                    <i data-lucide="play" class="fill-current w-6 h-6"></i>
+                  </a>
+                {% endif %}
+              </div>
             </div>
 
-            <div class="p-8">
-              <span class="text-accent font-bold text-xs uppercase tracking-widest block mb-2">{{ sermon.series_name }}</span>
-              <h4 class="text-2xl font-black text-primary mb-4 leading-snug">{{ sermon.title }}</h4>
-              <p class="text-slate-500 text-sm mb-6">{{ sermon.description|striptags|truncatewords:20 }}</p>
+            <div class="p-8 flex flex-col grow">
+              <div class="mb-4">
+                {% if sermon.theme %}
+                <span class="text-secondary font-black text-[10px] uppercase tracking-[0.2em] block mb-1">Theme: {{ sermon.theme }}</span>
+                {% endif %}
+                <span class="text-accent font-bold text-xs uppercase tracking-widest block mb-2">{{ sermon.series_name }}</span>
+                <h4 class="text-2xl font-black text-primary mb-3 leading-snug">{{ sermon.title }}</h4>
+                <div class="text-slate-500 text-sm line-clamp-3">
+                    {{ sermon.description|striptags }}
+                </div>
+              </div>
               
-              <div class="flex items-center justify-between pt-6 border-t border-slate-50">
-                <div class="flex items-center gap-2">
-                  {% if sermon.preacher.image %}
-                    <img src="{{ sermon.preacher.image.url }}" class="w-8 h-8 rounded-full object-cover border border-secondary">
-                  {% else %}
-                    <div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-[10px] font-bold">VA</div>
-                  {% endif %}
-                  <div class="flex flex-col">
-                    <span class="text-[10px] font-bold text-slate-700">{{ sermon.preacher.name }}</span>
-                    <span class="text-[8px] text-accent uppercase font-bold">{{ sermon.branch.branch_name }}</span>
+              <div class="mt-auto pt-6 border-t border-slate-100">
+                <div class="flex items-center justify-between mb-6">
+                  <div class="flex items-center gap-3">
+                    {% if sermon.preacher.image %}
+                      <img src="{{ sermon.preacher.image.url }}" class="w-10 h-10 rounded-full object-cover border-2 border-secondary shadow-sm">
+                    {% else %}
+                      <div class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-xs font-black text-primary border-2 border-white shadow-sm">VA</div>
+                    {% endif %}
+                    <div class="flex flex-col">
+                      <span class="text-xs font-black text-slate-800">{{ sermon.preacher.name }}</span>
+                      <span class="text-[10px] text-accent font-bold uppercase">{{ sermon.branch.branch_name }}</span>
+                    </div>
                   </div>
+                  <span class="text-[10px] text-slate-400 font-black uppercase tracking-widest">{{ sermon.duration }}</span>
                 </div>
 
-                <div class="flex gap-3 items-center">
-                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{{ sermon.duration }}</span>
-                    <a href="{% if sermon.status == 'free' %}{{ sermon.audio_url }}{% else %}{% url 'store' %}{% endif %}" 
-                       class="p-2 {% if sermon.status == 'free' %}bg-slate-100 hover:bg-secondary text-primary{% else %}bg-accent/10 text-accent hover:bg-accent hover:text-white{% endif %} rounded-lg transition-colors">
-                        <i data-lucide="{% if sermon.status == 'free' %}download{% else %}shopping-bag{% endif %}" class="w-4 h-4"></i>
-                    </a>
+                <div class="grid grid-cols-2 gap-3">
+                    {% if sermon.status == 'paid' %}
+                      <a href="{% url 'store' %}" class="col-span-2 py-3 bg-accent text-white rounded-xl font-black text-xs uppercase tracking-widest text-center hover:bg-slate-900 transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="shopping-bag" class="w-4 h-4"></i> Buy Sermon
+                      </a>
+                    {% else %}
+                      <!-- Audio Download/Play -->
+                      {% if sermon.audio_file %}
+                        <a href="{{ sermon.audio_file.url }}" download class="py-3 bg-primary text-white rounded-xl font-black text-[10px] uppercase tracking-widest text-center hover:bg-secondary hover:text-primary transition-all flex items-center justify-center gap-2">
+                          <i data-lucide="download" class="w-4 h-4"></i> Audio
+                        </a>
+                      {% elif sermon.audio_url %}
+                        <a href="{{ sermon.audio_url }}" target="_blank" class="py-3 bg-primary text-white rounded-xl font-black text-[10px] uppercase tracking-widest text-center hover:bg-secondary hover:text-primary transition-all flex items-center justify-center gap-2">
+                          <i data-lucide="headphones" class="w-4 h-4"></i> Audio
+                        </a>
+                      {% endif %}
+
+                      <!-- Video Download/Play -->
+                      {% if sermon.video_file %}
+                        <a href="{{ sermon.video_file.url }}" download class="py-3 bg-slate-100 text-primary rounded-xl font-black text-[10px] uppercase tracking-widest text-center hover:bg-secondary transition-all flex items-center justify-center gap-2">
+                          <i data-lucide="download" class="w-4 h-4"></i> Video
+                        </a>
+                      {% elif sermon.video_url %}
+                        <a href="{{ sermon.video_url }}" target="_blank" class="py-3 bg-slate-100 text-primary rounded-xl font-black text-[10px] uppercase tracking-widest text-center hover:bg-secondary transition-all flex items-center justify-center gap-2">
+                          <i data-lucide="video" class="w-4 h-4"></i> Video
+                        </a>
+                      {% endif %}
+                    {% endif %}
                 </div>
               </div>
             </div>

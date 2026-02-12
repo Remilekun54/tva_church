@@ -14,7 +14,7 @@
           </div>
           <div class="absolute inset-0 hero-gradient"></div>
           <div class="relative z-10 h-full flex flex-col justify-center px-4 md:px-12 lg:px-24 max-w-7xl mx-auto">
-            <div class="slide-content max-w-3xl glass-dark p-8 md:p-12 rounded-3xl shadow-2xl backdrop-blur-md">
+            <div class="slide-content w-full max-w-3xl h-[450px] flex flex-col justify-center glass-dark p-8 md:p-12 rounded-3xl shadow-2xl backdrop-blur-md relative overflow-hidden">
               <span
                 class="inline-block px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-secondary mb-6 font-bold text-xs uppercase tracking-[0.2em]">
                 {{ slide.sub_heading }}
@@ -58,8 +58,12 @@
   <section class="py-24 md:py-32 relative">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex flex-col lg:flex-row items-center gap-16">
-        <div class="lg:w-1/2 relative">
-          <div class="glass-card p-4 rotate-3 transform transition-transform hover:rotate-0 duration-700">
+        <div class="lg:w-1/2 relative group">
+          <!-- Green Background Layer -->
+          <div class="absolute inset-0 bg-secondary/20 rounded-[2rem] transform translate-x-4 translate-y-4 transition-transform duration-500 group-hover:translate-x-6 group-hover:translate-y-6"></div>
+          
+          <!-- Image Card -->
+          <div class="glass-card p-4 transform transition-all duration-500 hover:scale-105">
             <img src="{{ about_section.image.url }}" class="w-full h-[500px] object-cover rounded-2xl"
               alt="Community" />
           </div>
@@ -79,8 +83,12 @@
   <section class="py-24 md:py-32 relative">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex flex-col lg:flex-row items-center gap-16">
-        <div class="lg:w-1/2 relative">
-          <div class="glass-card p-4 rotate-3 transform transition-transform hover:rotate-0 duration-700">
+        <div class="lg:w-1/2 relative group">
+          <!-- Green Background Layer -->
+          <div class="absolute inset-0 bg-secondary/20 rounded-[2rem] transform translate-x-4 translate-y-4 transition-transform duration-500 group-hover:translate-x-6 group-hover:translate-y-6"></div>
+
+          <!-- Image Card -->
+          <div class="glass-card p-4 transform transition-all duration-500 hover:scale-105">
             <img src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&q=80&w=1200"
               class="w-full h-[500px] object-cover rounded-2xl" alt="Community" />
           </div>
@@ -101,62 +109,83 @@
   {% endif %}
 
   <!-- Sermon -->
-  <section id="sermons-preview" class="py-24 bg-green-50 overflow-hidden">
+  <section id="sermons-preview" class="py-24 bg-[#81C225] overflow-hidden">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
         <div class="sermon-header">
-          <span class="text-accent font-black uppercase tracking-widest text-sm">Library of Grace</span>
-          <h2 class="text-4xl md:text-5xl font-black text-primary serif mt-2 italic">
+          <span class="text-secondary font-black uppercase tracking-widest text-sm">Library of Grace</span>
+          <h2 class="text-4xl md:text-5xl font-black text-white serif mt-2 italic">
             Latest Teachings
           </h2>
         </div>
         <a href="{% url 'sermons' %}"
-          class="flex items-center gap-2 text-primary font-bold hover:text-secondary transition-colors group">
+          class="flex items-center gap-2 text-white font-bold hover:text-secondary transition-colors group">
           View All Sermons
           <i data-lucide="chevron-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
         </a>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {% for sermon in sermons %}
-        <div
-          class="sermon-card group bg-white rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl">
-          <div class="relative h-52">
-            <img src="{{ sermon.thumbnail.url }}"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-              alt="{{ sermon.title }}" />
-            <div class="absolute inset-0 bg-primary/20 group-hover:bg-primary/40 transition-colors"></div>
-            <div class="absolute inset-0 flex items-center justify-center">
-              <a href="{{ sermon.video_url|default:'#' }}"
-                class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-primary shadow-xl opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                <i data-lucide="play" class="fill-current w-5 h-5"></i>
+        <div class="glass-card overflow-hidden group hover:-translate-y-2 transition-all duration-500 relative reveal-card bg-white rounded-[2rem]">
+            
+            <div class="absolute top-4 right-4 z-20 flex flex-col items-end gap-2">
+                <span class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest {% if sermon.status == 'free' %}bg-secondary text-primary{% else %}bg-accent text-white shadow-lg{% endif %}">
+                    {{ sermon.get_status_display }}
+                </span>
+                {% if sermon.status == 'paid' and sermon.price %}
+                <span class="bg-white text-primary px-3 py-1 rounded-lg shadow-md font-black text-sm border border-emerald-50 animate-bounce">
+                    ₦{{ sermon.price }}
+                </span>
+                {% endif %}
+            </div>
+
+            <div class="relative h-64 overflow-hidden">
+              {% if sermon.thumbnail %}
+                <img src="{{ sermon.thumbnail.url }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="{{ sermon.title }}" />
+              {% endif %}
+              
+              <a href="{% if sermon.status == 'paid' %}{% url 'store' %}{% else %}{{ sermon.video_url|default:'#' }}{% endif %}" 
+                 class="absolute inset-0 bg-primary/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
+                 {% if sermon.status != 'paid' %}target="_blank"{% endif %}>
+      
+                <div class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center shadow-2xl transform scale-50 group-hover:scale-100 transition-transform duration-300">
+                  {% if sermon.status == 'paid' %}
+                    <i data-lucide="shopping-cart" class="w-6 h-6"></i>
+                  {% else %}
+                    <i data-lucide="play" class="fill-current w-6 h-6"></i>
+                  {% endif %}
+                </div>
               </a>
             </div>
-          </div>
-          <div class="p-6">
-                  <p
-                    class="text-accent font-bold text-[10px] uppercase tracking-tighter mb-2"
-                  >
-                    {{ sermon.series_name }}
-                  </p>
-                  <h3
-                    class="text-lg font-black text-primary leading-tight mb-2"
-                  >
-                    {{ sermon.title }}
-                  </h3>
-                  <p class="text-[11px] text-slate-500 font-bold mb-4">By {{ sermon.preacher.name }}</p>
-            <div class="flex items-center justify-between text-[11px] text-slate-400 font-bold border-t pt-4">
-              <span class="flex items-center gap-1">
-                <i data-lucide="calendar" class="w-3 h-3"></i>
-                {{ sermon.date_preached|date:"M d" }}
-              </span>
 
-              <span class="flex items-center gap-1">
-                <i data-lucide="clock" class="w-3 h-3"></i>
-                {{ sermon.duration }} MIN
-              </span>
+            <div class="p-8">
+              <span class="text-accent font-bold text-xs uppercase tracking-widest block mb-2">{{ sermon.series_name }}</span>
+              <h4 class="text-2xl font-black text-primary mb-4 leading-snug">{{ sermon.title }}</h4>
+              <p class="text-slate-500 text-sm mb-6">{{ sermon.description|striptags|truncatewords:20 }}</p>
+              
+              <div class="flex items-center justify-between pt-6 border-t border-slate-50">
+                <div class="flex items-center gap-2">
+                  {% if sermon.preacher.image %}
+                    <img src="{{ sermon.preacher.image.url }}" class="w-8 h-8 rounded-full object-cover border border-secondary">
+                  {% else %}
+                    <div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-[10px] font-bold">VA</div>
+                  {% endif %}
+                  <div class="flex flex-col">
+                    <span class="text-[10px] font-bold text-slate-700">{{ sermon.preacher.name }}</span>
+                    <span class="text-[8px] text-accent uppercase font-bold">{{ sermon.branch.branch_name }}</span>
+                  </div>
+                </div>
+
+                <div class="flex gap-3 items-center">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{{ sermon.duration }}</span>
+                    <a href="{% if sermon.status == 'free' %}{{ sermon.audio_url }}{% else %}{% url 'store' %}{% endif %}" 
+                       class="p-2 {% if sermon.status == 'free' %}bg-slate-100 hover:bg-secondary text-primary{% else %}bg-accent/10 text-accent hover:bg-accent hover:text-white{% endif %} rounded-lg transition-colors">
+                        <i data-lucide="{% if sermon.status == 'free' %}download{% else %}shopping-bag{% endif %}" class="w-4 h-4"></i>
+                    </a>
+                </div>
+              </div>
             </div>
-          </div>
         </div>
         {% empty %}
         <p class="text-center col-span-full text-slate-500">
@@ -176,9 +205,9 @@
       </h2>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
       {% for value in core_values %}
-      <div class="group">
+      <div class="group flex flex-col items-center text-center">
         <div
           class="w-20 h-20 bg-brandLight rounded-[2rem] flex items-center justify-center mb-8 group-hover:bg-primary transition-all duration-500">
           <i data-lucide="{{ value.icon_name }}" class="w-10 h-10 text-primary group-hover:text-secondary"></i>
@@ -192,7 +221,7 @@
       </div>
       {% empty %}
       <!-- Fallback Values if none added in admin -->
-      <div class="group">
+      <div class="group flex flex-col items-center text-center">
         <div
           class="w-20 h-20 bg-brandLight rounded-[2rem] flex items-center justify-center mb-8 group-hover:bg-primary transition-all duration-500">
           <i data-lucide="flame" class="w-10 h-10 text-primary group-hover:text-secondary"></i>
@@ -205,7 +234,7 @@
           effective intercession.
         </p>
       </div>
-      <div class="group">
+      <div class="group flex flex-col items-center text-center">
         <div
           class="w-20 h-20 bg-brandLight rounded-[2rem] flex items-center justify-center mb-8 group-hover:bg-primary transition-all duration-500">
           <i data-lucide="book-open" class="w-10 h-10 text-primary group-hover:text-secondary"></i>
@@ -218,7 +247,7 @@
           grace of our Lord.
         </p>
       </div>
-      <div class="group">
+      <div class="group flex flex-col items-center text-center">
         <div
           class="w-20 h-20 bg-brandLight rounded-[2rem] flex items-center justify-center mb-8 group-hover:bg-primary transition-all duration-500">
           <i data-lucide="users" class="w-10 h-10 text-primary group-hover:text-secondary"></i>
@@ -301,33 +330,37 @@
     {% endif %}
   </section>
   <!-- meet the pastor -->
-  <section id="pastor-section" class="py-24 bg-primary text-white overflow-hidden">
-    {% if pastor %}
+  <!-- meet the pastor -->
+  {% for pastor in pastors %}
+  <section class="py-24 {{ forloop.counter|divisibleby:2|yesno:'bg-[#cbed9c],bg-primary' }} {{ forloop.counter|divisibleby:2|yesno:'text-black,text-white' }} overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
-      <div class="order-2 md:order-1 pastor-info">
-        <span class="text-secondary font-bold tracking-[0.3em] uppercase">{{ pastor.tagline }}</span>
+      <div class="{% if forloop.counter|divisibleby:2 %}order-2 md:order-2{% else %}order-2 md:order-1{% endif %} pastor-info">
+        <span class="{{ forloop.counter|divisibleby:2|yesno:'text-black,text-secondary' }} font-bold tracking-[0.3em] uppercase">{{ pastor.tagline }}</span>
         <h2 class="text-5xl font-black serif mt-4 mb-6">
           {{ pastor.name }}
         </h2>
-        <p class="text-emerald-50/70 text-lg leading-relaxed mb-8 italic">
+        <p class="{{ forloop.counter|divisibleby:2|yesno:'text-slate-800,text-emerald-50/70' }} text-lg leading-relaxed mb-8 italic">
           "{{ pastor.quote }}"
         </p>
-        <div class="text-emerald-50/70 mb-10">
+        <div class="{{ forloop.counter|divisibleby:2|yesno:'text-slate-800,text-emerald-50/70' }} mb-10">
           {{ pastor.description|safe }}
         </div>
-        <a href="{% url 'presiding_pastor' %}"
-          class="border-2 border-secondary text-secondary px-8 py-3 rounded-full font-black hover:bg-secondary hover:text-primary transition-all">
+        <a href="{{ pastor.button_url }}"
+          class="border-2 {{ forloop.counter|divisibleby:2|yesno:'border-black text-black,border-secondary text-secondary' }} px-8 py-3 rounded-full font-black hover:bg-secondary {{ forloop.counter|divisibleby:2|yesno:'hover:text-white,hover:text-primary' }} transition-all">
           {{ pastor.button_text }}
         </a>
       </div>
-      <div class="order-1 md:order-2 pastor-image relative">
+      <div class="{% if forloop.counter|divisibleby:2 %}order-1 md:order-1{% else %}order-1 md:order-2{% endif %} pastor-image relative">
         <div class="absolute inset-0 bg-secondary rounded-full blur-[120px] opacity-20"></div>
         <img src="{{ pastor.image.url }}"
           class="relative z-10 rounded-3xl grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl w-full h-[450px] object-cover object-top"
           alt="{{ pastor.name }}" />
       </div>
     </div>
-    {% else %}
+  </section>
+  {% empty %}
+  <!-- Fallback if no pastors added -->
+  <section id="pastor-section" class="py-24 bg-primary text-white overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
       <div class="order-2 md:order-1 pastor-info">
         <span class="text-secondary font-bold tracking-[0.3em] uppercase">Our Shepherd</span>
@@ -343,7 +376,7 @@
           With over 20 years of ministry, Pastor John leads TVA with a
           vision for revival and a passion for the broken-hearted.
         </p>
-        <a href="{% url 'presiding_pastor' %}"
+        <a href=""
           class="border-2 border-secondary text-secondary px-8 py-3 rounded-full font-black hover:bg-secondary hover:text-primary transition-all">Read
           Full Bio</a>
       </div>
@@ -355,8 +388,8 @@
           alt="Pastor Adeyinka" />
       </div>
     </div>
-    {% endif %}
   </section>
+  {% endfor %}
 
   <!-- Event and news -->
   <section id="events" class="py-24 bg-white">
@@ -450,9 +483,9 @@
   
   <!-- Church Branches -->
   <section id="branches" class="py-24 bg-white">
-    <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-7xl mx-auto px-4">  
       <div class="text-center mb-16">
-        <h2 class="text-4xl font-black text-primary serif">Our City Alters Around you</h2>
+        <h2 class="text-4xl font-black text-primary serif">Our City Altars Around You</h2>
         <div class="w-24 h-1 bg-secondary mx-auto mt-4 rounded-full"></div>
       </div>
 
@@ -610,7 +643,8 @@
             <div>
               <h4 class="font-black text-primary">Our Location</h4>
               <p class="text-slate-500">
-                Plot A Abdul-malik Tose,Ibadan, Nigeria
+                The Sheep Gate,KM. 8,Ibadan-Oyo Express RD.,
+                Ibadan, Nigeria.
               </p>
             </div>
           </div>
@@ -621,7 +655,7 @@
             </div>
             <div>
               <h4 class="font-black text-primary">Email Us</h4>
-              <p class="text-slate-500">tvaadmin@gmail.com</p>
+              <p class="text-slate-500">tvanigeria@gmail.com</p>
             </div>
           </div>
         </div>

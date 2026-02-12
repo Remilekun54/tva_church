@@ -80,19 +80,56 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // --- Navbar Scroll Effect ---
+    // --- Navbar Scroll Effect ---
     const navbar = document.getElementById("navbar");
+    const navMenuList = document.getElementById("nav-menu-list");
+
     if (navbar) {
-        window.addEventListener("scroll", () => {
+        const updateNavbar = () => {
+             // Get all direct links and buttons in the menu
+            const menuItems = navMenuList ? navMenuList.querySelectorAll("a, button") : [];
+
             if (window.scrollY > 50) {
-                navbar.classList.add("shadow-glass", "bg-white/80", "backdrop-blur-md", "py-2");
+                // Scrolled down: Increase navbar height, add glass effect AND Blue Bottom Border
+                navbar.classList.add("shadow-glass", "bg-white/80", "backdrop-blur-md", "border-b", "border-primary");
                 navbar.classList.remove("bg-transparent", "h-24");
-                navbar.classList.add("h-20");
+                navbar.classList.add("h-28");
+
+                // Also increase menu list height (by increasing padding)
+                if (navMenuList) {
+                    navMenuList.classList.remove("p-1");
+                    navMenuList.classList.add("px-2", "py-3"); // Taller pill
+                    
+                    // Increase Font Size
+                    menuItems.forEach(item => {
+                        item.classList.remove("text-sm");
+                        item.classList.add("text-base");
+                    });
+                }
             } else {
-                navbar.classList.remove("shadow-glass", "bg-white/80", "backdrop-blur-md", "py-2");
+                // At top: Default height and transparent. Remove Blue Border.
+                navbar.classList.remove("shadow-glass", "bg-white/80", "backdrop-blur-md", "h-28", "border-b", "border-primary");
                 navbar.classList.add("bg-transparent", "h-24");
-                navbar.classList.remove("h-20");
+
+                // Revert menu list height
+                if (navMenuList) {
+                    navMenuList.classList.remove("px-2", "py-3");
+                    navMenuList.classList.add("p-1"); // Default compact pill
+
+                    // Revert Font Size
+                    menuItems.forEach(item => {
+                        item.classList.remove("text-base");
+                        item.classList.add("text-sm");
+                    });
+                }
             }
-        });
+        };
+
+        // Listen for scroll events
+        window.addEventListener("scroll", updateNavbar);
+        
+        // Run immediately on load to handle reload/restoration position
+        updateNavbar();
     }
 
     // --- 5. Gallery Slider Logic ---
@@ -261,3 +298,37 @@ document.addEventListener("DOMContentLoaded", () => {
     // Re-run icon initialization for any dynamic elements
     lucide.createIcons();
 });
+
+// 7. Scroll to Top Logic (Robust Implementation)
+document.addEventListener("DOMContentLoaded", () => {
+    const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+    
+    if (scrollToTopBtn) {
+        // Show/Hide logic
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 400) {
+                scrollToTopBtn.classList.remove("translate-y-24", "opacity-0");
+            } else {
+                scrollToTopBtn.classList.add("translate-y-24", "opacity-0");
+            }
+        });
+
+        // Click logic attached via JS for better separation
+        scrollToTopBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    }
+    
+    // Global function fallback just in case
+    window.scrollToTop = function() {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    };
+});
+

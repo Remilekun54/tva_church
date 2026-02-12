@@ -18,10 +18,27 @@ class CommonBase(models.Model):
     class Meta:
         abstract = True
 
+class SermonCategory(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True)
+
+    class Meta:
+        verbose_name_plural = "Sermon Categories"
+
+    def __str__(self):
+        return self.name
+
 class Sermon(CommonBase):
+    category = models.ForeignKey(SermonCategory, on_delete=models.SET_NULL, null=True, blank=True)
+    theme = models.CharField(max_length=255, blank=True, help_text="The theme of the sermon/series")
     series_name = models.CharField(max_length=100, blank=True, help_text="e.g., The Overflow Series")
-    video_url = models.URLField(blank=True, help_text="YouTube link")
-    audio_url = models.URLField(blank=True, help_text="Telegram audio link")
+    
+    video_url = models.URLField(blank=True, help_text="YouTube link (optional if uploading video)")
+    video_file = models.FileField(upload_to='sermons/videos/', blank=True, null=True, help_text="Upload video file if not using YouTube")
+    
+    audio_url = models.URLField(blank=True, help_text="Telegram audio link (optional if uploading audio)")
+    audio_file = models.FileField(upload_to='sermons/audios/', blank=True, null=True, help_text="Upload audio file for direct download")
+    
     preacher = models.ForeignKey(Leader, on_delete=models.CASCADE)
     branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True)
     duration = models.CharField(max_length=20, help_text="e.g., 45 Mins")

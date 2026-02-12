@@ -1,13 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap');
 
 :root {
     --brand-primary: #1F317D;   /* TVA Blue Main */
     --brand-secondary: #81C225; /* TVA Green */
     --brand-accent: #010066;    /* TVA Deep Blue */
+    --brand-green: #cbed9c; 
 }
 
 body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background-color: #c2f2ff; /* Light Brand Background */
     color: #1a1a1a;
     overflow-x: hidden;
@@ -64,7 +65,7 @@ body {
 
 /* Serif Font Class */
 .serif {
-    font-family: 'Fraunces', serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 /* Animation utilities */
@@ -78,3 +79,29 @@ body {
 }
 
 
+
+/* Typography Overrides */
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900; /* Black */
+}
+
+h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800; /* Extra Bold */
+}
+
+h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700; /* Bold */
+}
+
+p, span {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400; /* Regular */
+}
+
+button, .btn, a.btn {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800; /* Extra Bold */
+}

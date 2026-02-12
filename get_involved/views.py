@@ -80,3 +80,23 @@ def fellowship_detail_view(request, fellowship_type):
         'past_events': past_events,
     }
     return render(request, 'fellowship_detail.html', context)
+
+from .models import G12Page
+from .forms import G12RegistrationForm
+
+def g12_view(request):
+    page_data = G12Page.objects.first()
+    form = G12RegistrationForm()
+    
+    if request.method == 'POST':
+        form = G12RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your registration for the G-12 class has been received successfully!')
+            return redirect('get_involved:g12_membership')
+            
+    context = {
+        'page': page_data,
+        'form': form,
+    }
+    return render(request, 'g12.html', context)
