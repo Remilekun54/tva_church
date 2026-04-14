@@ -83,3 +83,26 @@ def store_view(request):
         'products': products,
     }
     return render(request, 'store.html', context)
+
+
+def radio_view(request):
+    """
+    View for the TVA Radio / Audio Archives page.
+    Shows the current live broadcast (if any) and a list of all audio recordings.
+    """
+    # 1. Fetch live broadcast for the hero section
+    current_live = AudioBroadcast.objects.filter(is_live=True).first()
+
+    # 2. Fetch all sermons that have an audio file or URL
+    # We exclude items without any audio content
+    audio_sermons = Sermon.objects.exclude(
+        audio_file='', 
+        audio_url=''
+    ).select_related('preacher', 'branch').order_by('-date_preached')
+
+    context = {
+        'current_live': current_live,
+        'audio_sermons': audio_sermons,
+        'is_radio_page': True,
+    }
+    return render(request, 'radio.html', context)

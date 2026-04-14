@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="min-h-screen pt-32 pb-24 bg-slate-50 relative overflow-hidden">
+    <!-- Ambient Background Blooms -->
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[100px] -mr-64 -mt-64"></div>
+    <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] -ml-64 -mb-64"></div>
+
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
+        
+        <!-- HEADER -->
+        <div class="mb-16">
+            <span class="text-secondary font-black uppercase tracking-[0.3em] text-sm mb-4 block">TVA Media Center</span>
+            <h1 class="text-5xl md:text-7xl font-black text-primary serif italic">TVA <span class="text-secondary">Radio</span> & Audio Archives</h1>
+            <p class="text-slate-500 text-lg md:text-xl mt-6 max-w-2xl font-medium">
+                Stream our live services or dive into our library of grace featuring past recordings and exclusive audio messages.
+            </p>
+        </div>
+
+        <!-- LIVE NOW SECTION (Conditional) -->
+        {% if current_live %}
+        <section class="mb-24">
+            <div class="glass-card rounded-[3rem] p-8 md:p-12 relative overflow-hidden border border-white/20 shadow-2xl group">
+                <!-- Live Pulse Background -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-red-500/10 rounded-full blur-3xl animate-pulse"></div>
+                
+                <div class="flex flex-col lg:flex-row items-center gap-12 relative z-10">
+                    <!-- Thumbnail/Icon -->
+                    <div class="w-full lg:w-1/3">
+                        <div class="aspect-square rounded-[2rem] overflow-hidden bg-primary/20 relative">
+                            {% if current_live.preacher.image %}
+                                <img src="{{ current_live.preacher.image.url }}" class="w-full h-full object-cover">
+                            {% else %}
+                                <div class="w-full h-full flex items-center justify-center text-white/20">
+                                    <i data-lucide="radio" class="w-32 h-32"></i>
+                                </div>
+                            {% endif %}
+                            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+                            <div class="absolute bottom-6 left-6 flex items-center gap-2">
+                                <span class="live-dot"></span>
+                                <span class="text-primary font-black uppercase tracking-widest text-xs">Broadcasting Now</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Details -->
+                    <div class="w-full lg:w-2/3 text-center lg:text-left">
+                        <h2 class="text-4xl md:text-5xl font-black text-primary mb-4">{{ current_live.title }}</h2>
+                        <p class="text-slate-500 text-xl mb-8 italic">
+                            Featuring: {% if current_live.preacher %}{{ current_live.preacher.name }}{% else %}The Vineyard Assembly{% endif %}
+                        </p>
+                        
+                        <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+                            <button onclick="TVAPlayer.show()" 
+                                    class="bg-secondary text-primary px-10 py-4 rounded-2xl font-black text-lg hover:scale-105 transition-all shadow-xl shadow-secondary/20 flex items-center gap-3">
+                                <i data-lucide="play" class="fill-current w-6 h-6"></i>
+                                Listen Live Now
+                            </button>
+                            <div class="px-8 py-4 bg-primary/5 border border-primary/10 rounded-2xl backdrop-blur-md">
+                                <span class="text-primary/40 text-xs font-bold uppercase block mb-1 font-black">Quality</span>
+                                <span class="text-primary font-bold">HD Stereo HLS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- AUDIO ARCHIVES LIST -->
+        <section>
+            <div class="flex items-center justify-between mb-12 border-b border-slate-200 pb-8">
+                <h3 class="text-3xl font-black text-primary serif">Audio <span class="text-secondary italic">Archives</span></h3>
+                <div class="flex items-center gap-2 text-slate-400 font-bold text-sm">
+                    <i data-lucide="library" class="w-5 h-5"></i>
+                    {{ audio_sermons|length }} Available
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                {% for sermon in audio_sermons %}
+                <div class="bg-white hover:bg-slate-50 p-4 md:p-6 rounded-3xl border border-slate-100 transition-all flex flex-col md:flex-row items-center gap-6 group">
+                    <!-- Play Button -->
+                    <button 
+                        {% if sermon.audio_file %}
+                            onclick="TVAPlayer.playArchive('{{ sermon.audio_file.url }}', '{{ sermon.title|escapejs }}', '{{ sermon.preacher.name|escapejs }}')"
+                        {% elif sermon.audio_url %}
+                            onclick="window.open('{{ sermon.audio_url }}', '_blank')"
+                        {% endif %}
+                        class="w-16 h-16 rounded-2xl bg-slate-100 text-primary flex items-center justify-center group-hover:bg-secondary transition-colors flex-shrink-0">
+                        <i data-lucide="{% if sermon.audio_file %}play{% else %}external-link{% endif %}" class="w-6 h-6"></i>
+                    </button>
+
+                    <!-- Info -->
+                    <div class="flex-grow text-center md:text-left">
+                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1 block">
+                            {{ sermon.date_preached|date:"F d, Y" }} • 
+                            {% if sermon.is_live_recording %}<span class="text-secondary">Live Recording</span>{% else %}Studio Audio{% endif %}
+                        </span>
+                        <h4 class="text-xl font-black text-primary leading-tight">{{ sermon.title }}</h4>
+                        <p class="text-slate-500 text-sm mt-1">By {{ sermon.preacher.name }} | {{ sermon.branch.branch_name }}</p>
+                    </div>
+
+                    <!-- Meta & Actions -->
+                    <div class="flex items-center gap-6 md:border-l border-slate-100 md:pl-8">
+                        {% if sermon.duration %}
+                        <div class="text-center">
+                            <span class="text-[10px] uppercase font-black text-slate-300 block">Duration</span>
+                            <span class="text-sm font-bold text-slate-600">{{ sermon.duration }}</span>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="flex gap-2">
+                            {% if sermon.audio_file %}
+                            <a href="{{ sermon.audio_file.url }}" download class="p-3 bg-slate-100 hover:bg-primary hover:text-white rounded-xl transition-all text-slate-400" title="Download Audio">
+                                <i data-lucide="download" class="w-5 h-5"></i>
+                            </a>
+                            {% endif %}
+                            <button class="p-3 bg-slate-100 hover:bg-primary hover:text-white rounded-xl transition-all text-slate-400" title="Share Message">
+                                <i data-lucide="share-2" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="py-24 text-center glass-card rounded-[3rem]">
+                    <i data-lucide="music" class="w-16 h-16 text-slate-200 mx-auto mb-6"></i>
+                    <h4 class="text-2xl font-black text-slate-400">Archives are being populated...</h4>
+                    <p class="text-slate-400 mt-2">Check back soon for recorded services and audio messages.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+    </div>
+</main>
+{% endblock %}

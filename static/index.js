@@ -437,13 +437,46 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- Public API ---
     window.TVAPlayer = {
 
-        /** Show the player bar (called from nav button or hero CTA) */
-        show() {
+        /** Show the player bar and optionally start playback */
+        show(autoplay = true) {
             if (!playerBar) return;
             isDismissed = false;
             sessionStorage.removeItem(STORAGE_KEY);
             playerBar.classList.add("player-visible");
             document.body.classList.add("player-active");
+
+            // Auto-play if requested and not already playing
+            if (autoplay && !isPlaying) {
+                // Give it a tiny delay for the slide-up animation to start
+                setTimeout(() => this.togglePlay(), 300);
+            }
+        },
+
+        /** Load and play a specific archived audio file */
+        playArchive(url, title, preacher) {
+            if (!url) return;
+            
+            // 1. Show player first
+            this.show(false); 
+
+            // 2. Update UI labels
+            const titleEl = document.getElementById("player-title");
+            const subtitleEl = document.getElementById("player-subtitle");
+            if (titleEl) titleEl.textContent = title || "Audio Sermon";
+            if (subtitleEl) subtitleEl.textContent = preacher || "TVA Archive";
+
+            // 3. Stop HLS if running
+            if (hlsInstance) {
+                hlsInstance.destroy();
+                hlsInstance = null;
+            }
+
+            // 4. Load direct audio file
+            const audio = createAudio();
+            audio.src = url;
+            audio.play().catch(err => {
+                console.warn("TVAPlayer: Archive play blocked –", err.message);
+            });
         },
 
         /** Toggle play / pause */
@@ -452,10 +485,15 @@ document.addEventListener("DOMContentLoaded", () => {
             if (isPlaying) {
                 audio.pause();
             } else {
-                // If nothing is loaded yet, load now
+                // If nothing is loaded yet, load broadcast defaults
                 if (!audio.src && !hlsInstance) {
                     const data = getBroadcastData();
-                    if (data) loadHLSStream(data.hlsUrl);
+                    if (data && data.hlsUrl) {
+                        loadHLSStream(data.hlsUrl);
+                    } else {
+                        console.warn("TVAPlayer: No source available to play.");
+                        return;
+                    }
                 }
                 audio.play().catch(err => {
                     console.warn("TVAPlayer: play() blocked –", err.message);

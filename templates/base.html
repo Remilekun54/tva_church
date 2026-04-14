@@ -144,6 +144,7 @@
                     </div>
 
                     <a href="{% url 'sermons' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Sermons</a>
+                    <a href="{% url 'radio' %}" class="px-4 py-2 rounded-full {% if is_radio_page %}bg-primary text-white shadow-lg shadow-primary/20{% else %}text-slate-700 hover:bg-white hover:text-primary{% endif %} font-bold text-sm transition-all hover:shadow-md">Radio</a>
                     <a href="{% url 'events' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Events</a>
                     <a href="{% url 'store' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Store</a>
                     <a href="{% url 'blog_list' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Blog</a>
@@ -238,6 +239,7 @@
                 </div>
 
                 <a href="{% url 'sermons' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Sermons</a>
+                <a href="{% url 'radio' %}" class="text-base font-black {% if is_radio_page %}text-secondary{% else %}text-primary{% endif %} hover:text-secondary py-2 block border-b border-primary/10">Radio</a>
                 <a href="{% url 'events' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Events</a>
                 <a href="{% url 'store' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Store</a>
                 <a href="{% url 'blog_list' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Blog</a>

@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from about.views import about_view, founding_pastor_view, presiding_pastor_view, pastoral_team_view
 from homepage import views as home_views # Rename to avoid confusion
-from sermons.views import sermon_list, broadcast_status
+from sermons.views import sermon_list, broadcast_status, radio_view
 from events.views import event_list
 
 # ADD THIS LINE: Import the store view from your store app
@@ -26,6 +26,7 @@ urlpatterns = [
     path('departments/', include('departments.urls')), # Added this line
     path('blog/', include('blog.urls')),
     path('sermons/', sermon_list, name='sermons'),
+    path('radio/', radio_view, name='radio'),
     path('api/broadcast/status/', broadcast_status, name='broadcast_status'),  # Live player API
     path('store/', store_view, name='store'),
     
