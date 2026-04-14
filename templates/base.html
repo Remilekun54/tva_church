@@ -11,6 +11,8 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- HLS.js for live audio streaming -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.7/dist/hls.min.js"></script>
 
     <!-- Tailwind Config -->
     <script>
@@ -146,6 +148,13 @@
                     <a href="{% url 'store' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Store</a>
                     <a href="{% url 'blog_list' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Blog</a>
                     <a href="{% url 'contact' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Contact</a>
+
+                    {% if active_broadcast %}
+                    <!-- Listen Live — only shown when an admin has toggled is_live ON -->
+                    <button onclick="TVAPlayer.show()" class="listen-live-badge" id="nav-listen-live-btn">
+                        <span class="live-dot"></span> Listen Live
+                    </button>
+                    {% endif %}
                 </nav>
 
                 <!-- CTA & Mobile Toggle -->
@@ -233,6 +242,12 @@
                 <a href="{% url 'store' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Store</a>
                 <a href="{% url 'blog_list' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Blog</a>
                 <a href="{% url 'contact' %}" class="text-base font-black text-primary hover:text-secondary py-2 block border-b border-primary/10">Contact</a>
+
+                {% if active_broadcast %}
+                <button onclick="TVAPlayer.show(); toggleMenu();" class="listen-live-badge w-full justify-center py-3 mt-1" id="mobile-listen-live-btn">
+                    <span class="live-dot"></span> Listen Live
+                </button>
+                {% endif %}
             </div>
 
             <a href="{% url 'offering' %}" class="mt-6 w-full bg-secondary text-white py-3 rounded-xl font-bold flex justify-center items-center gap-2 shadow-xl shadow-secondary/20 hover:scale-[1.02] transition-transform text-sm">
@@ -244,6 +259,63 @@
     <!-- CONTENT BLOCK -->
     {% block content %}
     {% endblock %}
+
+    <!-- =====================================================
+         LIVE AUDIO PLAYER — Sticky Glassmorphic Footer Bar
+         Shown globally when active_broadcast is live.
+    ====================================================== -->
+    {% if active_broadcast %}
+    <div id="live-audio-player" role="region" aria-label="Live Audio Broadcast">
+
+        <!-- Broadcaster icon with EQ bars -->
+        <div class="player-icon">
+            <div class="eq-bars paused" id="player-eq">
+                <span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+
+        <!-- Info -->
+        <div class="player-info">
+            <div class="flex items-center gap-2 mb-0.5">
+                <span class="live-dot"></span>
+                <span style="font-size:10px;font-weight:900;letter-spacing:0.08em;color:#dc2626;">LIVE</span>
+            </div>
+            <p class="player-title" id="player-title">{{ active_broadcast.title }}</p>
+            <p class="player-subtitle" id="player-subtitle">
+                {% if active_broadcast.preacher %}{{ active_broadcast.preacher.name }}{% else %}TVA Broadcast{% endif %}
+            </p>
+        </div>
+
+        <!-- Volume -->
+        <div class="player-volume">
+            <i data-lucide="volume-2" style="width:16px;height:16px;color:#64748b;"></i>
+            <input type="range" min="0" max="1" step="0.05" value="0.8"
+                   class="volume-slider" id="player-volume-slider"
+                   oninput="TVAPlayer.setVolume(this.value)"
+                   aria-label="Volume">
+        </div>
+
+        <!-- Play / Pause -->
+        <button class="player-btn player-btn-play" id="player-play-btn"
+                onclick="TVAPlayer.togglePlay()" aria-label="Play / Pause">
+            <i data-lucide="play" id="player-play-icon" style="width:20px;height:20px;"></i>
+        </button>
+
+        <!-- Dismiss -->
+        <button class="player-btn player-btn-close" onclick="TVAPlayer.dismiss()" aria-label="Close player">
+            <i data-lucide="x" style="width:16px;height:16px;"></i>
+        </button>
+    </div>
+
+    <!-- Broadcast data for the JS controller -->
+    <script id="broadcast-data" type="application/json">
+        {
+            "hlsUrl": "{{ active_broadcast.hls_stream_url|escapejs }}",
+            "title": "{{ active_broadcast.title|escapejs }}",
+            "preacher": "{% if active_broadcast.preacher %}{{ active_broadcast.preacher.name|escapejs }}{% else %}TVA Broadcast{% endif %}"
+        }
+    </script>
+    {% endif %}
 
     <!-- FOOTER -->
     <footer class="bg-primary pt-24 pb-12 text-white/70">

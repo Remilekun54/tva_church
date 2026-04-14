@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from .models import Sermon, Book  # Import Book here
+from django.http import JsonResponse
+from .models import Sermon, Book, SermonCategory, AudioBroadcast
 from about.models import Branch
 from itertools import chain
 
-from .models import Sermon, Book, SermonCategory
 
 def sermon_list(request):
     """View for the Media/Sermons page (Teachings)"""
@@ -52,11 +52,22 @@ def sermon_list(request):
     return render(request, 'sermons.html', context)
 
 
+def broadcast_status(request):
+    """
+    JSON API endpoint polled by the frontend player.
+    Returns the current live broadcast state so the JS player
+    can update without a full page reload.
+    """
+    broadcast = AudioBroadcast.objects.filter(is_live=True).first()
+    if broadcast:
+        return JsonResponse({
+            'is_live': True,
+            'title': broadcast.title,
+            'preacher': broadcast.preacher.name if broadcast.preacher else '',
+            'hls_url': broadcast.hls_stream_url,
+        })
+    return JsonResponse({'is_live': False})
 
-from django.shortcuts import render
-from .models import Sermon, Book 
-from about.models import Branch
-from itertools import chain
 
 def store_view(request):
     # We use 'paid' (lowercase) because that is the value stored in your STATUS_CHOICES
@@ -66,7 +77,6 @@ def store_view(request):
     # Combine querysets into one list
     products = list(chain(paid_sermons, paid_books))
 
-    # This print statement is for YOU to see in the terminal if it found anything
     print(f"DEBUG: Found {len(products)} paid items total.")
 
     context = {

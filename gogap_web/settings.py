@@ -135,7 +135,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'payments.context_processors.payment_info', # Add this line
+                'payments.context_processors.payment_info',
+                'sermons.context_processors.active_broadcast',  # Live broadcast player
             ],
         },
     },

@@ -332,3 +332,202 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 });
 
+
+// ============================================================
+//  TVAPlayer — Global Audio Controller
+//  Handles: HLS live streams & recorded sermon audio
+//  Persists play state across page navigations via sessionStorage
+// ============================================================
+(function () {
+    "use strict";
+
+    // --- State ---
+    let hlsInstance = null;
+    let audioEl = null;
+    let isPlaying = false;
+    let isDismissed = false;
+
+    const STORAGE_KEY = "tva_player_dismissed";
+
+    // --- DOM refs (populated on DOMContentLoaded) ---
+    let playerBar, playBtn, playIcon, eqBars, volumeSlider;
+
+    // --- Read broadcast data injected by Django template ---
+    function getBroadcastData() {
+        const el = document.getElementById("broadcast-data");
+        if (!el) return null;
+        try {
+            return JSON.parse(el.textContent);
+        } catch (e) {
+            console.warn("TVAPlayer: could not parse broadcast-data JSON", e);
+            return null;
+        }
+    }
+
+    // --- Initialise the hidden <audio> element ---
+    function createAudio() {
+        if (audioEl) return audioEl;
+        audioEl = document.createElement("audio");
+        audioEl.id = "tva-audio-engine";
+        audioEl.preload = "none";
+        audioEl.volume = 0.8;
+        document.body.appendChild(audioEl);
+
+        audioEl.addEventListener("play",  () => syncUI(true));
+        audioEl.addEventListener("pause", () => syncUI(false));
+        audioEl.addEventListener("ended", () => syncUI(false));
+        return audioEl;
+    }
+
+    // --- Wire HLS.js or native HLS ---
+    function loadHLSStream(url) {
+        const audio = createAudio();
+
+        // Tear down any previous instance
+        if (hlsInstance) {
+            hlsInstance.destroy();
+            hlsInstance = null;
+        }
+
+        if (!url) {
+            console.warn("TVAPlayer: no HLS URL provided – player will appear but cannot stream.");
+            return;
+        }
+
+        if (Hls && Hls.isSupported()) {
+            hlsInstance = new Hls({
+                lowLatencyMode: true,
+                backBufferLength: 90,
+            });
+            hlsInstance.loadSource(url);
+            hlsInstance.attachMedia(audio);
+            hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
+                console.log("TVAPlayer: HLS manifest parsed, ready to play.");
+            });
+            hlsInstance.on(Hls.Events.ERROR, (event, data) => {
+                if (data.fatal) {
+                    console.error("TVAPlayer: Fatal HLS error", data);
+                    syncUI(false);
+                }
+            });
+        } else if (audio.canPlayType("application/vnd.apple.mpegurl")) {
+            // Safari native HLS
+            audio.src = url;
+        } else {
+            console.warn("TVAPlayer: HLS not supported in this browser.");
+        }
+    }
+
+    // --- Sync the play/pause icon and EQ bars ---
+    function syncUI(playing) {
+        isPlaying = playing;
+        if (!playIcon || !eqBars) return;
+
+        if (playing) {
+            playIcon.setAttribute("data-lucide", "pause");
+            eqBars.classList.remove("paused");
+        } else {
+            playIcon.setAttribute("data-lucide", "play");
+            eqBars.classList.add("paused");
+        }
+        // Re-create the lucide icon so the SVG is swapped
+        if (typeof lucide !== "undefined") lucide.createIcons();
+    }
+
+    // --- Public API ---
+    window.TVAPlayer = {
+
+        /** Show the player bar (called from nav button or hero CTA) */
+        show() {
+            if (!playerBar) return;
+            isDismissed = false;
+            sessionStorage.removeItem(STORAGE_KEY);
+            playerBar.classList.add("player-visible");
+            document.body.classList.add("player-active");
+        },
+
+        /** Toggle play / pause */
+        togglePlay() {
+            const audio = createAudio();
+            if (isPlaying) {
+                audio.pause();
+            } else {
+                // If nothing is loaded yet, load now
+                if (!audio.src && !hlsInstance) {
+                    const data = getBroadcastData();
+                    if (data) loadHLSStream(data.hlsUrl);
+                }
+                audio.play().catch(err => {
+                    console.warn("TVAPlayer: play() blocked –", err.message);
+                });
+            }
+        },
+
+        /** Set volume (0–1) */
+        setVolume(val) {
+            if (audioEl) audioEl.volume = parseFloat(val);
+        },
+
+        /** Dismiss the player bar (user closed it) */
+        dismiss() {
+            if (!playerBar) return;
+            isDismissed = true;
+            sessionStorage.setItem(STORAGE_KEY, "1");
+            playerBar.classList.remove("player-visible");
+            document.body.classList.remove("player-active");
+            if (audioEl) audioEl.pause();
+            syncUI(false);
+        },
+    };
+
+    // --- Boot on DOMContentLoaded ---
+    document.addEventListener("DOMContentLoaded", () => {
+        playerBar    = document.getElementById("live-audio-player");
+        playBtn      = document.getElementById("player-play-btn");
+        playIcon     = document.getElementById("player-play-icon");
+        eqBars       = document.getElementById("player-eq");
+        volumeSlider = document.getElementById("player-volume-slider");
+
+        if (!playerBar) return; // No broadcast is live — nothing to do
+
+        const data = getBroadcastData();
+
+        // Load HLS stream silently so it is ready when user hits play
+        if (data && data.hlsUrl) {
+            loadHLSStream(data.hlsUrl);
+        }
+
+        // Only auto-show the player if the user has not dismissed it this session
+        const wasDismissed = sessionStorage.getItem(STORAGE_KEY);
+        if (!wasDismissed) {
+            // Slight delay so the slide-up animation is visible on entry
+            setTimeout(() => {
+                playerBar.classList.add("player-visible");
+                document.body.classList.add("player-active");
+            }, 1200);
+        }
+
+        // Re-create lucide icons for the player elements
+        if (typeof lucide !== "undefined") lucide.createIcons();
+
+        // --- Poll every 30 s to detect if broadcast has ended ---
+        setInterval(async () => {
+            try {
+                const resp = await fetch("/api/broadcast/status/");
+                const json = await resp.json();
+                if (!json.is_live) {
+                    // Broadcast ended — hide player gracefully
+                    if (playerBar.classList.contains("player-visible")) {
+                        playerBar.classList.remove("player-visible");
+                        document.body.classList.remove("player-active");
+                    }
+                    if (audioEl) audioEl.pause();
+                    if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
+                }
+            } catch (_) {
+                // Network error — keep playing silently
+            }
+        }, 30000);
+    });
+}());
+
