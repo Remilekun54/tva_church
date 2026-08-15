@@ -80,19 +80,56 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // --- Navbar Scroll Effect ---
+    // --- Navbar Scroll Effect ---
     const navbar = document.getElementById("navbar");
+    const navMenuList = document.getElementById("nav-menu-list");
+
     if (navbar) {
-        window.addEventListener("scroll", () => {
+        const updateNavbar = () => {
+             // Get all direct links and buttons in the menu
+            const menuItems = navMenuList ? navMenuList.querySelectorAll("a, button") : [];
+
             if (window.scrollY > 50) {
-                navbar.classList.add("shadow-glass", "bg-white/80", "backdrop-blur-md", "py-2");
+                // Scrolled down: Increase navbar height, add glass effect AND Blue Bottom Border
+                navbar.classList.add("shadow-glass", "bg-white/80", "backdrop-blur-md", "border-b", "border-primary");
                 navbar.classList.remove("bg-transparent", "h-24");
-                navbar.classList.add("h-20");
+                navbar.classList.add("h-28");
+
+                // Also increase menu list height (by increasing padding)
+                if (navMenuList) {
+                    navMenuList.classList.remove("p-1");
+                    navMenuList.classList.add("px-2", "py-3"); // Taller pill
+                    
+                    // Increase Font Size
+                    menuItems.forEach(item => {
+                        item.classList.remove("text-sm");
+                        item.classList.add("text-base");
+                    });
+                }
             } else {
-                navbar.classList.remove("shadow-glass", "bg-white/80", "backdrop-blur-md", "py-2");
+                // At top: Default height and transparent. Remove Blue Border.
+                navbar.classList.remove("shadow-glass", "bg-white/80", "backdrop-blur-md", "h-28", "border-b", "border-primary");
                 navbar.classList.add("bg-transparent", "h-24");
-                navbar.classList.remove("h-20");
+
+                // Revert menu list height
+                if (navMenuList) {
+                    navMenuList.classList.remove("px-2", "py-3");
+                    navMenuList.classList.add("p-1"); // Default compact pill
+
+                    // Revert Font Size
+                    menuItems.forEach(item => {
+                        item.classList.remove("text-base");
+                        item.classList.add("text-sm");
+                    });
+                }
             }
-        });
+        };
+
+        // Listen for scroll events
+        window.addEventListener("scroll", updateNavbar);
+        
+        // Run immediately on load to handle reload/restoration position
+        updateNavbar();
     }
 
     // --- 5. Gallery Slider Logic ---
@@ -261,3 +298,274 @@ document.addEventListener("DOMContentLoaded", () => {
     // Re-run icon initialization for any dynamic elements
     lucide.createIcons();
 });
+
+// 7. Scroll to Top Logic (Robust Implementation)
+document.addEventListener("DOMContentLoaded", () => {
+    const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+    
+    if (scrollToTopBtn) {
+        // Show/Hide logic
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 400) {
+                scrollToTopBtn.classList.remove("translate-y-24", "opacity-0");
+            } else {
+                scrollToTopBtn.classList.add("translate-y-24", "opacity-0");
+            }
+        });
+
+        // Click logic attached via JS for better separation
+        scrollToTopBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    }
+    
+    // Global function fallback just in case
+    window.scrollToTop = function() {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    };
+});
+
+
+// ============================================================
+//  TVAPlayer — Global Audio Controller
+//  Handles: HLS live streams & recorded sermon audio
+//  Persists play state across page navigations via sessionStorage
+// ============================================================
+(function () {
+    "use strict";
+
+    // --- State ---
+    let hlsInstance = null;
+    let audioEl = null;
+    let isPlaying = false;
+    let isDismissed = false;
+
+    const STORAGE_KEY = "tva_player_dismissed";
+
+    // --- DOM refs (populated on DOMContentLoaded) ---
+    let playerBar, playBtn, playIcon, eqBars, volumeSlider;
+
+    // --- Read broadcast data injected by Django template ---
+    function getBroadcastData() {
+        const el = document.getElementById("broadcast-data");
+        if (!el) return null;
+        try {
+            return JSON.parse(el.textContent);
+        } catch (e) {
+            console.warn("TVAPlayer: could not parse broadcast-data JSON", e);
+            return null;
+        }
+    }
+
+    // --- Initialise the hidden <audio> element ---
+    function createAudio() {
+        if (audioEl) return audioEl;
+        audioEl = document.createElement("audio");
+        audioEl.id = "tva-audio-engine";
+        audioEl.preload = "none";
+        audioEl.volume = 0.8;
+        document.body.appendChild(audioEl);
+
+        audioEl.addEventListener("play",  () => syncUI(true));
+        audioEl.addEventListener("pause", () => syncUI(false));
+        audioEl.addEventListener("ended", () => syncUI(false));
+        return audioEl;
+    }
+
+    // --- Wire HLS.js or native HLS ---
+    function loadHLSStream(url) {
+        const audio = createAudio();
+
+        // Tear down any previous instance
+        if (hlsInstance) {
+            hlsInstance.destroy();
+            hlsInstance = null;
+        }
+
+        if (!url) {
+            console.warn("TVAPlayer: no HLS URL provided – player will appear but cannot stream.");
+            return;
+        }
+
+        if (Hls && Hls.isSupported()) {
+            hlsInstance = new Hls({
+                lowLatencyMode: true,
+                backBufferLength: 90,
+            });
+            hlsInstance.loadSource(url);
+            hlsInstance.attachMedia(audio);
+            hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
+                console.log("TVAPlayer: HLS manifest parsed, ready to play.");
+            });
+            hlsInstance.on(Hls.Events.ERROR, (event, data) => {
+                if (data.fatal) {
+                    console.error("TVAPlayer: Fatal HLS error", data);
+                    syncUI(false);
+                }
+            });
+        } else if (audio.canPlayType("application/vnd.apple.mpegurl")) {
+            // Safari native HLS
+            audio.src = url;
+        } else {
+            console.warn("TVAPlayer: HLS not supported in this browser.");
+        }
+    }
+
+    // --- Sync the play/pause icon and EQ bars ---
+    function syncUI(playing) {
+        isPlaying = playing;
+        if (!playIcon || !eqBars) return;
+
+        if (playing) {
+            playIcon.setAttribute("data-lucide", "pause");
+            eqBars.classList.remove("paused");
+        } else {
+            playIcon.setAttribute("data-lucide", "play");
+            eqBars.classList.add("paused");
+        }
+        // Re-create the lucide icon so the SVG is swapped
+        if (typeof lucide !== "undefined") lucide.createIcons();
+    }
+
+    // --- Public API ---
+    window.TVAPlayer = {
+
+        /** Show the player bar and optionally start playback */
+        show(autoplay = true) {
+            if (!playerBar) return;
+            isDismissed = false;
+            sessionStorage.removeItem(STORAGE_KEY);
+            playerBar.classList.add("player-visible");
+            document.body.classList.add("player-active");
+
+            // Auto-play if requested and not already playing
+            if (autoplay && !isPlaying) {
+                // Give it a tiny delay for the slide-up animation to start
+                setTimeout(() => this.togglePlay(), 300);
+            }
+        },
+
+        /** Load and play a specific archived audio file */
+        playArchive(url, title, preacher) {
+            if (!url) return;
+            
+            // 1. Show player first
+            this.show(false); 
+
+            // 2. Update UI labels
+            const titleEl = document.getElementById("player-title");
+            const subtitleEl = document.getElementById("player-subtitle");
+            if (titleEl) titleEl.textContent = title || "Audio Sermon";
+            if (subtitleEl) subtitleEl.textContent = preacher || "TVA Archive";
+
+            // 3. Stop HLS if running
+            if (hlsInstance) {
+                hlsInstance.destroy();
+                hlsInstance = null;
+            }
+
+            // 4. Load direct audio file
+            const audio = createAudio();
+            audio.src = url;
+            audio.play().catch(err => {
+                console.warn("TVAPlayer: Archive play blocked –", err.message);
+            });
+        },
+
+        /** Toggle play / pause */
+        togglePlay() {
+            const audio = createAudio();
+            if (isPlaying) {
+                audio.pause();
+            } else {
+                // If nothing is loaded yet, load broadcast defaults
+                if (!audio.src && !hlsInstance) {
+                    const data = getBroadcastData();
+                    if (data && data.hlsUrl) {
+                        loadHLSStream(data.hlsUrl);
+                    } else {
+                        console.warn("TVAPlayer: No source available to play.");
+                        return;
+                    }
+                }
+                audio.play().catch(err => {
+                    console.warn("TVAPlayer: play() blocked –", err.message);
+                });
+            }
+        },
+
+        /** Set volume (0–1) */
+        setVolume(val) {
+            if (audioEl) audioEl.volume = parseFloat(val);
+        },
+
+        /** Dismiss the player bar (user closed it) */
+        dismiss() {
+            if (!playerBar) return;
+            isDismissed = true;
+            sessionStorage.setItem(STORAGE_KEY, "1");
+            playerBar.classList.remove("player-visible");
+            document.body.classList.remove("player-active");
+            if (audioEl) audioEl.pause();
+            syncUI(false);
+        },
+    };
+
+    // --- Boot on DOMContentLoaded ---
+    document.addEventListener("DOMContentLoaded", () => {
+        playerBar    = document.getElementById("live-audio-player");
+        playBtn      = document.getElementById("player-play-btn");
+        playIcon     = document.getElementById("player-play-icon");
+        eqBars       = document.getElementById("player-eq");
+        volumeSlider = document.getElementById("player-volume-slider");
+
+        if (!playerBar) return; // No broadcast is live — nothing to do
+
+        const data = getBroadcastData();
+
+        // Load HLS stream silently so it is ready when user hits play
+        if (data && data.hlsUrl) {
+            loadHLSStream(data.hlsUrl);
+        }
+
+        // Only auto-show the player if the user has not dismissed it this session
+        const wasDismissed = sessionStorage.getItem(STORAGE_KEY);
+        if (!wasDismissed) {
+            // Slight delay so the slide-up animation is visible on entry
+            setTimeout(() => {
+                playerBar.classList.add("player-visible");
+                document.body.classList.add("player-active");
+            }, 1200);
+        }
+
+        // Re-create lucide icons for the player elements
+        if (typeof lucide !== "undefined") lucide.createIcons();
+
+        // --- Poll every 30 s to detect if broadcast has ended ---
+        setInterval(async () => {
+            try {
+                const resp = await fetch("/api/broadcast/status/");
+                const json = await resp.json();
+                if (!json.is_live) {
+                    // Broadcast ended — hide player gracefully
+                    if (playerBar.classList.contains("player-visible")) {
+                        playerBar.classList.remove("player-visible");
+                        document.body.classList.remove("player-active");
+                    }
+                    if (audioEl) audioEl.pause();
+                    if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
+                }
+            } catch (_) {
+                // Network error — keep playing silently
+            }
+        }, 30000);
+    });
+}());
+
