@@ -12,9 +12,14 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import os  
 import dj_database_url
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from the .env file (cPanel shared hosting has no
+# shell to export env vars, so we read a .env file located in the project root).
+load_dotenv(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
@@ -22,6 +27,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-70lqh_8t-!zjt+2fpxo*6hw0app2+hq$x3^+t-#_#ry#w)%f@2')
+
+# ---------------------------------------------------------------------------
+# SSL / HTTPS security settings (cPanel shared hosting)
+#
+# These default to False so the site keeps working until your SSL certificate
+# is active. Once SSL is installed, set each of these to True in your .env
+# file (and set SECURE_SSL_REDIRECT=True to force HTTPS).
+# ---------------------------------------------------------------------------
+SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', 'False').lower() in ('true', '1', 'yes')
+SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', 'False').lower() in ('true', '1', 'yes')
+CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE', 'False').lower() in ('true', '1', 'yes')
+# Trust the forwarded protocol header from the web server/proxy so HTTPS
+# detection works correctly once SESSION_COOKIE_SECURE/CSRF_COOKIE_SECURE are on.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True').lower() in ('true', '1', 'yes')
