@@ -13,35 +13,43 @@
             <img src="{{ slide.image.url }}" class="w-full h-full object-cover" alt="{{ slide.title }}" />
           </div>
           <div class="absolute inset-0 hero-gradient"></div>
-          <div class="relative z-10 h-full flex flex-col justify-center px-4 md:px-12 lg:px-24 max-w-7xl mx-auto">
-            <div class="slide-content w-full max-w-3xl h-[450px] flex flex-col justify-center glass-dark p-8 md:p-12 rounded-3xl shadow-2xl backdrop-blur-md relative overflow-hidden">
+          <div
+            class="relative z-10 w-full h-full flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pt-16 pb-12 sm:py-0">
+            <div
+              class="slide-content w-full max-w-3xl mx-auto h-auto min-h-0 sm:min-h-[400px] flex flex-col justify-center glass-dark p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl shadow-2xl backdrop-blur-md relative">
               <span
-                class="inline-block px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-secondary mb-6 font-bold text-xs uppercase tracking-[0.2em]">
+                class="inline-block px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-primary/10 border border-primary/20 text-secondary mb-3 sm:mb-5 font-bold text-[11px] sm:text-xs uppercase tracking-[0.2em] w-fit">
                 {{ slide.sub_heading }}
               </span>
-              <h1 class="text-4xl md:text-7xl font-black text-primary mb-6 leading-[1.05] serif">{{ slide.title|safe }}
+              <h1 class="text-3xl sm:text-5xl md:text-6xl font-black text-primary mb-3 sm:mb-4 leading-[1.1] serif">
+                {{ slide.title|safe }}
               </h1>
-              <div class="text-lg md:text-xl text-slate-700 max-w-xl mb-8 font-bold">{{ slide.description|safe }}</div>
-              <div class="flex flex-col sm:flex-row gap-4">
+              <div
+                class="text-sm sm:text-base md:text-lg text-slate-700 max-w-xl mb-4 sm:mb-6 font-semibold line-clamp-2 sm:line-clamp-none">
+                {{ slide.description|safe }}
+              </div>
+              <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 sm:gap-3">
                 <a href="{% url 'contact' %}"
-                  class="btn-glass px-10 py-4 rounded-2xl text-lg font-bold flex items-center justify-center gap-3">Join
-                  Us <i data-lucide="arrow-right"></i></a>
+                  class="btn-glass px-3.5 py-2.5 sm:px-5 sm:py-2.5 rounded-xl sm:rounded-2xl text-xs sm:text-sm md:text-base font-bold flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap min-h-[42px] transition-all">
+                  Join Us <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
                 {% if slide.live_stream_url %}
                 <a href="{{ slide.live_stream_url }}" target="_blank"
-                  class="px-10 py-4 rounded-2xl text-lg font-bold bg-red-600 text-white border border-red-500 hover:bg-red-700 transition-all text-center flex items-center justify-center gap-2">
-                  <i data-lucide="video" class="w-5 h-5"></i>
-                  {{ slide.live_stream_button_text|default:"Watch Live" }}
+                  class="px-3.5 py-2.5 sm:px-5 sm:py-2.5 rounded-xl sm:rounded-2xl text-xs sm:text-sm md:text-base font-bold bg-red-600 text-white border border-red-500 hover:bg-red-700 transition-all text-center flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap min-h-[42px] shadow-md shadow-red-600/20">
+                  <i data-lucide="video" class="w-4 h-4 flex-shrink-0"></i>
+                  <span>{{ slide.live_stream_button_text|default:"Watch Live" }}</span>
                 </a>
                 {% endif %}
                 <a href="{% url 'sermons' %}"
-                  class="px-10 py-4 rounded-2xl text-lg font-bold bg-white/50 text-primary border border-primary/20 hover:bg-white transition-all text-center">Watch
-                  Sermons</a>
+                  class="px-3.5 py-2.5 sm:px-5 sm:py-2.5 rounded-xl sm:rounded-2xl text-xs sm:text-sm md:text-base font-bold bg-white/70 text-primary border border-primary/20 hover:bg-white transition-all text-center flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap min-h-[42px] shadow-sm {% if not active_broadcast %}col-span-2 sm:col-span-1{% endif %}">
+                  Watch Sermons
+                </a>
 
                 {% if active_broadcast %}
-                <button onclick="TVAPlayer.show()" 
-                  class="px-10 py-4 rounded-2xl text-lg font-bold bg-secondary text-white border border-secondary hover:bg-white hover:text-secondary transition-all text-center flex items-center justify-center gap-2 shadow-xl shadow-secondary/20">
-                  <span class="live-dot"></span>
-                  Listen Live
+                <button onclick="TVAPlayer.show()"
+                  class="px-3.5 py-2.5 sm:px-5 sm:py-2.5 rounded-xl sm:rounded-2xl text-xs sm:text-sm md:text-base font-bold bg-secondary text-white border border-secondary hover:bg-white hover:text-secondary transition-all text-center flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap min-h-[42px] shadow-lg shadow-secondary/20">
+                  <span class="live-dot scale-90 flex-shrink-0"></span>
+                  <span>Listen Live</span>
                 </button>
                 {% endif %}
               </div>
@@ -68,8 +76,10 @@
       <div class="flex flex-col lg:flex-row items-center gap-16">
         <div class="lg:w-1/2 relative group">
           <!-- Green Background Layer -->
-          <div class="absolute inset-0 bg-secondary/20 rounded-[2rem] transform translate-x-4 translate-y-4 transition-transform duration-500 group-hover:translate-x-6 group-hover:translate-y-6"></div>
-          
+          <div
+            class="absolute inset-0 bg-secondary/20 rounded-[2rem] transform translate-x-4 translate-y-4 transition-transform duration-500 group-hover:translate-x-6 group-hover:translate-y-6">
+          </div>
+
           <!-- Image Card -->
           <div class="glass-card p-4 transform transition-all duration-500 hover:scale-105">
             <img src="{{ about_section.image.url }}" class="w-full h-[500px] object-cover rounded-2xl"
@@ -77,11 +87,13 @@
           </div>
         </div>
         <div class="lg:w-1/2">
-          <span class="text-primary font-black uppercase tracking-widest text-sm mb-4 block">{{ about_section.tagline}}</span>
+          <span
+            class="text-primary font-black uppercase tracking-widest text-sm mb-4 block">{{about_section.tagline}}</span>
           <h2 class="text-4xl md:text-6xl font-black text-primary serif mb-8">{{ about_section.title|safe }}</h2>
           <div class="text-lg text-slate-600 mb-6">{{ about_section.description|safe }}</div>
           <a href="{{ about_section.button_url }}"
-            class="btn-glass text-primary px-8 py-4 rounded-xl font-bold inline-flex items-center gap-2">{{about_section.button_text }} <i data-lucide="arrow-right"></i></a>
+            class="btn-glass text-primary px-8 py-4 rounded-xl font-bold inline-flex items-center gap-2">{{about_section.button_text}}
+            <i data-lucide="arrow-right"></i></a>
         </div>
       </div>
     </div>
@@ -93,7 +105,9 @@
       <div class="flex flex-col lg:flex-row items-center gap-16">
         <div class="lg:w-1/2 relative group">
           <!-- Green Background Layer -->
-          <div class="absolute inset-0 bg-secondary/20 rounded-[2rem] transform translate-x-4 translate-y-4 transition-transform duration-500 group-hover:translate-x-6 group-hover:translate-y-6"></div>
+          <div
+            class="absolute inset-0 bg-secondary/20 rounded-[2rem] transform translate-x-4 translate-y-4 transition-transform duration-500 group-hover:translate-x-6 group-hover:translate-y-6">
+          </div>
 
           <!-- Image Card -->
           <div class="glass-card p-4 transform transition-all duration-500 hover:scale-105">
@@ -135,65 +149,79 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {% for sermon in sermons %}
-        <div class="glass-card overflow-hidden group hover:-translate-y-2 transition-all duration-500 relative reveal-card bg-white rounded-[2rem]">
-            
-            <div class="absolute top-4 right-4 z-20 flex flex-col items-end gap-2">
-                <span class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest {% if sermon.status == 'free' %}bg-secondary text-primary{% else %}bg-accent text-white shadow-lg{% endif %}">
-                    {{ sermon.get_status_display }}
-                </span>
-                {% if sermon.status == 'paid' and sermon.price %}
-                <span class="bg-white text-primary px-3 py-1 rounded-lg shadow-md font-black text-sm border border-emerald-50 animate-bounce">
-                    ₦{{ sermon.price }}
-                </span>
+        <div
+          class="glass-card overflow-hidden group hover:-translate-y-2 transition-all duration-500 relative reveal-card bg-white rounded-[2rem]">
+
+          <div class="absolute top-4 right-4 z-20 flex flex-col items-end gap-2">
+            <span
+              class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest {% if sermon.status == 'free' %}bg-secondary text-primary{% else %}bg-accent text-white shadow-lg{% endif %}">
+              {{ sermon.get_status_display }}
+            </span>
+            {% if sermon.status == 'paid' and sermon.price %}
+            <span
+              class="bg-white text-primary px-3 py-1 rounded-lg shadow-md font-black text-sm border border-emerald-50 animate-bounce">
+              ₦{{ sermon.price }}
+            </span>
+            {% endif %}
+          </div>
+
+          <div class="relative h-64 overflow-hidden">
+            {% if sermon.thumbnail %}
+            <img src="{{ sermon.thumbnail.url }}"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              alt="{{ sermon.title }}" />
+            {% endif %}
+
+            {% if sermon.status == 'paid' %}
+            <a href="{% url 'store' %}"
+              class="absolute inset-0 bg-primary/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
+              <div
+                class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center shadow-2xl transform scale-50 group-hover:scale-100 transition-transform duration-300">
+                <i data-lucide="shopping-cart" class="w-6 h-6"></i>
+              </div>
+            </a>
+            {% else %}
+            <a href="{{ sermon.video_url|default:'#' }}" target="_blank"
+              class="absolute inset-0 bg-primary/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
+              <div
+                class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center shadow-2xl transform scale-50 group-hover:scale-100 transition-transform duration-300">
+                <i data-lucide="play" class="fill-current w-6 h-6"></i>
+              </div>
+            </a>
+            {% endif %}
+          </div>
+
+          <div class="p-8">
+            <span
+              class="text-accent font-bold text-xs uppercase tracking-widest block mb-2">{{sermon.series_name}}</span>
+            <h4 class="text-2xl font-black text-primary mb-4 leading-snug">{{ sermon.title }}</h4>
+            <p class="text-slate-500 text-sm mb-6">{{ sermon.description|striptags|truncatewords:20 }}</p>
+
+            <div class="flex items-center justify-between pt-6 border-t border-slate-50">
+              <div class="flex items-center gap-2">
+                {% if sermon.preacher.image %}
+                <img src="{{ sermon.preacher.image.url }}"
+                  class="w-8 h-8 rounded-full object-cover border border-secondary">
+                {% else %}
+                <div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-[10px] font-bold">VA
+                </div>
                 {% endif %}
-            </div>
-
-            <div class="relative h-64 overflow-hidden">
-              {% if sermon.thumbnail %}
-                <img src="{{ sermon.thumbnail.url }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="{{ sermon.title }}" />
-              {% endif %}
-              
-              <a href="{% if sermon.status == 'paid' %}{% url 'store' %}{% else %}{{ sermon.video_url|default:'#' }}{% endif %}" 
-                 class="absolute inset-0 bg-primary/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
-                 {% if sermon.status != 'paid' %}target="_blank"{% endif %}>
-      
-                <div class="w-16 h-16 bg-secondary text-primary rounded-full flex items-center justify-center shadow-2xl transform scale-50 group-hover:scale-100 transition-transform duration-300">
-                  {% if sermon.status == 'paid' %}
-                    <i data-lucide="shopping-cart" class="w-6 h-6"></i>
-                  {% else %}
-                    <i data-lucide="play" class="fill-current w-6 h-6"></i>
-                  {% endif %}
-                </div>
-              </a>
-            </div>
-
-            <div class="p-8">
-              <span class="text-accent font-bold text-xs uppercase tracking-widest block mb-2">{{ sermon.series_name }}</span>
-              <h4 class="text-2xl font-black text-primary mb-4 leading-snug">{{ sermon.title }}</h4>
-              <p class="text-slate-500 text-sm mb-6">{{ sermon.description|striptags|truncatewords:20 }}</p>
-              
-              <div class="flex items-center justify-between pt-6 border-t border-slate-50">
-                <div class="flex items-center gap-2">
-                  {% if sermon.preacher.image %}
-                    <img src="{{ sermon.preacher.image.url }}" class="w-8 h-8 rounded-full object-cover border border-secondary">
-                  {% else %}
-                    <div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-[10px] font-bold">VA</div>
-                  {% endif %}
-                  <div class="flex flex-col">
-                    <span class="text-[10px] font-bold text-slate-700">{{ sermon.preacher.name }}</span>
-                    <span class="text-[8px] text-accent uppercase font-bold">{{ sermon.branch.branch_name }}</span>
-                  </div>
-                </div>
-
-                <div class="flex gap-3 items-center">
-                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{{ sermon.duration }}</span>
-                    <a href="{% if sermon.status == 'free' %}{{ sermon.audio_url }}{% else %}{% url 'store' %}{% endif %}" 
-                       class="p-2 {% if sermon.status == 'free' %}bg-slate-100 hover:bg-secondary text-primary{% else %}bg-accent/10 text-accent hover:bg-accent hover:text-white{% endif %} rounded-lg transition-colors">
-                        <i data-lucide="{% if sermon.status == 'free' %}download{% else %}shopping-bag{% endif %}" class="w-4 h-4"></i>
-                    </a>
+                <div class="flex flex-col">
+                  <span class="text-[10px] font-bold text-slate-700">{{ sermon.preacher.name }}</span>
+                  <span class="text-[8px] text-accent uppercase font-bold">{{ sermon.branch.branch_name }}</span>
                 </div>
               </div>
+
+              <div class="flex gap-3 items-center">
+                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{{ sermon.duration}}</span>
+                <a href="{% if sermon.status == 'free' %}{{ sermon.audio_url }}{% else %}{% url 'store' %}{% endif %}"
+                  class="p-2 {% if sermon.status == 'free' %}bg-slate-100 hover:bg-secondary text-primary{% else %}bg-accent/10 text-accent hover:bg-accent hover:text-white{% endif %} rounded-lg transition-colors">
+                  <i data-lucide="{% if sermon.status == 'free' %}download{% else %}shopping-bag{% endif %}"
+                    class="w-4 h-4"></i>
+                </a>
+              </div>
             </div>
+          </div>
         </div>
         {% empty %}
         <p class="text-center col-span-full text-slate-500">
@@ -277,8 +305,7 @@
     {% if store_section %}
     <div class="max-w-7xl mx-auto px-4 flex flex-col lg:flex-row items-center gap-16">
       <div class="lg:w-1/2 store-image">
-        <img src="{{ store_section.image.url }}"
-          class="rounded-[3rem] shadow-2xl" alt="Store Preview" />
+        <img src="{{ store_section.image.url }}" class="rounded-[3rem] shadow-2xl" alt="Store Preview" />
       </div>
       <div class="lg:w-1/2 store-text">
         <span class="text-accent font-black uppercase tracking-widest text-sm">{{ store_section.subtitle }}</span>
@@ -340,14 +367,18 @@
   <!-- meet the pastor -->
   <!-- meet the pastor -->
   {% for pastor in pastors %}
-  <section class="py-24 {{ forloop.counter|divisibleby:2|yesno:'bg-[#cbed9c],bg-primary' }} {{ forloop.counter|divisibleby:2|yesno:'text-black,text-white' }} overflow-hidden">
+  <section
+    class="py-24 {{ forloop.counter|divisibleby:2|yesno:'bg-[#cbed9c],bg-primary' }} {{ forloop.counter|divisibleby:2|yesno:'text-black,text-white' }} overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
-      <div class="{% if forloop.counter|divisibleby:2 %}order-2 md:order-2{% else %}order-2 md:order-1{% endif %} pastor-info">
-        <span class="{{ forloop.counter|divisibleby:2|yesno:'text-black,text-secondary' }} font-bold tracking-[0.3em] uppercase">{{ pastor.tagline }}</span>
+      <div
+        class="{% if forloop.counter|divisibleby:2 %}order-2 md:order-2{% else %}order-2 md:order-1{% endif %} pastor-info">
+        <span
+          class="{{ forloop.counter|divisibleby:2|yesno:'text-black,text-secondary' }} font-bold tracking-[0.3em] uppercase">{{pastor.tagline}}</span>
         <h2 class="text-5xl font-black serif mt-4 mb-6">
           {{ pastor.name }}
         </h2>
-        <p class="{{ forloop.counter|divisibleby:2|yesno:'text-slate-800,text-emerald-50/70' }} text-lg leading-relaxed mb-8 italic">
+        <p
+          class="{{ forloop.counter|divisibleby:2|yesno:'text-slate-800,text-emerald-50/70' }} text-lg leading-relaxed mb-8 italic">
           "{{ pastor.quote }}"
         </p>
         <div class="{{ forloop.counter|divisibleby:2|yesno:'text-slate-800,text-emerald-50/70' }} mb-10">
@@ -358,7 +389,8 @@
           {{ pastor.button_text }}
         </a>
       </div>
-      <div class="{% if forloop.counter|divisibleby:2 %}order-1 md:order-1{% else %}order-1 md:order-2{% endif %} pastor-image relative">
+      <div
+        class="{% if forloop.counter|divisibleby:2 %}order-1 md:order-1{% else %}order-1 md:order-2{% endif %} pastor-image relative">
         <div class="absolute inset-0 bg-secondary rounded-full blur-[120px] opacity-20"></div>
         <img src="{{ pastor.image.url }}"
           class="relative z-10 rounded-3xl grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl w-full h-[450px] object-cover object-top"
@@ -411,7 +443,8 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {% for event in events %}
-        <div class="group relative bg-white rounded-[2.5rem] overflow-hidden shadow-lg hover:shadow-2xl border border-slate-100 flex flex-col h-full">
+        <div
+          class="group relative bg-white rounded-[2.5rem] overflow-hidden shadow-lg hover:shadow-2xl border border-slate-100 flex flex-col h-full">
           <!-- Image Section -->
           <div class="relative h-64 overflow-hidden">
             {% if event.image %}
@@ -421,17 +454,20 @@
               <i data-lucide="calendar" class="w-12 h-12 text-slate-400"></i>
             </div>
             {% endif %}
-            
+
             <!-- Date Badge -->
-            <div class="absolute top-6 left-6 bg-white/90 backdrop-blur-md rounded-2xl p-3 text-center min-w-[60px] shadow-xl border border-white/50">
+            <div
+              class="absolute top-6 left-6 bg-white/90 backdrop-blur-md rounded-2xl p-3 text-center min-w-[60px] shadow-xl border border-white/50">
               <span class="block text-2xl font-black text-primary leading-none">{{ event.date|date:"d" }}</span>
-              <span class="block text-xs font-bold text-secondary uppercase tracking-wider mt-1">{{ event.date|date:"M" }}</span>
+              <span
+                class="block text-xs font-bold text-secondary uppercase tracking-wider mt-1">{{event.date|date:"M"}}</span>
             </div>
 
             <!-- Category Tag -->
             {% if event.category %}
             <div class="absolute bottom-6 left-6">
-              <span class="bg-primary/80 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full border border-white/20">
+              <span
+                class="bg-primary/80 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full border border-white/20">
                 {{ event.category.name }}
               </span>
             </div>
@@ -443,7 +479,7 @@
             <h3 class="text-2xl font-black text-primary mb-4 leading-tight line-clamp-2">
               {{ event.title }}
             </h3>
-            
+
             <p class="text-slate-500 mb-6 text-sm line-clamp-3 leading-relaxed">
               {{ event.description|striptags }}
             </p>
@@ -476,7 +512,8 @@
         {% empty %}
         <!-- Fallback Cards -->
         {% for i in "123" %}
-        <div class="bg-slate-50 p-8 rounded-[2.5rem] border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-center opacity-50">
+        <div
+          class="bg-slate-50 p-8 rounded-[2.5rem] border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-center opacity-50">
           <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-6">
             <i data-lucide="calendar" class="w-8 h-8 text-slate-300"></i>
           </div>
@@ -488,10 +525,10 @@
       </div>
     </div>
   </section>
-  
+
   <!-- Church Branches -->
   <section id="branches" class="py-24 bg-white">
-    <div class="max-w-7xl mx-auto px-4">  
+    <div class="max-w-7xl mx-auto px-4">
       <div class="text-center mb-16">
         <h2 class="text-4xl font-black text-primary serif">Our City Altars Around You</h2>
         <div class="w-24 h-1 bg-secondary mx-auto mt-4 rounded-full"></div>
@@ -499,15 +536,18 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {% for branch in branches %}
-        <div class="bg-slate-50 p-8 rounded-[2.5rem] shadow-sm border border-slate-100 hover:shadow-xl hover:bg-white group">
-          <div class="w-14 h-14 bg-secondary/10 text-secondary rounded-2xl flex items-center justify-center mb-8 group-hover:bg-secondary group-hover:text-white transition-all">
+        <div
+          class="bg-slate-50 p-8 rounded-[2.5rem] shadow-sm border border-slate-100 hover:shadow-xl hover:bg-white group">
+          <div
+            class="w-14 h-14 bg-secondary/10 text-secondary rounded-2xl flex items-center justify-center mb-8 group-hover:bg-secondary group-hover:text-white transition-all">
             <i data-lucide="map-pin" class="w-6 h-6"></i>
           </div>
           <h3 class="text-2xl font-black text-primary mb-8">{{ branch.branch_name }}</h3>
-          
+
           <div class="space-y-8">
             <div class="flex items-start gap-4">
-              <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-secondary flex-shrink-0">
+              <div
+                class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-secondary flex-shrink-0">
                 <i data-lucide="sun" class="w-5 h-5"></i>
               </div>
               <div>
@@ -518,7 +558,8 @@
             </div>
 
             <div class="flex items-start gap-4">
-              <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-secondary flex-shrink-0">
+              <div
+                class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-secondary flex-shrink-0">
                 <i data-lucide="calendar-days" class="w-5 h-5"></i>
               </div>
               <div>
@@ -530,7 +571,7 @@
         </div>
         {% empty %}
         <div class="col-span-full text-center py-12">
-            <p class="text-slate-400 italic">No branch information available at the moment.</p>
+          <p class="text-slate-400 italic">No branch information available at the moment.</p>
         </div>
         {% endfor %}
       </div>
