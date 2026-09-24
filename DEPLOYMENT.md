@@ -24,7 +24,8 @@ SECURE_SSL_REDIRECT=False
 SESSION_COOKIE_SECURE=False
 CSRF_COOKIE_SECURE=False
 
-# cPanel MySQL
+# Database — set USE_SQLITE=False to use cPanel MySQL
+USE_SQLITE=False
 DB_NAME=cpaneluser_tva_church
 DB_USER=cpaneluser_tva_user
 DB_PASSWORD=<your-db-password>

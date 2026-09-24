@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 import os  
-import dj_database_url
+try:
+    import dj_database_url
+except ImportError:
+    dj_database_url = None
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -46,7 +49,17 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 DEBUG = os.environ.get('DEBUG', 'True').lower() in ('true', '1', 'yes')
 
 # Allowed hosts configuration
-ALLOWED_HOSTS = [host.strip() for host in os.environ.get('ALLOWED_HOSTS', '*').split(',') if host.strip()]
+raw_allowed_hosts = os.environ.get('ALLOWED_HOSTS', '')
+if raw_allowed_hosts:
+    ALLOWED_HOSTS = [host.strip() for host in raw_allowed_hosts.split(',') if host.strip()]
+else:
+    ALLOWED_HOSTS = ['*'] if DEBUG else []
+
+# In debug mode, ensure local development hosts are always permitted
+if DEBUG:
+    for local_host in ['localhost', '127.0.0.1', '[::1]']:
+        if local_host not in ALLOWED_HOSTS:
+            ALLOWED_HOSTS.append(local_host)
 
 # CSRF Trusted Origins for domain / subdomains (useful for HTTPS production)
 csrf_origins = os.environ.get('CSRF_TRUSTED_ORIGINS', '')
@@ -169,15 +182,34 @@ TEMPLATES = [
 WSGI_APPLICATION = 'gogap_web.wsgi.application'
 
 
-# Database Configuration for cPanel (MySQL / MariaDB) & Local Dev
+# Database Configuration: supports SQLite (local default), MySQL (cPanel / live), & Cloud (DATABASE_URL)
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-if os.environ.get('DB_NAME'):
-    # cPanel MySQL Configuration
+use_sqlite = os.environ.get('USE_SQLITE', '').lower() in ('true', '1', 'yes')
+db_engine = os.environ.get('DB_ENGINE', '').lower()
+db_name = os.environ.get('DB_NAME', '').strip()
+database_url = os.environ.get('DATABASE_URL', '').strip()
+
+# Detect if placeholder values from .env.example are still present
+is_placeholder_db = (
+    db_name in ('cpaneluser_dbname', 'cpaneluser_tva_church')
+    and os.environ.get('DB_PASSWORD') in ('', 'your_database_password', 'CHANGE_THIS_TO_YOUR_DATABASE_PASSWORD')
+)
+
+if use_sqlite or db_engine in ('sqlite', 'sqlite3') or is_placeholder_db:
+    # Local development SQLite
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+elif db_name or db_engine in ('mysql', 'mariadb'):
+    # cPanel / Live MySQL Configuration
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.environ.get('DB_NAME'),
+            'NAME': db_name,
             'USER': os.environ.get('DB_USER', 'root'),
             'PASSWORD': os.environ.get('DB_PASSWORD', ''),
             'HOST': os.environ.get('DB_HOST', 'localhost'),
@@ -188,13 +220,18 @@ if os.environ.get('DB_NAME'):
             },
         }
     }
-elif os.environ.get('DATABASE_URL'):
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=os.environ.get('DATABASE_URL'),
-            conn_max_age=600,
+elif database_url:
+    if dj_database_url:
+        DATABASES = {
+            'default': dj_database_url.config(
+                default=database_url,
+                conn_max_age=600,
+            )
+        }
+    else:
+        raise ImportError(
+            "dj_database_url is required when DATABASE_URL is set. Run: pip install dj-database-url"
         )
-    }
 else:
     # Default fallback to SQLite
     DATABASES = {
