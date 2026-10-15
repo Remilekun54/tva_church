@@ -176,37 +176,5 @@
         </div>
       </section>
 
-      <!-- Join Team Section -->
-      <section class="py-24 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <div class="order-2 lg:order-1">
-              {% if team.join_image %}
-              <img src="{{ team.join_image.url }}" alt="Join Our Team" class="rounded-3xl shadow-2xl w-full object-cover aspect-square" />
-              {% else %}
-              <div class="rounded-3xl bg-gradient-to-br from-secondary to-primary aspect-square flex items-center justify-center">
-                <i data-lucide="user-plus" class="w-32 h-32 text-white"></i>
-              </div>
-              {% endif %}
-            </div>
-            <div class="order-1 lg:order-2">
-              <span class="text-secondary font-black uppercase tracking-widest text-sm">
-                Serve With Us
-              </span>
-              <h2 class="text-5xl font-black serif mt-4 mb-8 text-primary">
-                {{ team.join_title|default:"Join Our Team" }}
-              </h2>
-              <div class="text-slate-600 text-lg leading-relaxed mb-8">
-                {{ team.join_content|default:"Interested in serving with our pastoral team? Contact us to learn more." |safe }}
-              </div>
-              
-              <!-- <a href="{% url 'contact' %}" class="bg-secondary text-primary px-8 py-4 rounded-2xl font-black inline-flex items-center gap-2 hover:bg-white hover:text-secondary transition-all shadow-xl border-2 border-secondary">
-                <i data-lucide="mail" class="w-5 h-5"></i>
-                Get In Touch
-              </a> -->
-            </div>
-          </div>
-        </div>
-      </section>
     </main>
 {% endblock %}
