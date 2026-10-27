@@ -9,50 +9,78 @@
         {% for slide in slides %}
         <div class="hero-slide absolute inset-0 w-full h-full opacity-0 z-0 bg-primary"
           style="transition: opacity 1s ease-in-out;">
-          <div class="absolute inset-0">
-            <img src="{{ slide.image.url }}" class="w-full h-full object-cover" alt="{{ slide.title }}" />
+          <!-- Panoramic Ambient Background (Fills full screen width and height seamlessly) -->
+          <div class="absolute inset-0 flex items-center justify-center overflow-hidden">
+            <img src="{{ slide.image.url }}"
+              class="absolute inset-0 w-full h-full object-cover blur-3xl scale-125 opacity-25 pointer-events-none"
+              aria-hidden="true" alt="" />
+            <!-- Mobile background glow -->
+            <img src="{{ slide.image.url }}"
+              class="lg:hidden relative w-full h-full object-contain object-center opacity-20 z-[1] pointer-events-none"
+              alt="" />
           </div>
-          <div class="absolute inset-0 hero-gradient"></div>
-          <div
-            class="relative z-10 w-full h-full flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pt-16 pb-12 sm:py-0">
-            <div
-              class="slide-content w-full max-w-3xl mx-auto h-auto min-h-0 sm:min-h-[400px] flex flex-col justify-center glass-dark p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl shadow-2xl backdrop-blur-md relative">
-              <span
-                class="inline-block px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-primary/10 border border-primary/20 text-secondary mb-3 sm:mb-5 font-bold text-[11px] sm:text-xs uppercase tracking-[0.2em] w-fit">
-                {{ slide.sub_heading }}
-              </span>
-              <h1 class="text-3xl sm:text-5xl md:text-6xl font-black text-primary mb-3 sm:mb-4 leading-[1.1] serif">
-                {{ slide.title|safe }}
-              </h1>
-              <div
-                class="text-sm sm:text-base md:text-lg text-slate-700 max-w-xl mb-4 sm:mb-6 font-semibold line-clamp-2 sm:line-clamp-none">
-                {{ slide.description|safe }}
-              </div>
-              <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 sm:gap-3">
-                <a href="{% url 'contact' %}"
-                  class="btn-glass px-3.5 py-2.5 sm:px-5 sm:py-2.5 rounded-xl sm:rounded-2xl text-xs sm:text-sm md:text-base font-bold flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap min-h-[42px] transition-all">
-                  Join Us <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </a>
-                {% if slide.live_stream_url %}
-                <a href="{{ slide.live_stream_url }}" target="_blank"
-                  class="px-3.5 py-2.5 sm:px-5 sm:py-2.5 rounded-xl sm:rounded-2xl text-xs sm:text-sm md:text-base font-bold bg-red-600 text-white border border-red-500 hover:bg-red-700 transition-all text-center flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap min-h-[42px] shadow-md shadow-red-600/20">
-                  <i data-lucide="video" class="w-4 h-4 flex-shrink-0"></i>
-                  <span>{{ slide.live_stream_button_text|default:"Watch Live" }}</span>
-                </a>
-                {% endif %}
-                <a href="{% url 'sermons' %}"
-                  class="px-3.5 py-2.5 sm:px-5 sm:py-2.5 rounded-xl sm:rounded-2xl text-xs sm:text-sm md:text-base font-bold bg-white/70 text-primary border border-primary/20 hover:bg-white transition-all text-center flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap min-h-[42px] shadow-sm {% if not active_broadcast %}col-span-2 sm:col-span-1{% endif %}">
-                  Watch Sermons
-                </a>
+          <div class="absolute inset-0 hero-gradient opacity-40 pointer-events-none z-[2]"></div>
 
-                {% if active_broadcast %}
-                <button onclick="TVAPlayer.show()"
-                  class="px-3.5 py-2.5 sm:px-5 sm:py-2.5 rounded-xl sm:rounded-2xl text-xs sm:text-sm md:text-base font-bold bg-secondary text-white border border-secondary hover:bg-white hover:text-secondary transition-all text-center flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap min-h-[42px] shadow-lg shadow-secondary/20">
-                  <span class="live-dot scale-90 flex-shrink-0"></span>
-                  <span>Listen Live</span>
-                </button>
-                {% endif %}
+          <!-- Split-Screen Content & Showcase Container -->
+          <div
+            class="relative z-10 w-full h-full flex items-center justify-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pt-24 pb-14 sm:pt-28 sm:pb-16 lg:pt-32 xl:pt-36 lg:pb-16 overflow-y-auto lg:overflow-visible">
+            <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-8 xl:gap-10 items-center">
+
+              <!-- Left Column: Slide Content & Actions (6 columns on lg, natural content height) -->
+              <div class="lg:col-span-6 flex flex-col justify-center w-full">
+                <div
+                  class="slide-content w-full h-auto flex flex-col justify-center glass-dark p-6 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl shadow-2xl backdrop-blur-md relative border border-white/40">
+                  <span
+                    class="inline-block px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-primary/10 border border-primary/20 text-secondary mb-2 sm:mb-4 font-bold text-[10px] sm:text-xs uppercase tracking-[0.2em] w-fit">
+                    {{ slide.sub_heading }}
+                  </span>
+                  <h1
+                    class="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-black text-primary mb-2 sm:mb-3 leading-[1.1] serif">
+                    {{ slide.title|safe }}
+                  </h1>
+                  <div
+                    class="text-xs sm:text-sm lg:text-base text-slate-700 max-w-xl mb-4 sm:mb-6 font-semibold line-clamp-2 sm:line-clamp-none">
+                    {{ slide.description|safe }}
+                  </div>
+                  <!-- Action Buttons: 2x2 grid on mobile, strictly single row (flex-nowrap) on large screens -->
+                  <div class="grid grid-cols-2 gap-2 lg:flex lg:flex-nowrap lg:items-center lg:gap-2 xl:gap-2.5 w-full">
+                    <a href="{% url 'contact' %}"
+                      class="btn-glass px-2.5 py-2 xl:px-3 xl:py-2.5 rounded-xl sm:rounded-2xl text-[11px] xl:text-xs font-bold flex items-center justify-center gap-1.5 whitespace-nowrap min-h-[38px] xl:min-h-[42px] transition-all flex-1 text-center">
+                      Join Us <i data-lucide="arrow-right" class="w-3.5 h-3.5 xl:w-4 xl:h-4 flex-shrink-0"></i>
+                    </a>
+                    {% if slide.live_stream_url %}
+                    <a href="{{ slide.live_stream_url }}" target="_blank"
+                      class="px-2.5 py-2 xl:px-3 xl:py-2.5 rounded-xl sm:rounded-2xl text-[11px] xl:text-xs font-bold bg-red-600 text-white border border-red-500 hover:bg-red-700 transition-all text-center flex items-center justify-center gap-1.5 whitespace-nowrap min-h-[38px] xl:min-h-[42px] shadow-md shadow-red-600/20 flex-1">
+                      <i data-lucide="video" class="w-3.5 h-3.5 xl:w-4 xl:h-4 flex-shrink-0"></i>
+                      <span>{{ slide.live_stream_button_text|default:"Watch Live" }}</span>
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'sermons' %}"
+                      class="px-2.5 py-2 xl:px-3 xl:py-2.5 rounded-xl sm:rounded-2xl text-[11px] xl:text-xs font-bold bg-white/70 text-primary border border-primary/20 hover:bg-white transition-all text-center flex items-center justify-center gap-1.5 whitespace-nowrap min-h-[38px] xl:min-h-[42px] shadow-sm flex-1 {% if not active_broadcast %}col-span-2 sm:col-span-1{% endif %}">
+                      Watch Sermons
+                    </a>
+
+                    {% if active_broadcast %}
+                    <button onclick="TVAPlayer.show()"
+                      class="px-2.5 py-2 xl:px-3 xl:py-2.5 rounded-xl sm:rounded-2xl text-[11px] xl:text-xs font-bold bg-secondary text-white border border-secondary hover:bg-white hover:text-secondary transition-all text-center flex items-center justify-center gap-1.5 whitespace-nowrap min-h-[38px] xl:min-h-[42px] shadow-lg shadow-secondary/20 flex-1">
+                      <span class="live-dot scale-90 flex-shrink-0"></span>
+                      <span>Listen Live</span>
+                    </button>
+                    {% endif %}
+                  </div>
+                </div>
               </div>
+
+              <!-- Right Column: Force Image to Fixed Column Dimensions (6 columns on lg, visible below text box on mobile) -->
+              <div class="flex lg:col-span-6 items-center justify-center w-full">
+                <div
+                  class="relative w-full h-[220px] sm:h-[280px] md:h-[340px] lg:h-[440px] xl:h-[480px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/40 group">
+                  <img src="{{ slide.image.url }}"
+                    class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                    alt="{{ slide.title }}" />
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
