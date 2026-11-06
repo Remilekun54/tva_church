@@ -99,7 +99,7 @@
                             {% if sermon.is_live_recording %}<span class="text-secondary">Live Recording</span>{% else %}Studio Audio{% endif %}
                         </span>
                         <h4 class="text-xl font-black text-primary leading-tight">{{ sermon.title }}</h4>
-                        <p class="text-slate-500 text-sm mt-1">By {{ sermon.preacher.name }} | {{ sermon.branch.branch_name }}</p>
+                        <p class="text-slate-500 text-sm mt-1">By {{ sermon.preacher.name }}</p>
                     </div>
 
                     <!-- Meta & Actions -->
@@ -113,7 +113,7 @@
                         
                         <div class="flex gap-2">
                             {% if sermon.audio_file %}
-                            <a href="{{ sermon.audio_file.url }}" download class="p-3 bg-slate-100 hover:bg-primary hover:text-white rounded-xl transition-all text-slate-400" title="Download Audio">
+                            <a href="{% url 'sermon_download' sermon.id 'audio' %}" class="p-3 bg-slate-100 hover:bg-primary hover:text-white rounded-xl transition-all text-slate-400" title="Download Audio">
                                 <i data-lucide="download" class="w-5 h-5"></i>
                             </a>
                             {% endif %}

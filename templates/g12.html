@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ page.hero_title|default:"G-12 Membership" }} | TVA{% endblock %}
+{% block title %}{{ page.hero_title|default:"G-12 Discipleship Training" }} | TVA{% endblock %}
 
 {% block content %}
     <!-- Hero Section -->
     <header class="relative h-[60vh] flex items-center justify-center overflow-hidden">
       <img
         src="{% if page.hero_image %}{{ page.hero_image.url }}{% else %}https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=2000{% endif %}"
-        alt="G-12 Membership"
+        alt="G-12 Discipleship Training"
         class="absolute inset-0 w-full h-full object-cover"
       />
 
@@ -16,10 +16,10 @@
 
       <div class="relative z-10 text-center px-4 mt-20">
         <span class="text-secondary font-black uppercase tracking-[0.4em] text-xs mb-4 block">
-          {{ page.hero_subtitle|default:"Your Journey to Belonging" }}
+          {{ page.hero_subtitle|default:"Your Journey to Belonging & Leadership" }}
         </span>
         <h1 class="text-5xl md:text-7xl font-black text-white serif mb-6 tracking-tight">
-          {{ page.hero_title|default:"G-12 Membership" }}
+          {{ page.hero_title|default:"G-12 Discipleship Training" }}
         </h1>
       </div>
     </header>
@@ -160,16 +160,10 @@
                     {{ form.phone_number.errors }}
                 </div>
                 <div class="space-y-2">
-                    <label class="text-xs font-black uppercase tracking-widest text-slate-400 ml-4">Church Branch</label>
-                    {{ form.branch }}
-                    {{ form.branch.errors }}
+                    <label class="text-xs font-black uppercase tracking-widest text-slate-400 ml-4">Preferred Class Time</label>
+                    {{ form.preferred_class_time }}
+                    {{ form.preferred_class_time.errors }}
                 </div>
-              </div>
-
-              <div class="space-y-2">
-                <label class="text-xs font-black uppercase tracking-widest text-slate-400 ml-4">Preferred Class Time</label>
-                {{ form.preferred_class_time }}
-                {{ form.preferred_class_time.errors }}
               </div>
 
               <button type="submit" class="w-full bg-secondary text-primary font-black py-5 rounded-2xl hover:bg-primary hover:text-white transition-all shadow-xl text-lg uppercase tracking-widest mt-8">

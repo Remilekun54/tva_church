@@ -91,10 +91,18 @@
 
             <div class="lg:w-3/5 p-8 flex flex-col justify-between">
               <div>
-                <span
-                  class="text-[#7BC62D] font-bold text-xs uppercase tracking-widest mb-2 block"
-                  >{{ event.tagline }}</span
-                >
+                <div class="flex items-center justify-between gap-2 mb-2">
+                  <span class="text-[#7BC62D] font-bold text-xs uppercase tracking-widest block">{{ event.tagline }}</span>
+                  {% if event.is_open %}
+                    <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-300">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Open Event
+                    </span>
+                  {% else %}
+                    <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-rose-100 text-rose-800 border border-rose-300">
+                      <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Closed Event
+                    </span>
+                  {% endif %}
+                </div>
                 <h2 class="text-2xl font-black text-slate-900 mb-2 serif">
                   {{ event.title }}
                 </h2>
@@ -116,12 +124,16 @@
                 </div>
               </div>
 
-              
-
-              <a href="{% url 'register_event' event.id %}" 
-   class="bg-primary text-white px-8 py-3 rounded-full font-bold hover:bg-secondary hover:text-primary transition-all">
-   Register Now
-</a>
+              {% if event.is_open %}
+                <a href="{% url 'register_event' event.id %}" 
+                   class="bg-primary text-white px-8 py-3 rounded-full font-bold hover:bg-secondary hover:text-primary transition-all text-center inline-block">
+                   Register Now
+                </a>
+              {% else %}
+                <span class="bg-slate-200 text-slate-500 px-8 py-3 rounded-full font-bold text-center inline-block cursor-not-allowed">
+                   Registration Closed
+                </span>
+              {% endif %}
             </div>
           </div>
         </div>

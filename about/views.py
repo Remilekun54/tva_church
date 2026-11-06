@@ -24,8 +24,8 @@ def about_view(request):
     # prefetch_related handles the activities inside the branches
     branches = ChurchBranch.objects.all().order_by('order')
     
-    # select_related handles the branch name for each leader
-    leaders = Leader.objects.all().select_related('branch').order_by('order')
+    # select_related handles leaders
+    leaders = Leader.objects.all().order_by('order')
 
     # 4. Debugging Logs (Check your terminal)
     if not about_data:

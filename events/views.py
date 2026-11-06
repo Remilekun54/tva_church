@@ -37,6 +37,10 @@ from django.contrib import messages # Import messages
 
 def register_event(request, event_id):
     event = get_object_or_404(Event, id=event_id)
+    if not event.is_open:
+        messages.error(request, "Registration for this event is closed.")
+        return redirect('events')
+
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():

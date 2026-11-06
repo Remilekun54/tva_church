@@ -1,29 +1,24 @@
-from django.shortcuts import render
-from django.http import JsonResponse
+import os
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse, FileResponse, Http404
 from .models import Sermon, Book, SermonCategory, AudioBroadcast
-from about.models import Branch
 from itertools import chain
 
 
 def sermon_list(request):
     """View for the Media/Sermons page (Teachings)"""
-    sermons = Sermon.objects.all().select_related('preacher', 'branch', 'category')
-    branches = Branch.objects.all()
+    sermons = Sermon.objects.all().select_related('preacher', 'category')
     categories = SermonCategory.objects.all()
     
     # Get available years for filtering
     years = Sermon.objects.dates('date_preached', 'year', order='DESC')
     years = [date.year for date in years]
 
-    branch_id = request.GET.get('branch')
     category_slug = request.GET.get('category')
     year = request.GET.get('year')
     theme = request.GET.get('theme')
     sort_type = request.GET.get('sort')
 
-    if branch_id:
-        sermons = sermons.filter(branch_id=branch_id)
-    
     if category_slug:
         sermons = sermons.filter(category__slug=category_slug)
     
@@ -40,16 +35,39 @@ def sermon_list(request):
 
     context = {
         'sermons': sermons,
-        'branches': branches,
         'categories': categories,
         'years': years,
-        'current_branch': branch_id,
         'current_category': category_slug,
         'current_year': year,
         'current_theme': theme,
         'current_sort': sort_type,
     }
     return render(request, 'sermons.html', context)
+
+
+def download_sermon(request, sermon_id, media_type):
+    """
+    Forces immediate 1-click download of the sermon audio or video file to the user's gadget.
+    """
+    sermon = get_object_or_404(Sermon, pk=sermon_id)
+    target_file = sermon.audio_file if media_type == 'audio' else sermon.video_file
+    if not target_file:
+        raise Http404("Media file is not available for this sermon.")
+    
+    try:
+        file_path = target_file.path
+        if not os.path.exists(file_path):
+            raise Http404("File does not exist on server.")
+        response = FileResponse(open(file_path, 'rb'), as_attachment=True)
+    except (ValueError, NotImplementedError):
+        # Fallback for cloud storage backends where .path isn't local
+        response = FileResponse(target_file.open('rb'), as_attachment=True)
+
+    ext = os.path.splitext(target_file.name)[1]
+    safe_title = "".join(c for c in sermon.title if c.isalnum() or c in (' ', '_', '-')).strip().replace(" ", "_")
+    filename = f"{safe_title}_{media_type.capitalize()}{ext}"
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    return response
 
 
 def broadcast_status(request):
@@ -93,12 +111,10 @@ def radio_view(request):
     # 1. Fetch live broadcast for the hero section
     current_live = AudioBroadcast.objects.filter(is_live=True).first()
 
-    # 2. Fetch all sermons that have an audio file or URL
-    # We exclude items without any audio content
+    # 2. Fetch all sermons that have an uploaded audio file
     audio_sermons = Sermon.objects.exclude(
-        audio_file='', 
-        audio_url=''
-    ).select_related('preacher', 'branch').order_by('-date_preached')
+        audio_file=''
+    ).exclude(audio_file__isnull=True).select_related('preacher').order_by('-date_preached')
 
     context = {
         'current_live': current_live,

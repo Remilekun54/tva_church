@@ -31,9 +31,9 @@
             </div>
         {% endif %}
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
+        <div class="max-w-2xl mx-auto">
             
-            <!-- Become a Member Card (Left) -->
+            <!-- Become a Member Card -->
             <div class="relative group animate-on-scroll">
                 <div class="glass-card rounded-3xl p-8 md:p-12 bg-white border-t-8 border-primary shadow-2xl relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-8 -mt-8 z-0"></div>
@@ -64,44 +64,6 @@
                             
                             <button type="submit" name="submit_member" class="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-secondary hover:text-primary transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 mt-4">
                                 Register Membership
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Join a Department Card (Right) -->
-             <div class="relative group animate-on-scroll" style="animation-delay: 200ms;">
-                <div class="glass-card rounded-3xl p-8 md:p-12 bg-white border-t-8 border-secondary shadow-2xl relative overflow-hidden">
-                     <div class="absolute top-0 right-0 w-32 h-32 bg-secondary/10 rounded-bl-full -mr-8 -mt-8 z-0"></div>
-
-                    <div class="relative z-10">
-                        <div class="flex items-center gap-4 mb-8">
-                             <div class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center text-secondary-dark">
-                                <i data-lucide="users" class="w-6 h-6"></i>
-                            </div>
-                            <h2 class="text-3xl font-black text-primary uppercase tracking-tight">Join a Department</h2>
-                        </div>
-
-                         <p class="text-slate-600 mb-8 leading-relaxed">
-                            Use your gifts to serve! Select a department you are interested in, and the team will reach out to you with next steps.
-                        </p>
-
-                        <form method="POST" class="space-y-4">
-                            {% csrf_token %}
-                            {{ department_form.full_name }}
-                            {{ department_form.email }}
-                            {{ department_form.phone_number }}
-                            
-                            <div class="relative">
-                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1 ml-2">Select Department</label>
-                                {{ department_form.department }}
-                            </div>
-
-                            {{ department_form.reason_for_joining }}
-                            
-                            <button type="submit" name="submit_dept" class="w-full bg-secondary text-white font-bold py-4 rounded-xl hover:bg-primary hover:text-white transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 mt-4">
-                                Join Department
                             </button>
                         </form>
                     </div>

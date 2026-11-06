@@ -126,16 +126,17 @@ class FooterSettings(models.Model):
     class Meta:
         verbose_name = "Footer Setting"
 
-# Church Branch Model
+# Church Gathering Schedule Model
 class ChurchBranch(models.Model):
-    branch_name = models.CharField(max_length=100, help_text="e.g., Main Sanctuary or North Branch")
+    branch_name = models.CharField(max_length=100, help_text="e.g., Main Sanctuary")
     sunday_service_1 = models.CharField(max_length=100, default="Empowerment: 8:00 AM")
     sunday_service_2 = models.CharField(max_length=100, default="Celebration: 10:30 AM")
     midweek_service = models.CharField(max_length=100, default="Wednesday Word: 6:00 PM")
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
-        verbose_name_plural = "Church Branches"
+        verbose_name = "Service Gathering"
+        verbose_name_plural = "Service Gatherings"
         ordering = ['order']
 
     def __str__(self):

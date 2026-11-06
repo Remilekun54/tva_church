@@ -49,10 +49,9 @@ class CoreValueAdmin(admin.ModelAdmin):
 
 @admin.register(Leader)
 class LeaderAdmin(admin.ModelAdmin):
-    list_display = ('name', 'position', 'branch', 'order')
-    list_editable = ('order', 'branch')
-    list_filter = ('branch',)
-    fields = ('name', 'position', 'branch', 'image', 'contact_email', 'facebook_url', 'instagram_url', 'linkedin_url', 'tiktok_url', 'order')
+    list_display = ('name', 'position', 'order')
+    list_editable = ('order',)
+    fields = ('name', 'position', 'image', 'contact_email', 'facebook_url', 'instagram_url', 'linkedin_url', 'tiktok_url', 'order')
 
 @admin.register(TeamMember)
 class TeamMemberAdmin(admin.ModelAdmin):

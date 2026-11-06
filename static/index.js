@@ -90,38 +90,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const menuItems = navMenuList ? navMenuList.querySelectorAll("a, button") : [];
 
             if (window.scrollY > 50) {
-                // Scrolled down: Increase navbar height, add glass effect AND Blue Bottom Border
-                navbar.classList.add("shadow-glass", "bg-white/80", "backdrop-blur-md", "border-b", "border-primary");
-                navbar.classList.remove("bg-transparent", "h-24");
-                navbar.classList.add("h-28");
-
-                // Also increase menu list height (by increasing padding)
-                if (navMenuList) {
-                    navMenuList.classList.remove("p-1");
-                    navMenuList.classList.add("px-2", "py-3"); // Taller pill
-                    
-                    // Increase Font Size
-                    menuItems.forEach(item => {
-                        item.classList.remove("text-sm");
-                        item.classList.add("text-base");
-                    });
-                }
+                // Scrolled down: add glass effect AND Blue Bottom Border
+                navbar.classList.add("shadow-glass", "bg-white/90", "backdrop-blur-md", "border-b", "border-primary/20");
+                navbar.classList.remove("bg-transparent");
             } else {
-                // At top: Default height and transparent. Remove Blue Border.
-                navbar.classList.remove("shadow-glass", "bg-white/80", "backdrop-blur-md", "h-28", "border-b", "border-primary");
-                navbar.classList.add("bg-transparent", "h-24");
-
-                // Revert menu list height
-                if (navMenuList) {
-                    navMenuList.classList.remove("px-2", "py-3");
-                    navMenuList.classList.add("p-1"); // Default compact pill
-
-                    // Revert Font Size
-                    menuItems.forEach(item => {
-                        item.classList.remove("text-base");
-                        item.classList.add("text-sm");
-                    });
-                }
+                // At top: Default transparent. Remove Blue Border.
+                navbar.classList.remove("shadow-glass", "bg-white/90", "backdrop-blur-md", "border-b", "border-primary/20");
+                navbar.classList.add("bg-transparent");
             }
         };
 

@@ -67,28 +67,28 @@
 
     <!-- NEW NAVIGATION BAR (Ported from React) -->
     <nav class="fixed top-0 w-full z-50 lg:transition-all lg:duration-300 bg-transparent h-24" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-            <div class="flex justify-center items-center h-full gap-8">
+        <div class="w-full max-w-[1550px] mx-auto px-3 sm:px-5 lg:px-6 h-full">
+            <div class="flex items-center justify-between h-full gap-2 lg:gap-4">
                 <!-- Logo -->
-                <a href="{% url 'home' %}" class="flex items-center gap-3 group">
-                     <div class="w-12 h-12 rounded-[10px] overflow-hidden border-2 border-secondary shadow-lg bg-white group-hover:scale-105 transition-transform">
-                        <img src="{% static 'images/tva-logo.jpg' %}" alt="TVA Logo" class="w-full h-full object-cover" />
+                <a href="{% url 'home' %}" class="flex items-center gap-3 group flex-shrink-0">
+                     <div class="w-12 h-12 rounded-[10px] overflow-hidden border-2 border-secondary shadow-lg bg-white group-hover:scale-105 transition-transform flex-shrink-0">
+                        <img src="{% static 'images/tva-logo.jpg' %}" alt="TVA Logo" class="w-full h-full object-contain" />
                     </div>
-                    <div class="flex flex-col">
+                    <div class="flex flex-col flex-shrink-0">
                         <span class="text-2xl font-black tracking-tighter text-primary leading-none uppercase">TVA</span>
                         <span class="text-[10px] uppercase tracking-[0.1em] text-accent font-bold">The Vineyard Assembly</span>
                     </div>
                 </a>
 
-                <!-- Desktop Navigation -->
-                <nav id="nav-menu-list" class="hidden lg:flex items-center gap-1 bg-white/30 backdrop-blur-md rounded-full p-1 border border-secondary shadow-sm transition-all duration-300">
+                <!-- Desktop Navigation (Shifted to Left) -->
+                <nav id="nav-menu-list" class="hidden lg:flex items-center gap-0.5 xl:gap-1 bg-white/30 backdrop-blur-md rounded-full p-1 border border-secondary shadow-sm transition-all duration-300 lg:ml-3 xl:ml-6 lg:mr-auto">
                     
                     <!-- Home -->
-                    <a href="{% url 'home' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Home</a>
+                    <a href="{% url 'home' %}" class="px-2.5 xl:px-3.5 py-1.5 rounded-full text-slate-700 font-bold text-xs xl:text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md whitespace-nowrap">Home</a>
 
                     <!-- About Dropdown -->
                     <div class="relative group">
-                        <button class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md flex items-center gap-1">
+                        <button class="px-2.5 xl:px-3.5 py-1.5 rounded-full text-slate-700 font-bold text-xs xl:text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md flex items-center gap-1 whitespace-nowrap">
                             About <i data-lucide="chevron-down" class="w-3 h-3 transition-transform group-hover:rotate-180"></i>
                         </button>
                         <div class="absolute top-full left-0 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 w-64">
@@ -103,13 +103,13 @@
 
                     <!-- Get Involved Dropdown -->
                     <div class="relative group">
-                        <button class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md flex items-center gap-1 whitespace-nowrap">
+                        <button class="px-2.5 xl:px-3.5 py-1.5 rounded-full text-slate-700 font-bold text-xs xl:text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md flex items-center gap-1 whitespace-nowrap">
                             Get Involved <i data-lucide="chevron-down" class="w-3 h-3 transition-transform group-hover:rotate-180"></i>
                         </button>
                         <div class="absolute top-full left-0 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 w-64">
                             <div class="glass-card rounded-2xl p-2 bg-white/80 backdrop-blur-xl">
                                 <a href="{% url 'get_involved:membership_pathway' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">Membership Pathway</a>
-                                <a href="{% url 'get_involved:g12_membership' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">G-12 Membership</a>
+                                <a href="{% url 'get_involved:g12_membership' %}" class="block px-4 py-3 rounded-xl hover:bg-primary/5 text-slate-700 font-bold text-sm hover:text-primary transition-colors">G-12 Discipleship Training</a>
                                 
                                 <!-- Nested Service Group -->
                                 <div class="relative group/sub">
@@ -143,25 +143,25 @@
                         </div>
                     </div>
 
-                    <a href="{% url 'sermons' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Sermons</a>
-                    <a href="{% url 'radio' %}" class="px-4 py-2 rounded-full {% if is_radio_page %}bg-primary text-white shadow-lg shadow-primary/20{% else %}text-slate-700 hover:bg-white hover:text-primary{% endif %} font-bold text-sm transition-all hover:shadow-md">Radio</a>
-                    <a href="{% url 'events' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Events</a>
-                    <a href="{% url 'store' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Store</a>
-                    <a href="{% url 'blog_list' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Blog</a>
-                    <a href="{% url 'contact' %}" class="px-4 py-2 rounded-full text-slate-700 font-bold text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md">Contact</a>
+                    <a href="{% url 'sermons' %}" class="px-2.5 xl:px-3.5 py-1.5 rounded-full text-slate-700 font-bold text-xs xl:text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md whitespace-nowrap">Sermons</a>
+                    <a href="{% url 'radio' %}" class="px-2.5 xl:px-3.5 py-1.5 rounded-full {% if is_radio_page %}bg-primary text-white shadow-lg shadow-primary/20{% else %}text-slate-700 hover:bg-white hover:text-primary{% endif %} font-bold text-xs xl:text-sm transition-all hover:shadow-md whitespace-nowrap">Radio</a>
+                    <a href="{% url 'events' %}" class="px-2.5 xl:px-3.5 py-1.5 rounded-full text-slate-700 font-bold text-xs xl:text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md whitespace-nowrap">Events</a>
+                    <a href="{% url 'store' %}" class="px-2.5 xl:px-3.5 py-1.5 rounded-full text-slate-700 font-bold text-xs xl:text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md whitespace-nowrap">Store</a>
+                    <a href="{% url 'blog_list' %}" class="px-2.5 xl:px-3.5 py-1.5 rounded-full text-slate-700 font-bold text-xs xl:text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md whitespace-nowrap">Blog</a>
+                    <a href="{% url 'contact' %}" class="px-2.5 xl:px-3.5 py-1.5 rounded-full text-slate-700 font-bold text-xs xl:text-sm hover:bg-white hover:text-primary transition-all hover:shadow-md whitespace-nowrap">Contact</a>
 
                     {% if active_broadcast %}
                     <!-- Listen Live — only shown when an admin has toggled is_live ON -->
-                    <button onclick="TVAPlayer.show()" class="listen-live-badge" id="nav-listen-live-btn">
+                    <button onclick="TVAPlayer.show()" class="listen-live-badge text-xs" id="nav-listen-live-btn">
                         <span class="live-dot"></span> Listen Live
                     </button>
                     {% endif %}
                 </nav>
 
                 <!-- CTA & Mobile Toggle -->
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-4 flex-shrink-0">
                     <div class="hidden md:block flex-shrink-0">
-                        <a href="{% url 'offering' %}" class="px-6 py-2.5 rounded-full font-bold text-sm inline-flex items-center gap-2 text-white bg-secondary border border-secondary hover:bg-white hover:text-secondary transition-colors shadow-lg shadow-secondary/20">
+                        <a href="{% url 'offering' %}" class="px-5 xl:px-6 py-2.5 rounded-full font-bold text-xs xl:text-sm inline-flex items-center gap-2 text-white bg-secondary border border-secondary hover:bg-white hover:text-secondary transition-colors shadow-lg shadow-secondary/20 flex-shrink-0 whitespace-nowrap">
                             Give Now <i data-lucide="heart" class="w-4 h-4 fill-current"></i>
                         </a>
                     </div>
@@ -209,7 +209,7 @@
                     </button>
                     <div id="mobile-involved" class="hidden pl-4 space-y-1 pb-2 bg-primary/5 rounded-xl mb-2 mt-2">
                             <a href="{% url 'get_involved:membership_pathway' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">Membership Pathway</a>
-                            <a href="{% url 'get_involved:g12_membership' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">G-12 Membership</a>
+                            <a href="{% url 'get_involved:g12_membership' %}" class="block text-sm font-bold text-primary/80 hover:text-primary py-1.5">G-12 Discipleship Training</a>
                             
                             <!-- Nested Service Group -->
                             <div>

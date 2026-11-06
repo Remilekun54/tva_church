@@ -168,8 +168,8 @@ class SinglesFellowship(Fellowship):
         verbose_name_plural = "Singles & Youths"
 
 class G12Page(models.Model):
-    """Singleton model for the G-12 Membership Page Config"""
-    hero_title = models.CharField(max_length=200, default="G-12 Membership Classes")
+    """Singleton model for the G-12 Discipleship Training Page Config"""
+    hero_title = models.CharField(max_length=200, default="G-12 Discipleship Training")
     hero_subtitle = models.CharField(max_length=200, default="Your Journey to Leadership and Discipleship")
     hero_image = models.ImageField(upload_to='g12/', blank=True, null=True)
     
@@ -201,15 +201,15 @@ class G12Page(models.Model):
         return "G-12 Page Configuration"
 
     class Meta:
-        verbose_name = "G-12 Page Configuration"
-        verbose_name_plural = "G-12 Page Configuration"
+        verbose_name = "G-12 Discipleship Training Page Configuration"
+        verbose_name_plural = "G-12 Discipleship Training Page Configuration"
 
 class G12Registration(models.Model):
-    """Model for G-12 membership class registration"""
+    """Model for G-12 discipleship training registration"""
     full_name = models.CharField(max_length=200)
     email = models.EmailField()
     phone_number = models.CharField(max_length=20)
-    branch = models.CharField(max_length=100, help_text="Your local church branch")
+    branch = models.CharField(max_length=100, blank=True, default="", help_text="Your local church branch")
     preferred_class_time = models.CharField(max_length=200, help_text="e.g., Sundays after service, Saturdays 4pm")
     
     created_at = models.DateTimeField(auto_now_add=True)

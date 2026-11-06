@@ -27,7 +27,19 @@ class Event(models.Model):
     button_text = models.CharField(max_length=50, default="Register Now")
     
     is_active = models.BooleanField(default=True)
+    is_open_event = models.BooleanField(
+        default=True,
+        verbose_name="Registration Open",
+        help_text="Uncheck to mark registration as closed"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def is_open(self):
+        from django.utils import timezone
+        if not self.is_open_event or not self.is_active:
+            return False
+        return self.date >= timezone.now().date()
 
     class Meta:
         ordering = ['date', 'time_start']

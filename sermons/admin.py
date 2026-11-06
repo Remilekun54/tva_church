@@ -13,8 +13,8 @@ class SermonCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Sermon)
 class SermonAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'preacher', 'branch', 'date_preached', 'status', 'is_trending', 'is_live_recording')
-    list_filter = ('category', 'status', 'branch', 'is_trending', 'is_live_recording', 'date_preached')
+    list_display = ('title', 'category', 'preacher', 'date_preached', 'status', 'is_trending', 'is_live_recording')
+    list_filter = ('category', 'status', 'is_trending', 'is_live_recording', 'date_preached')
     search_fields = ('title', 'theme', 'series_name', 'description', 'preacher__name')
     list_editable = ('status', 'is_trending')
 
@@ -25,14 +25,12 @@ class SermonAdmin(admin.ModelAdmin):
         ('Pricing', {
             'fields': ('status', 'price')
         }),
-        ('External Links', {
-            'fields': ('video_url', 'audio_url')
-        }),
-        ('Direct Uploads', {
-            'fields': ('video_file', 'audio_file')
+        ('Direct Uploads (Downloadable Files)', {
+            'fields': ('video_file', 'audio_file'),
+            'description': 'Upload audio (.mp3) or video (.mp4) files for instant 1-click user download.'
         }),
         ('Details & Relationships', {
-            'fields': ('preacher', 'branch', 'duration', 'date_preached')
+            'fields': ('preacher', 'duration', 'date_preached')
         }),
         ('Visibility', {
             'fields': ('is_trending', 'is_live_recording')

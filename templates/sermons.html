@@ -60,14 +60,6 @@
                     {% endfor %}
                 </select>
 
-                <!-- Branch Filter -->
-                <select name="branch" onchange="this.form.submit()" class="px-6 py-3 rounded-xl glass-card font-bold text-primary focus:outline-none cursor-pointer border-none shadow-sm min-w-[160px]">
-                    <option value="">All Branches</option>
-                    {% for branch in branches %}
-                    <option value="{{ branch.id }}" {% if current_branch == branch.id|stringformat:"i" %}selected{% endif %}>{{ branch.branch_name }}</option>
-                    {% endfor %}
-                </select>
-
                 <!-- Theme Search -->
                 <div class="relative flex-grow lg:flex-grow-0 lg:w-64">
                     <input type="text" name="theme" value="{{ current_theme|default:'' }}" placeholder="Search Theme..." class="w-full px-6 py-3 rounded-xl glass-card font-bold text-primary focus:outline-none border-none shadow-sm placeholder:text-primary/40">
@@ -139,37 +131,29 @@
                     {% endif %}
                     <div class="flex flex-col">
                       <span class="text-xs font-black text-slate-800">{{ sermon.preacher.name }}</span>
-                      <span class="text-[10px] text-accent font-bold uppercase">{{ sermon.branch.branch_name }}</span>
+                      <span class="text-[10px] text-accent font-bold uppercase">{{ sermon.date_preached|date:"M d, Y" }}</span>
                     </div>
                   </div>
                   <span class="text-[10px] text-slate-400 font-black uppercase tracking-widest">{{ sermon.duration }}</span>
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid {% if sermon.audio_file and sermon.video_file %}grid-cols-2{% else %}grid-cols-1{% endif %} gap-3">
                     {% if sermon.status == 'paid' %}
-                      <a href="{% url 'store' %}" class="col-span-2 py-3 bg-accent text-white rounded-xl font-black text-xs uppercase tracking-widest text-center hover:bg-slate-900 transition-all flex items-center justify-center gap-2">
+                      <a href="{% url 'store' %}" class="py-3 bg-accent text-white rounded-xl font-black text-xs uppercase tracking-widest text-center hover:bg-slate-900 transition-all flex items-center justify-center gap-2">
                         <i data-lucide="shopping-bag" class="w-4 h-4"></i> Buy Sermon
                       </a>
                     {% else %}
-                      <!-- Audio Download/Play -->
+                      <!-- Direct 1-Click Audio Download -->
                       {% if sermon.audio_file %}
-                        <a href="{{ sermon.audio_file.url }}" download class="py-3 bg-primary text-white rounded-xl font-black text-[10px] uppercase tracking-widest text-center hover:bg-secondary hover:text-primary transition-all flex items-center justify-center gap-2">
+                        <a href="{% url 'sermon_download' sermon.id 'audio' %}" class="py-3 bg-primary text-white rounded-xl font-black text-[10px] uppercase tracking-widest text-center hover:bg-secondary hover:text-primary transition-all flex items-center justify-center gap-2 shadow-sm">
                           <i data-lucide="download" class="w-4 h-4"></i> Audio
-                        </a>
-                      {% elif sermon.audio_url %}
-                        <a href="{{ sermon.audio_url }}" target="_blank" class="py-3 bg-primary text-white rounded-xl font-black text-[10px] uppercase tracking-widest text-center hover:bg-secondary hover:text-primary transition-all flex items-center justify-center gap-2">
-                          <i data-lucide="headphones" class="w-4 h-4"></i> Audio
                         </a>
                       {% endif %}
 
-                      <!-- Video Download/Play -->
+                      <!-- Direct 1-Click Video Download -->
                       {% if sermon.video_file %}
-                        <a href="{{ sermon.video_file.url }}" download class="py-3 bg-slate-100 text-primary rounded-xl font-black text-[10px] uppercase tracking-widest text-center hover:bg-secondary transition-all flex items-center justify-center gap-2">
+                        <a href="{% url 'sermon_download' sermon.id 'video' %}" class="py-3 bg-slate-100 text-primary rounded-xl font-black text-[10px] uppercase tracking-widest text-center hover:bg-secondary transition-all flex items-center justify-center gap-2 shadow-sm">
                           <i data-lucide="download" class="w-4 h-4"></i> Video
-                        </a>
-                      {% elif sermon.video_url %}
-                        <a href="{{ sermon.video_url }}" target="_blank" class="py-3 bg-slate-100 text-primary rounded-xl font-black text-[10px] uppercase tracking-widest text-center hover:bg-secondary transition-all flex items-center justify-center gap-2">
-                          <i data-lucide="video" class="w-4 h-4"></i> Video
                         </a>
                       {% endif %}
                     {% endif %}

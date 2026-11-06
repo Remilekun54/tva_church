@@ -1,6 +1,6 @@
 from django.db import models
 from django_ckeditor_5.fields import CKEditor5Field
-from about.models import Branch, Leader
+from about.models import Leader
 import uuid
 
 class CommonBase(models.Model):
@@ -41,7 +41,6 @@ class Sermon(CommonBase):
     audio_file = models.FileField(upload_to='sermons/audios/', blank=True, null=True, help_text="Upload audio file for direct download")
     
     preacher = models.ForeignKey(Leader, on_delete=models.CASCADE)
-    branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True)
     duration = models.CharField(max_length=20, help_text="e.g., 45 Mins")
     date_preached = models.DateField()
     is_trending = models.BooleanField(default=False)
