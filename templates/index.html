@@ -494,11 +494,13 @@
             <!-- Status Tag (Open / Closed Event) -->
             <div class="absolute top-6 right-6">
               {% if event.is_open %}
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-100/90 text-emerald-800 backdrop-blur-md shadow-md">
+              <span
+                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-100/90 text-emerald-800 backdrop-blur-md shadow-md">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span> Open Event
               </span>
               {% else %}
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-rose-100/90 text-rose-800 backdrop-blur-md shadow-md">
+              <span
+                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-rose-100/90 text-rose-800 backdrop-blur-md shadow-md">
                 <span class="w-1.5 h-1.5 rounded-full bg-rose-600"></span> Closed Event
               </span>
               {% endif %}
