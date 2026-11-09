@@ -23,7 +23,7 @@ def registration_view(request):
             if membership_form.is_valid():
                 membership_form.save()
                 messages.success(request, 'Welcome to the family! Your membership registration has been received.')
-                return redirect('registration')
+                return redirect('get_involved:registration')
 
     context = {
         'membership_form': membership_form,

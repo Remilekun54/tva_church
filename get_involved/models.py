@@ -10,22 +10,22 @@ class MembershipPathwayPage(models.Model):
     intro_title = models.CharField(max_length=200, default="Discovery Track")
     intro_description = models.TextField(default="We want to help you connect, grow, and serve.")
 
-    def save(self, *args, **kwargs):
+    def clean(self):
+        super().clean()
         if not self.pk and MembershipPathwayPage.objects.exists():
-            raise ValidationError('There can be only one Membership Pathway Page instance')
-        return super(MembershipPathwayPage, self).save(*args, **kwargs)
+            raise ValidationError('There can be only one Membership Pathway Page instance. Please edit the existing one.')
 
     def __str__(self):
-        return "Membership Pathway Page Configuration"
+        return self.hero_title or "Membership Pathway Page"
 
     class Meta:
-        verbose_name = "Page Configuration"
-        verbose_name_plural = "Page Configuration"
+        verbose_name = "Membership Pathway Page"
+        verbose_name_plural = "Membership Pathway Page"
 
 
 class PathwayStep(models.Model):
     """Six steps of membership"""
-    page = models.ForeignKey(MembershipPathwayPage, on_delete=models.CASCADE, related_name='steps')
+    page = models.ForeignKey(MembershipPathwayPage, on_delete=models.CASCADE, related_name='steps', null=True, blank=True)
     step_number = models.PositiveIntegerField(unique=True, help_text="1 to 6")
     title = models.CharField(max_length=100)
     description = models.TextField()
@@ -36,6 +36,16 @@ class PathwayStep(models.Model):
 
     class Meta:
         ordering = ['step_number']
+        verbose_name = "Pathway Step (1 to 6)"
+        verbose_name_plural = "Pathway Steps (1 to 6)"
+
+    def save(self, *args, **kwargs):
+        if not self.page:
+            first_page = MembershipPathwayPage.objects.first()
+            if not first_page:
+                first_page = MembershipPathwayPage.objects.create()
+            self.page = first_page
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Step {self.step_number}: {self.title}"
@@ -192,13 +202,13 @@ class G12Page(models.Model):
     registration_title = models.CharField(max_length=200, default="Join Our Next Class")
     registration_subtitle = models.TextField(default="Register today to start your journey.")
 
-    def save(self, *args, **kwargs):
+    def clean(self):
+        super().clean()
         if not self.pk and G12Page.objects.exists():
-            raise ValidationError('There can be only one G-12 Page instance')
-        return super(G12Page, self).save(*args, **kwargs)
+            raise ValidationError('There can be only one G-12 Page instance. Please edit the existing one.')
 
     def __str__(self):
-        return "G-12 Page Configuration"
+        return self.hero_title or "G-12 Page Configuration"
 
     class Meta:
         verbose_name = "G-12 Discipleship Training Page Configuration"

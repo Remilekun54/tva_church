@@ -25,9 +25,16 @@ class PathwayStepInline(admin.StackedInline):
     max_num = 6 # Limit to 6 steps as requested
     fields = ('step_number', 'title', 'description', 'icon_name', 'image')
 
+@admin.register(PathwayStep)
+class PathwayStepAdmin(admin.ModelAdmin):
+    list_display = ('step_number', 'title', 'icon_name', 'page')
+    list_editable = ('title', 'icon_name')
+    ordering = ('step_number',)
+
 @admin.register(MembershipPathwayPage)
 class MembershipPathwayPageAdmin(admin.ModelAdmin):
     inlines = [PathwayStepInline]
+    list_display = ('hero_title', 'intro_title')
     
     def has_add_permission(self, request):
         # Only allow creating one instance
