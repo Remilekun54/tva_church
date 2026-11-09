@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils import timezone
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 import datetime
 from .models import Sermon, Book, SermonCategory, AudioBroadcast
 
@@ -94,11 +95,11 @@ class AudioBroadcastAdmin(admin.ModelAdmin):
 
     def live_status_badge(self, obj):
         if obj and obj.is_live:
-            return format_html(
+            return mark_safe(
                 '<span style="background:#dc2626;color:#fff;padding:3px 10px;'
                 'border-radius:12px;font-weight:bold;font-size:11px;">🔴 LIVE</span>'
             )
-        return format_html(
+        return mark_safe(
             '<span style="background:#6b7280;color:#fff;padding:3px 10px;'
             'border-radius:12px;font-size:11px;">⚫ Offline</span>'
         )
@@ -112,7 +113,7 @@ class AudioBroadcastAdmin(admin.ModelAdmin):
 
     def obs_setup_instructions(self, obj):
         if not obj or not getattr(obj, 'stream_key', None):
-            return format_html(
+            return mark_safe(
                 '<p style="color:#94a3b8;font-style:italic;">'
                 'OBS stream key and setup instructions will be generated automatically once this broadcast is saved.'
                 '</p>'
