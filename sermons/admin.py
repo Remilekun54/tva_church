@@ -60,7 +60,7 @@ class BookAdmin(admin.ModelAdmin):
 
 @admin.register(AudioBroadcast)
 class AudioBroadcastAdmin(admin.ModelAdmin):
-    list_display = ('title', 'preacher', 'live_status_badge', 'stream_key_display', 'last_broadcast_end', 'created_at')
+    list_display = ('title', 'preacher_display', 'live_status_badge', 'stream_key_display', 'last_broadcast_end', 'created_at')
     list_filter = ('is_live',)
     readonly_fields = ('stream_key', 'obs_setup_instructions', 'last_broadcast_end', 'created_at')
 
@@ -84,8 +84,16 @@ class AudioBroadcastAdmin(admin.ModelAdmin):
         }),
     )
 
+    def preacher_display(self, obj):
+        try:
+            return obj.preacher.name if obj and obj.preacher else "—"
+        except Exception:
+            return "—"
+    preacher_display.short_description = 'Preacher'
+    preacher_display.admin_order_field = 'preacher__name'
+
     def live_status_badge(self, obj):
-        if obj.is_live:
+        if obj and obj.is_live:
             return format_html(
                 '<span style="background:#dc2626;color:#fff;padding:3px 10px;'
                 'border-radius:12px;font-weight:bold;font-size:11px;">🔴 LIVE</span>'
@@ -97,10 +105,19 @@ class AudioBroadcastAdmin(admin.ModelAdmin):
     live_status_badge.short_description = 'Status'
 
     def stream_key_display(self, obj):
+        if not obj or not getattr(obj, 'stream_key', None):
+            return "—"
         return format_html('<code style="font-size:11px;">{}</code>', str(obj.stream_key))
     stream_key_display.short_description = 'Stream Key'
 
     def obs_setup_instructions(self, obj):
+        if not obj or not getattr(obj, 'stream_key', None):
+            return format_html(
+                '<p style="color:#94a3b8;font-style:italic;">'
+                'OBS stream key and setup instructions will be generated automatically once this broadcast is saved.'
+                '</p>'
+            )
+        key = str(obj.stream_key)
         return format_html(
             '<div style="background:#1e1e2e;color:#cdd6f4;padding:16px;border-radius:8px;font-family:monospace;font-size:13px;line-height:1.8;">'
             '<strong style="color:#89b4fa;">OBS Studio Setup:</strong><br>'
@@ -111,7 +128,7 @@ class AudioBroadcastAdmin(admin.ModelAdmin):
             '<strong style="color:#89b4fa;">Then paste your HLS URL:</strong><br>'
             'e.g. <strong style="color:#f9e2af;">https://your-server.com/live/{}/index.m3u8</strong>'
             '</div>',
-            str(obj.stream_key),
-            str(obj.stream_key),
+            key,
+            key,
         )
     obs_setup_instructions.short_description = 'OBS Setup Guide'

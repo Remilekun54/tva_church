@@ -128,15 +128,17 @@ class AudioBroadcast(models.Model):
                     
                     # Create the archived Sermon record
                     from .models import Sermon
-                    
-                    Sermon.objects.create(
-                        title=self.title,
-                        preacher=self.preacher,
-                        date_preached=timezone.localdate(),
-                        is_live_recording=True,
-                        description=f"Recorded broadcast from {timezone.localdate()}",
-                        # Admin can update audio_file / thumbnail / category later
-                    )
+                    preacher_to_use = self.preacher or Leader.objects.first()
+                    if preacher_to_use:
+                        Sermon.objects.create(
+                            title=self.title,
+                            preacher=preacher_to_use,
+                            duration="Live Stream",
+                            date_preached=timezone.localdate(),
+                            is_live_recording=True,
+                            description=f"Recorded broadcast from {timezone.localdate()}",
+                            # Admin can update audio_file / thumbnail / category later
+                        )
             except AudioBroadcast.DoesNotExist:
                 pass
 
